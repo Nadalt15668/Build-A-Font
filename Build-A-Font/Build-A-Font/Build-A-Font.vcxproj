@@ -145,7 +145,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Brush.cpp" />
+    <ClCompile Include="DrawingBoard.cpp" />
+    <ClCompile Include="Program.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Brush.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="DrawingBoard.h" />
+    <ClInclude Include="Program.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

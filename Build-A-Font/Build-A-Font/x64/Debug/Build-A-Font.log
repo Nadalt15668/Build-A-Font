@@ -1,2 +1,9 @@
-﻿  Source.cpp
+﻿  Program.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Button.h(46,26): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Button.h(41): message : while compiling class template member function 'void Button<DrawingBoard &>::AddText(sf::String,sf::String,float,sf::Color)'
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(21): message : see reference to function template instantiation 'void Button<DrawingBoard &>::AddText(sf::String,sf::String,float,sf::Color)' being compiled
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(19): message : see reference to class template instantiation 'Button<DrawingBoard &>' being compiled
+  Source.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Source.cpp(4,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  Generating Code...
   Build-A-Font.vcxproj -> C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\x64\Debug\Build-A-Font.exe
