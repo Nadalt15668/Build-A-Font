@@ -104,8 +104,8 @@ private:
 	{
 		Vector2i pixelPos = Mouse::getPosition(*currentWindow);
 		Vector2f worldPos = currentWindow->mapPixelToCoords(pixelPos); // Current position of mouse in our window
-		if (worldPos.x > position.x && worldPos.x < position.x + size.x &&
-			worldPos.y > position.y && worldPos.y < position.y + size.y)
+		if (worldPos.x > position.x - size.x / 2 && worldPos.x < position.x + size.x / 2 &&
+			worldPos.y > position.y - size.y / 2 && worldPos.y < position.y + size.y / 2)
 			return true;
 		return false;
 	};

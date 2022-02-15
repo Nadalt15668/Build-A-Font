@@ -146,16 +146,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Brush.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="DrawingBoard.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="UserProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brush.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DrawingBoard.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="UserProgram.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -20,6 +20,7 @@ private:
 	RenderWindow* currentWindow;
 	DrawingBoard* drawingBoard;
 	Button<DrawingBoard&>* btnClearBoard;
+	Button<DrawingBoard&>* btnCaptureBoard;
 };
 
 

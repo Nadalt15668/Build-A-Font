@@ -1,9 +1,10 @@
 #pragma once
 // ----- Dimensions -----
-#define WIDTH 1280
-#define HEIGHT 720
-#define DRAWING_SIZE Vector2f(WIDTH / 6, HEIGHT / 3)
-#define DRAWING_POS Vector2f(WIDTH /2, HEIGHT / 3)
+#define PROGRAM_DIM Vector2f(1280, 720)
+#define DRAWING_DIM Vector2f(199, 216)
+#define CHARACTER_DIM Vector2f(199/2, 216/2)
+// ----- Positions -----
+#define DRAWING_POS Vector2f(PROGRAM_DIM.x /2, PROGRAM_DIM.y / 3)
 // ----- Sizes -----
 #define BRUSH_THICKNESS 4
 #define DEFAULT_BUTTON_SIZE Vector2f(180, 90)
@@ -11,5 +12,7 @@
 #define DEFAULT_GRAY_BGROUND Color(211, 211, 211)
 #define GRAY_SUB 30
 #define DEFAULT_BUTTON_COLOR Color(143, 143, 143)
-// ----- Other -----
+// ----- Files ------
+#define BLANK_TEMPLATE "Templates/blank.png"
 #define DEFAULT_FONT "Fonts/default.ttf"
+// ----- Other -----

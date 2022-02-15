@@ -1,7 +1,7 @@
-#include "Program.h"
+#include "UserProgram.h"
 
 void main()
 {
-    Program program;
+    UserProgram program;
     program.Run();
 }
