@@ -3,7 +3,8 @@
 void SetBlankBackground(RectangleShape* board)
 {
     Texture* blankTex = new Texture();
-    blankTex->loadFromFile(BLANK_TEMPLATE);
+    if (!blankTex->loadFromFile(BLANK_TEMPLATE))
+        cout << "Couldn't Load File" << endl;
     board->setTexture(blankTex);
 
 }
@@ -90,8 +91,8 @@ void DrawingBoard::CreateLine()
 
 void DrawingBoard::Draw()
 {
-    texLines = mainLines;
-    viewLines = mainLines;
+    texLines = mainLines; // Used for exporting a RenderTexture object
+    viewLines = mainLines; // Used for actually showing the drawing
     baseWindow->setView(drawingView);
     baseWindow->draw(viewTemplate);
     for (int i = 0; i < mainLines.size(); i++)
@@ -112,3 +113,4 @@ void DrawingBoard::Clear()
     viewLines.clear();
     drawingTex.clear(Color::Transparent);
 }
+

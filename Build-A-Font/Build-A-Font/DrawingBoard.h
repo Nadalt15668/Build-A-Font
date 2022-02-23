@@ -14,9 +14,9 @@ private:
 	RenderTexture drawingTex;
 	RenderWindow* baseWindow;
 	Brush brush;
-	vector<RectangleShape> mainLines;
-	vector<RectangleShape> texLines;
-	vector<RectangleShape> viewLines;
+	vector<RectangleShape> mainLines; // Actual mouse input
+	vector<RectangleShape> texLines; // Lines for final character output
+	vector<RectangleShape> viewLines; //Lines in the View
 	View drawingView;
 	RectangleShape viewTemplate;
 };
