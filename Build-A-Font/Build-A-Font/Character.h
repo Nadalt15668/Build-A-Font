@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Constants.h"
 #include "DrawingBoard.h"
+#include "Button.h"
 
 using namespace sf;
 using namespace std;
@@ -17,14 +18,14 @@ typedef struct
 class Character
 {
 public:
-	Character(Vector2f pos);
+	Character(Vector2f pos, RenderWindow& window);
 	void ShowCharacter(CharacterInfo information);
 	void SetTemplateSprite(string templateFilename, string charFilename = "");
-	void LoadToBoard(DrawingBoard& drawingBoard);
 	void Draw(RenderWindow* window);
-	void Update();
+	void Update(Event& event, DrawingBoard& board, string filename);
 private:
 	RectangleShape characterRect;
+	Button<DrawingBoard&, string>* btnCharacter;
 	Texture templateTex;
 	Vector2f  position;
 	Texture characterTex;

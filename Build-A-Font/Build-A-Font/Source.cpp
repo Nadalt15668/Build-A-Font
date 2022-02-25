@@ -1,4 +1,3 @@
-
 #include "UserProgram.h"
 
 void main()

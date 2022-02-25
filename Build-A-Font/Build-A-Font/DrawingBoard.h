@@ -8,6 +8,7 @@ public:
 	void Update(Event& event);
 	void Capture(string filename);
 	void RemoveBackground();
+	void SetTemplate(string filename);
 	void Draw();
 	void Clear();
 private:

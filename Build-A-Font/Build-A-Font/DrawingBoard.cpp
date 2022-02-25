@@ -1,11 +1,11 @@
 #include "DrawingBoard.h"
 
-void SetBlankBackground(RectangleShape* board)
+void DrawingBoard::SetTemplate(string filename)
 {
-    Texture* blankTex = new Texture();
-    if (!blankTex->loadFromFile(BLANK_TEMPLATE))
+    Texture* templateTex = new Texture();
+    if (!templateTex->loadFromFile(filename))
         cout << "Couldn't Load File" << endl;
-    board->setTexture(blankTex);
+    viewTemplate.setTexture(templateTex);
 
 }
 
@@ -33,7 +33,7 @@ DrawingBoard::DrawingBoard(RenderWindow* window)
     viewTemplate.setSize(DRAWING_DIM);
     viewTemplate.setOrigin(viewTemplate.getLocalBounds().width / 2 , viewTemplate.getLocalBounds().height / 2);
     viewTemplate.setPosition(Vector2f(PROGRAM_DIM.x + (DRAWING_DIM.x / 2), (DRAWING_DIM.y / 2)));
-    SetBlankBackground(&viewTemplate);
+    SetTemplate(BLANK_TEMPLATE);
     // ---------------------------------------------------------------------------------
 }
 

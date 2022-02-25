@@ -1,7 +1,18 @@
 #include "Character.h"
 
-Character::Character(Vector2f pos)
+void LoadCharacter(DrawingBoard& board, string filename)
 {
+	int start_pos = filename.find("CharacterTemplates");
+	filename.replace(0, 28, "");
+	string templateFilename = "Templates/DrawingTemplates" + filename;
+	//string drawingFilename = " . . . " + filename;
+	board.SetTemplate(templateFilename);
+}
+
+Character::Character(Vector2f pos, RenderWindow& window)
+{
+	btnCharacter = new Button<DrawingBoard&, string>(&window, pos, &LoadCharacter,
+		Vector2f(CHARACTER_DIM.x /2, CHARACTER_DIM.y / 2));
 	characterRect.setSize(CHARACTER_DIM);
 	characterRect.setOutlineThickness(2);
 	characterRect.setOutlineColor(Color::Black);
@@ -36,13 +47,13 @@ void Character::SetTemplateSprite(string templateFilename, string charFilename)
 	characterRect.setScale(Vector2f(0.5, 0.5));
 }
 
-void Character::LoadToBoard(DrawingBoard& drawingBoard)
-{
-	
-}
-
 void Character::Draw(RenderWindow* window)
 {
 	window->draw(characterRect);
 	window->draw(characterSprite);
+}
+
+void Character::Update(Event& event, DrawingBoard& board, string filename)
+{
+	btnCharacter->Update(event, board, filename);
 }

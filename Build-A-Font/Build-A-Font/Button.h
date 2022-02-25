@@ -67,7 +67,7 @@ public:
 		{
 			button.setFillColor(hoverColor);
 			// Inner if checks if the button is pressed
-			if (Mouse::isButtonPressed(Mouse::Left))
+			if (Mouse::isButtonPressed(Mouse::Left) && isClickable)
 			{
 				clickedLastFrame = true;
 				button.setFillColor(pressColor);
@@ -126,6 +126,7 @@ private:
 	buttonFunction onPressFunction; // Function for clicking
 	RenderWindow* currentWindow;
 	bool clickedLastFrame = false; // For disabling hold
+	bool isClickable = true;
 	// Button
 	RectangleShape button;
 	Vector2f size;
