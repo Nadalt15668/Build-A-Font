@@ -1,0 +1,87 @@
+﻿  Brush.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Brush.cpp(41,26): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Brush.cpp(53,40): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Brush.cpp(57,26): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  Character.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Character.cpp(5,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  CharacterSet.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Button.h(46,26): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Button.h(41): message : while compiling class template member function 'void Button<int &>::AddText(sf::String,sf::String,float,sf::Color)'
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\CharacterSet.cpp(19): message : see reference to function template instantiation 'void Button<int &>::AddText(sf::String,sf::String,float,sf::Color)' being compiled
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\CharacterSet.cpp(18): message : see reference to class template instantiation 'Button<int &>' being compiled
+  DrawingBoard.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\DrawingBoard.cpp(14,52): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\DrawingBoard.cpp(31,49): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\DrawingBoard.cpp(31,34): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\DrawingBoard.cpp(37,35): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\DrawingBoard.cpp(36,43): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Program.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(16,78): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(16,63): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(24,139): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(24,89): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(25,64): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(26,142): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(26,91): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(27,40): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Button.h(46,26): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Button.h(41): message : while compiling class template member function 'void Button<DrawingBoard &>::AddText(sf::String,sf::String,float,sf::Color)'
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(29): message : see reference to function template instantiation 'void Button<DrawingBoard &>::AddText(sf::String,sf::String,float,sf::Color)' being compiled
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Program.cpp(24): message : see reference to class template instantiation 'Button<DrawingBoard &>' being compiled
+  Source.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Source.cpp(4,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  UserProgram.cpp
+     Creating library C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\x64\Release\Build-A-Font.lib and object C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\x64\Release\Build-A-Font.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 2554 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Build-A-Font.vcxproj -> C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\x64\Release\Build-A-Font.exe
