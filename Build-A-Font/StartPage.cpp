@@ -21,25 +21,27 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 	object.setPosition(pos);
 }
 
-void StartUserProgram(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen* currentScreen)
+void StartUserProgram(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
 	Screen* userProgram = new CharsDrawingPage(window, true, pythonModule);
 	screens.insert_or_assign(CHARS_DRAWING_PAGE, userProgram);
+	currentScreen = userProgram;
 }
 
-void StartAIProgram(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen* currentScreen)
+void StartAIProgram(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
 	Screen* aiProgram = new CharsDrawingPage(window, false, pythonModule);
 	screens.insert_or_assign(CHARS_DRAWING_PAGE, aiProgram);
+	currentScreen = aiProgram;
 }
 
 
-StartPage::StartPage(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen* currentScreen)
+StartPage::StartPage(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
 	// Attributes for screen buttons
 	this->pythonModule = &pythonModule;
 	this->screens = &screens;
-	this->currentScreen = currentScreen;
+	this->currentScreen = &currentScreen;
 	// Initiating logo
 	this->window = &window;
 	this->logo.setTexture(*LoadFromFile<Texture>(PROJECT_LOGO));
@@ -53,10 +55,10 @@ StartPage::StartPage(RenderWindow& window, module_& pythonModule, map<string, Sc
 	this->title.setOutlineThickness(5);
 	SetCommonAttributes(this->title, TITLE_POS);
 	// Initiating navigation buttons
-	userProgamBtn = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*>(window,
+	userProgamBtn = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
 		USER_PROG_BTN_POS, &StartUserProgram, new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM)));
 	userProgamBtn->AddText("User Program", 25);
-	aiProgamBtn = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*>(window,
+	aiProgamBtn = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
 		AI_PROG_BTN_POS, &StartAIProgram, new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM)));
 	aiProgamBtn->AddText("AI Program", 30);
 }
@@ -71,4 +73,6 @@ void StartPage::Draw()
 
 void StartPage::Update(Event& event)
 {
+	userProgamBtn->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
+	aiProgamBtn->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
 }

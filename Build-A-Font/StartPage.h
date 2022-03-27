@@ -11,7 +11,7 @@ class StartPage :
     public Screen
 {
 public:
-    StartPage(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen* currentScreen);
+    StartPage(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen);
     void Draw();
     void Update(Event& event);
 private:
@@ -20,8 +20,8 @@ private:
     sf::Text title;
     module_* pythonModule;
     map<string, Screen*>* screens;
-    Screen* currentScreen;
-    Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*>* userProgamBtn;
-    Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*>* aiProgamBtn;
+    Screen** currentScreen;
+    Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>* userProgamBtn;
+    Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>* aiProgamBtn;
 };
 
