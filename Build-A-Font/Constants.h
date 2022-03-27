@@ -13,6 +13,12 @@
 #define CHARACTER_Y_AXIS {(PROGRAM_DIM.y / 5) * 3.5f, (PROGRAM_DIM.y / 5) * 3.5f + PROGRAM_DIM.y / 6} 
 #define NXT_PGE_POS Vector2f(1220, (PROGRAM_DIM.y / 15) * 12)
 #define LST_PGE_POS Vector2f(60, (PROGRAM_DIM.y / 15) * 12)
+#define LOGO_POS Vector2f(PROGRAM_DIM.x / 2, PROGRAM_DIM.x / 7)
+#define TITLE_POS Vector2f(PROGRAM_DIM.x / 2, PROGRAM_DIM.x / 3.5)
+#define CAPTURE_POS Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65)
+#define CLEAR_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65)
+#define USER_PROG_BTN_POS Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 1.5, (PROGRAM_DIM.y / 1.5))
+#define AI_PROG_BTN_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 1.5, (PROGRAM_DIM.y / 1.5))
 // ----- Sizes -----
 #define BRUSH_THICKNESS 4
 // ----- Colors -----
@@ -23,6 +29,7 @@
 #define BLANK_TEMPLATE "Templates/blank.png"
 #define BLANK_CHARACTER "CharacterDrawings/blank.png"
 #define DEFAULT_FONT "Fonts/default.ttf"
+#define PROJECT_LOGO "Assets/project_logo.png"
 // ----- Directories -----
 #define BINARIES "CharacterDrawings/Binaries/"
 #define DRAWINGS "CharacterDrawings/Drawings/"
@@ -44,5 +51,6 @@
 #define NUM_OF_ROWS 2
 // ----- Pages Names -----
 #define CHARS_DRAWING_PAGE "CharsDrawingPage"
+#define STARTING_PAGE "StartPage"
 // ----- Other -----
 #define FILE_TYPE ".txt"

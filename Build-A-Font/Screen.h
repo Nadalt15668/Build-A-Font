@@ -11,7 +11,5 @@ public:
 	Screen();
 	virtual void Draw() = 0;
 	virtual void Update(Event& event) = 0;
-private:
-	string screenName;
 };
 

@@ -3,6 +3,8 @@
 #include<Python.h>
 #include <pybind11/embed.h>
 #include "CharsDrawingPage.h"
+#include "EmptyPage.h"
+#include "StartPage.h"
 
 using namespace sf;
 using namespace std;
@@ -20,7 +22,7 @@ public:
 private:
 	module_ pythonModule;
 	RenderWindow* currentWindow;
-	Screen* currentPage;
+	Screen* currentPage = new EmptyPage();
 	map<string, Screen*> screens;
 };
 

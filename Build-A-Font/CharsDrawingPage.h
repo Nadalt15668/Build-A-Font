@@ -11,7 +11,7 @@ class CharsDrawingPage :
     public Screen
 {
 public:
-    CharsDrawingPage(RenderWindow& window, module_& pythonModule);
+    CharsDrawingPage(RenderWindow& window, bool isUser, module_& pythonModule);
     void Draw();
     void Update(Event& event);
 private:

@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pages">
+      <UniqueIdentifier>{674315c0-0340-4d98-9363-f913ebae9a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pages\Header Files">
+      <UniqueIdentifier>{8de4a278-05e0-4bb5-b40d-30d983d5442c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pages\Source Files">
+      <UniqueIdentifier>{570430e6-6fc9-42d7-a4cd-b6f5d075acd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -25,9 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CharacterSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CharsDrawingPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DrawingBoard.cpp">
@@ -45,6 +51,15 @@
     <ClCompile Include="UserBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CharsDrawingPage.cpp">
+      <Filter>Pages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartPage.cpp">
+      <Filter>Pages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyPage.cpp">
+      <Filter>Pages\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brush.h">
@@ -57,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CharacterSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CharsDrawingPage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
@@ -79,6 +91,15 @@
     </ClInclude>
     <ClInclude Include="UserBoard.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharsDrawingPage.h">
+      <Filter>Pages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartPage.h">
+      <Filter>Pages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyPage.h">
+      <Filter>Pages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

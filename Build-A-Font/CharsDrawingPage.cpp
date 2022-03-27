@@ -10,11 +10,11 @@ void CaptureBoard(DrawingBoard& drawingBoard, CharacterSet& characterSet)
     characterSet.LoadCharactersData();
 }
 
-CharsDrawingPage::CharsDrawingPage(RenderWindow& window, module_& pythonModule) 
+CharsDrawingPage::CharsDrawingPage(RenderWindow& window, bool isUser, module_& pythonModule) 
     : Screen()
 {
     this->window = &window;
-    if (1)
+    if (isUser)
         drawingBoard = new UserBoard
         (
             window,
@@ -29,9 +29,9 @@ CharsDrawingPage::CharsDrawingPage(RenderWindow& window, module_& pythonModule)
     else {/*Anitiating AIBoard Instead*/ }
     characterSet = new CharacterSet(window, pythonModule);
     characterSet->LoadCharactersData();
-    btnClearBoard = new Button<DrawingBoard&>(window, Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65), &ClearBoard,
+    btnClearBoard = new Button<DrawingBoard&>(window, CLEAR_POS, &ClearBoard,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
-    btnCaptureBoard = new Button<DrawingBoard&, CharacterSet&>(window, Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65), &CaptureBoard,
+    btnCaptureBoard = new Button<DrawingBoard&, CharacterSet&>(window, CAPTURE_POS, &CaptureBoard,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
     btnClearBoard->AddText("CLEAR", 30);
     btnCaptureBoard->AddText("CAPTURE", 30);
