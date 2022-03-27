@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b5638818-5b7d-4e61-a24b-150661ccf66c}</ProjectGuid>
+    <ProjectGuid>{a07ff9b8-e7b3-4d49-a0da-014e080d4cfd}</ProjectGuid>
     <RootNamespace>Build_A_Font</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -78,12 +78,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Python310\include;C:\pybind11-2.9.1\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\pybind11-2.9.1\include;C:\Python310\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Python310\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Python310\include;C:\pybind11-2.9.1\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\pybind11-2.9.1\include;C:\Python310\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Python310\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -126,7 +126,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;python310_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,16 +145,19 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-system.lib;sfml-window.lib;sfml-graphics.lib;sfml-main.lib;python310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-system.lib;sfml-window.lib;sfml-graphics.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Brush.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterSet.cpp" />
+    <ClCompile Include="CharsDrawingPage.cpp" />
     <ClCompile Include="DrawingBoard.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UserBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,9 +165,12 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterSet.h" />
+    <ClInclude Include="CharsDrawingPage.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DrawingBoard.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="UserBoard.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,29 +1,26 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include "DrawingBoard.h"
-#include "Constants.h"
+#include "UIElement.h"
 #include "Button.h"
+#include "DrawingBoard.h"
 
-using namespace sf;
-using namespace std;
-
-class Character
+class Character :
+    public UIElement
 {
 public:
-	Character(Vector2f pos, RenderWindow& window);
-	void SetTemplateSprite(string templateFilename, vector<RectangleShape>& mainLines, string charFilename = "");
-	void Draw(RenderWindow* window);
-	void Update(Event& event, DrawingBoard& board);
+    Character(RenderWindow& window,
+        Vector2f pos,
+        sf::Shape* characterRect = new RectangleShape(Vector2f(CHARACTER_DIM.x / 2, CHARACTER_DIM.y / 2)));
+    void SetTemplateSprite(string templateFilename, vector<RectangleShape>& mainLines, string charFilename = "");
+    void Update(Event& event, DrawingBoard& board);
+    void Draw(RenderWindow& window);
 private:
-	RectangleShape characterRect;
-	vector<RectangleShape>* mainLines;
-	string templateFilename;
-	string charFilename;
-	Button<DrawingBoard&, string, vector<RectangleShape>&, string>* btnCharacter;
-	Texture templateTex;
-	Vector2f  position;
-	Texture characterTex;
-	Sprite characterSprite;
+    sf::Shape& characterRect = *this->shape;
+    vector<RectangleShape>* mainLines;
+    string templateFilename;
+    string charFilename;
+    Button<DrawingBoard&, string, vector<RectangleShape>&, string>* btnCharacter;
+    Texture templateTex;
+    Texture characterTex;
+    sf::Sprite& characterSprite = this->sprite;
 };
 

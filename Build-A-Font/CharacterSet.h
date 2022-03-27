@@ -16,13 +16,17 @@ public:
 	CharacterSet(RenderWindow& window, module_& module);
 	vector<string> FindTemplateNames();
 	void FillMap();
+	void LoadCharactersData();
 	void Update(Event& event, DrawingBoard& board);
 	void Draw(RenderWindow& window);
+	vector<Character*>& GetCharacters() 
+	{ return this->characters; };
 private:
 	module_ pythonModule;
-	vector<Character*> characters;
 	int currentPage;
+	vector<Character*> characters;
 	vector<string> templateFilenames;
+	vector<RectangleShape>* currentLines;
 	map<string, string> drawingFilenames;
 	Button<int&>* btnNextPage;
 	Button<int&>* btnLastPage;

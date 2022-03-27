@@ -1,3 +1,0 @@
-﻿  Character.cpp
-C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Build-A-Font\Character.cpp(5,53): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Build-A-Font.vcxproj -> C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\x64\Debug\Build-A-Font.exe

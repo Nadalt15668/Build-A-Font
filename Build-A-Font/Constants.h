@@ -42,5 +42,7 @@
 #define TOTALS_IN_SET 80
 #define NUM_OF_PAGES 5
 #define NUM_OF_ROWS 2
+// ----- Pages Names -----
+#define CHARS_DRAWING_PAGE "CharsDrawingPage"
 // ----- Other -----
 #define FILE_TYPE ".txt"

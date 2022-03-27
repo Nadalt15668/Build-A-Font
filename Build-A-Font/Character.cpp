@@ -6,55 +6,37 @@ void LoadCharacter(DrawingBoard& board, string templateFilename, vector<Rectangl
 	board.SetCurrentCharacter(templateFilename, mainLines, charFilename);
 }
 
-Character::Character(Vector2f pos, RenderWindow& window)
+Character::Character(RenderWindow& window, Vector2f pos, sf::Shape* characterRect) :
+	UIElement(pos, characterRect, Color::White)
 {
-	btnCharacter = new Button<DrawingBoard&, string, vector<RectangleShape>&, string>(&window, pos, &LoadCharacter,
-		Vector2f(CHARACTER_DIM.x /2, CHARACTER_DIM.y / 2));
-	characterRect.setSize(CHARACTER_DIM);
-	characterRect.setOutlineThickness(2);
-	characterRect.setOutlineColor(Color::Black);
-	characterRect.setOrigin(characterRect.getLocalBounds().width / 2,
-		characterRect.getGlobalBounds().height / 2);
-	characterRect.setPosition(pos);
-	characterSprite.setScale(Vector2f(0.5, 0.5));
-	characterSprite.setOrigin(characterSprite.getLocalBounds().width / 2, characterSprite.getLocalBounds().height / 2);
-	characterSprite.setPosition(pos);
+	btnCharacter = new Button<DrawingBoard&, string, vector<RectangleShape>&, string>
+		(window, pos, &LoadCharacter, characterRect, Color::White);
+	this->characterRect.setOutlineThickness(1);
+	this->characterRect.setOutlineColor(Color::Black);
+	this->characterRect.setPosition(pos);
+	this->characterSprite.setScale(Vector2f(0.5, 0.5));
+	this->characterSprite.setPosition(pos);
 }
 
 void Character::SetTemplateSprite(string templateFilename, vector<RectangleShape>& mainLines, string charFilename)
 {
+	this->SetShapeTex(templateFilename);
 	if (charFilename != "")
-	{
-		if (!characterTex.loadFromFile(charFilename))
-			cout << "Couldn't Load File" << endl;
-		characterSprite.setTexture(characterTex);
-		characterSprite.setOrigin(characterSprite.getLocalBounds().width / 2,
-			characterSprite.getLocalBounds().height / 2);
-	}
+		this->SetSprite(charFilename);
 	else
-	{
-		if (!characterTex.loadFromFile(BLANK_CHARACTER))
-			cout << "Couldn't Load File" << endl;
-		characterSprite.setTexture(characterTex);
-		characterSprite.setOrigin(characterSprite.getLocalBounds().width / 2,
-			characterSprite.getLocalBounds().height / 2);
-	}
-	if (!templateTex.loadFromFile(templateFilename))
-		cout << "Couldn't Load File" << endl;
-	characterRect.setTexture(&templateTex);
-	characterRect.setScale(Vector2f(0.5, 0.5));
-	this->templateFilename = templateFilename;
+		this->SetSprite(BLANK_CHARACTER);
 	this->mainLines = &mainLines;
+	this->templateFilename = templateFilename;
 	this->charFilename = charFilename;
-}
-
-void Character::Draw(RenderWindow* window)
-{
-	window->draw(characterRect);
-	window->draw(characterSprite);
 }
 
 void Character::Update(Event& event, DrawingBoard& board)
 {
-	btnCharacter->Update(event, board, templateFilename, *mainLines, charFilename);
+	btnCharacter->Update(event, board, this->templateFilename, *mainLines, this->charFilename);
+}
+
+void Character::Draw(RenderWindow& window)
+{
+	window.draw(characterRect);
+	window.draw(characterSprite);
 }

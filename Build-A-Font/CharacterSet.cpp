@@ -1,6 +1,6 @@
 #include "CharacterSet.h"
 
-void NextPage(int& currentPage) 
+void NextPage(int& currentPage)
 {
     currentPage++;
     if (currentPage == 5)
@@ -15,10 +15,10 @@ void LastPage(int& currentPage)
 
 CharacterSet::CharacterSet(RenderWindow& window, module_& module)
 {
-    btnNextPage = new Button<int&>(&window, NXT_PGE_POS, &NextPage, PAGE_BTN_DIM);
-    btnNextPage->AddText(">", DEFAULT_FONT, 30);
-    btnLastPage = new Button<int&>(&window, LST_PGE_POS, &LastPage, PAGE_BTN_DIM);
-    btnLastPage->AddText("<", DEFAULT_FONT, 30);
+    btnNextPage = new Button<int&>(window, NXT_PGE_POS, &NextPage, new RectangleShape(PAGE_BTN_DIM));
+    btnNextPage->AddText(">", 30);
+    btnLastPage = new Button<int&>(window, LST_PGE_POS, &LastPage, new RectangleShape(PAGE_BTN_DIM));
+    btnLastPage->AddText("<", 30);
     currentPage = 0;
     pythonModule = module;
     templateFilenames = FindTemplateNames();
@@ -29,7 +29,7 @@ CharacterSet::CharacterSet(RenderWindow& window, module_& module)
     { // Starts in 150, 8 characters in a row with a clean distance of 40.5
         for (int j = 0; j < x.size(); j++)
         {
-            characters.push_back(new Character(Vector2f(x[j], y[i]), window));
+            characters.push_back(new Character(window, Vector2f(x[j], y[i])));
         }
     }
 }
@@ -61,7 +61,7 @@ void CharacterSet::FillMap()
 {
     auto retrieveCharacters = pythonModule.attr("retrieve_characters");
     pybind11::list characters_list = retrieveCharacters();
-    for(auto& character : characters_list)
+    for (auto& character : characters_list)
         drawingFilenames.insert_or_assign(cast<string>(character), cast<string>(character));
 }
 
@@ -77,7 +77,7 @@ void ReadFromLinesFile(vector<RectangleShape>& mainLines, string filename)
     FILE* txtFile = fopen(filename.c_str(), "r");
     if (txtFile == NULL)
         cout << ERROR_WHILE_OPENING << endl;
-    else 
+    else
     {
         while (!feof(txtFile))
         {
@@ -110,17 +110,14 @@ void ReadFromLinesFile(vector<RectangleShape>& mainLines, string filename)
     fclose(txtFile);
 }
 
-void CharacterSet::Update(Event& event, DrawingBoard& board)
+void CharacterSet::LoadCharactersData()
 {
-    btnLastPage->Update(event, currentPage);
-    btnNextPage->Update(event, currentPage);
     FillMap();
-    string currentChar, currentTemp;
-    vector<RectangleShape>* currentLines;
     for (int i = 0; i < NUM_OF_ROWS; i++)
     {
         for (int j = 0; j < CHARACTERS_IN_ROW; j++)
         {
+            string currentChar, currentTemp;
             currentLines = new vector<RectangleShape>();
             currentTemp = templateFilenames[currentPage * CHARACTERS_IN_PAGE + j + CHARACTERS_IN_ROW * i];
             // For locating the drawing name in the drawings map, we need to remove the directories
@@ -138,11 +135,24 @@ void CharacterSet::Update(Event& event, DrawingBoard& board)
                 // If no drawing is available, will pass an empty string to the function
                 currentChar = drawingFilenames[currentTemp];
                 currentLines->clear();
-            }             
+            }
             // Locating the full name again:
             currentTemp = templateFilenames[currentPage * CHARACTERS_IN_PAGE + j + CHARACTERS_IN_ROW * i];
             // Updating each character's drawing and template (according to the current page)
             characters[j + CHARACTERS_IN_ROW * i]->SetTemplateSprite(currentTemp, *currentLines, currentChar);
+        }
+    }
+}
+
+void CharacterSet::Update(Event& event, DrawingBoard& board)
+{
+    if (btnLastPage->Update(event, currentPage) ||
+        btnNextPage->Update(event, currentPage))
+        LoadCharactersData();
+    for (int i = 0; i < NUM_OF_ROWS; i++)
+    {
+        for (int j = 0; j < CHARACTERS_IN_ROW; j++)
+        {
             // Checks for button interaction of each character (for loading on drawing board)
             characters[j + CHARACTERS_IN_ROW * i]->Update(event, board);
         }
@@ -152,7 +162,7 @@ void CharacterSet::Update(Event& event, DrawingBoard& board)
 void CharacterSet::Draw(RenderWindow& window)
 {
     for (auto& character : characters)
-        character->Draw(&window);
-    btnNextPage->Draw();
-    btnLastPage->Draw();
+        character->Draw(window);
+    btnNextPage->Draw(window);
+    btnLastPage->Draw(window);
 }

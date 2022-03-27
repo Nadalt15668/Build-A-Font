@@ -1,6 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "UserBoard.h"
 
-UserBoard::UserBoard(RenderWindow* window) : DrawingBoard(window)
+UserBoard::UserBoard(RenderWindow& window,
+    Vector2f center,
+    Vector2f size,
+    Vector2f vpSizeRatio,
+    Vector2f vpLocationRatio) :
+    DrawingBoard(window, center, size, vpSizeRatio, vpLocationRatio)
 {
 }
 

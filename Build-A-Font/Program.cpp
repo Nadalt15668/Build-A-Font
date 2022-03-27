@@ -1,39 +1,25 @@
 #include "Program.h"
 
-//------------------------ BUTTON FUNCTIONS ------------------------
-void ClearBoard(DrawingBoard& drawingBoard)
-{
-    drawingBoard.Clear();
-}
-void CaptureBoard(DrawingBoard& drawingBoard)
-{
-    drawingBoard.Capture();
-}
-//------------------------------------------------------------------
-
 Program::Program()
 {
     currentWindow = new RenderWindow(sf::VideoMode(PROGRAM_DIM.x, PROGRAM_DIM.y), "Build-A-Font");
-    if (1)
-        drawingBoard = new UserBoard(currentWindow);
-    else {/*Anitiating AIBoard Instead*/ }
     pythonModule = module_::import("python"); // Importing the module from 'python.py'
-    characterSet = new CharacterSet(*currentWindow, pythonModule);
-    currentState = CHOOSE_CHARACTER;
-    //------------------------------------------------------------
-    //                          Buttons
-    //                          -------
-    btnClearBoard = new Button<DrawingBoard&>(currentWindow, Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x /2.2, (PROGRAM_DIM.y / 3) *1.65), &ClearBoard,
-                                Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50));
-    btnCaptureBoard = new Button<DrawingBoard&>(currentWindow, Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65), &CaptureBoard,
-        Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50));
-    //------------------------------------------------------------
-    btnClearBoard->AddText("CLEAR", DEFAULT_FONT, 30);
-    btnCaptureBoard->AddText("CAPTURE", DEFAULT_FONT, 30);
+    InitScreensMap();
+}
+
+void Program::InitScreensMap()
+{
+    this->screens = { {CHARS_DRAWING_PAGE, new CharsDrawingPage(*this->currentWindow, this->pythonModule)} };
+}
+
+void Program::LoadCurrentPage(string pageName)
+{
+    this->currentPage = this->screens[pageName];
 }
 
 void Program::Run()
 {
+    LoadCurrentPage(CHARS_DRAWING_PAGE);
     while (currentWindow->isOpen())
     {
         sf::Event event;
@@ -51,37 +37,12 @@ void Program::Run()
 
 void Program::Update(Event& event)
 {
-    UpdateButtons(event);
-    characterSet->Update(event, *drawingBoard);
-    drawingBoard->Update(event);
-}
-
-void Program::RunStates()
-{
-    // MENU, CHOOSE_CHARACTER, DRAWING
-    switch (currentState)
-    {
-    case 1:
-        break;
-    }
+    this->currentPage->Update(event);
 }
 
 void Program::Draw()
 {
-    drawingBoard->Draw();
-    characterSet->Draw(*currentWindow);
-    DrawButtons();
+    this->currentPage->Draw();
 }
 
-void Program::UpdateButtons(Event event)
-{
-    btnClearBoard->Update(event, *drawingBoard);
-    btnCaptureBoard->Update(event, *drawingBoard);
-}
-
-void Program::DrawButtons()
-{
-    btnClearBoard->Draw();
-    btnCaptureBoard->Draw();
-}
 
