@@ -19,6 +19,7 @@
 #define CLEAR_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65)
 #define USER_PROG_BTN_POS Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 1.5, (PROGRAM_DIM.y / 1.5))
 #define AI_PROG_BTN_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 1.5, (PROGRAM_DIM.y / 1.5))
+#define BACK_BTN_POS Vector2f(PROGRAM_DIM.x / 17, PROGRAM_DIM.y / 15)
 // ----- Sizes -----
 #define BRUSH_THICKNESS 4
 // ----- Colors -----

@@ -23,14 +23,14 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 
 void StartUserProgram(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
-	Screen* userProgram = new CharsDrawingPage(window, true, pythonModule);
+	Screen* userProgram = new CharsDrawingPage(window, true, pythonModule, screens, currentScreen);
 	screens.insert_or_assign(CHARS_DRAWING_PAGE, userProgram);
 	currentScreen = userProgram;
 }
 
 void StartAIProgram(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
-	Screen* aiProgram = new CharsDrawingPage(window, false, pythonModule);
+	Screen* aiProgram = new CharsDrawingPage(window, false, pythonModule, screens, currentScreen);
 	screens.insert_or_assign(CHARS_DRAWING_PAGE, aiProgram);
 	currentScreen = aiProgram;
 }
@@ -55,24 +55,24 @@ StartPage::StartPage(RenderWindow& window, module_& pythonModule, map<string, Sc
 	this->title.setOutlineThickness(5);
 	SetCommonAttributes(this->title, TITLE_POS);
 	// Initiating navigation buttons
-	userProgamBtn = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
+	btnUserProgam = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
 		USER_PROG_BTN_POS, &StartUserProgram, new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM)));
-	userProgamBtn->AddText("User Program", 25);
-	aiProgamBtn = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
+	btnUserProgam->AddText("User Program", 25);
+	btnAIProgram = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
 		AI_PROG_BTN_POS, &StartAIProgram, new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM)));
-	aiProgamBtn->AddText("AI Program", 30);
+	btnAIProgram->AddText("AI Program", 30);
 }
 
 void StartPage::Draw()
 {
 	this->window->draw(this->logo);
 	this->window->draw(this->title);
-	userProgamBtn->Draw(*this->window);
-	aiProgamBtn->Draw(*this->window);
+	btnUserProgam->Draw(*this->window);
+	btnAIProgram->Draw(*this->window);
 }
 
 void StartPage::Update(Event& event)
 {
-	userProgamBtn->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
-	aiProgamBtn->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
+	btnUserProgam->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
+	btnAIProgram->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
 }

@@ -57,9 +57,6 @@
     <ClCompile Include="StartPage.cpp">
       <Filter>Pages\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EmptyPage.cpp">
-      <Filter>Pages\Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brush.h">
@@ -96,9 +93,6 @@
       <Filter>Pages\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StartPage.h">
-      <Filter>Pages\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EmptyPage.h">
       <Filter>Pages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
