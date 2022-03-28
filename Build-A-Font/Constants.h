@@ -5,6 +5,7 @@
 #define CHARACTER_DIM Vector2f(199, 216)
 #define PAGE_BTN_DIM Vector2f(50, 50)
 #define DEFAULT_BUTTON_DIM Vector2f(180, 90)
+#define DEFAULT_TEXTBOX_DIM Vector2f(180, 40)
 // ----- Positions -----
 #define DRAWING_POS Vector2f(PROGRAM_DIM.x /2, PROGRAM_DIM.y / 3)
 // If changing quantity, also change udner - Character Set - CHARACTERS_IN_ROW
@@ -19,17 +20,19 @@
 #define CLEAR_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65)
 #define USER_PROG_BTN_POS Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 1.5, (PROGRAM_DIM.y / 1.5))
 #define AI_PROG_BTN_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 1.5, (PROGRAM_DIM.y / 1.5))
-#define BACK_BTN_POS Vector2f(PROGRAM_DIM.x / 17, PROGRAM_DIM.y / 15)
+#define TOP_LEFT_BTN_POS Vector2f(PROGRAM_DIM.x / 17, PROGRAM_DIM.y / 15)
 // ----- Sizes -----
 #define BRUSH_THICKNESS 4
+#define TEXTBOX_TEXT_SIZE 25
 // ----- Colors -----
 #define DEFAULT_GRAY_BGROUND Color(211, 211, 211)
 #define GRAY_SUB 30
 #define DEFAULT_BUTTON_COLOR Color(143, 143, 143)
+#define HINT_TEXT_COLOR Color(191, 191, 191)
 // ----- Files ------
 #define BLANK_TEMPLATE "Templates/blank.png"
 #define BLANK_CHARACTER "CharacterDrawings/blank.png"
-#define DEFAULT_FONT "Fonts/default.ttf"
+#define DEFAULT_FONTPATH "Fonts/default.ttf"
 #define PROJECT_LOGO "Assets/project_logo.png"
 // ----- Directories -----
 #define BINARIES "CharacterDrawings/Binaries/"

@@ -30,6 +30,10 @@ C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\CharacterSet.cpp(102,30): 
           [
               T=float
           ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Button.h(35,46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Button.h(32): message : while compiling class template member function 'void Button<int &>::AddText(sf::String,float,sf::String,sf::Color)'
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\CharacterSet.cpp(19): message : see reference to function template instantiation 'void Button<int &>::AddText(sf::String,float,sf::String,sf::Color)' being compiled
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\CharacterSet.cpp(18): message : see reference to class template instantiation 'Button<int &>' being compiled
   CharsDrawingPage.cpp
 C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\CharsDrawingPage.cpp(32,23): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
           with
@@ -61,6 +65,10 @@ C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\CharsDrawingPage.cpp(42,58
           [
               T=float
           ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Button.h(35,46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Button.h(32): message : while compiling class template member function 'void Button<std::map<std::string,Screen *,std::less<std::string>,std::allocator<std::pair<const std::string,Screen *>>> &,Screen *&>::AddText(sf::String,float,sf::String,sf::Color)'
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\CharsDrawingPage.cpp(46): message : see reference to function template instantiation 'void Button<std::map<std::string,Screen *,std::less<std::string>,std::allocator<std::pair<const std::string,Screen *>>> &,Screen *&>::AddText(sf::String,float,sf::String,sf::Color)' being compiled
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\CharsDrawingPage.cpp(43): message : see reference to class template instantiation 'Button<std::map<std::string,Screen *,std::less<std::string>,std::allocator<std::pair<const std::string,Screen *>>> &,Screen *&>' being compiled
   DrawingBoard.cpp
 C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\DrawingBoard.cpp(84,32): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
@@ -83,6 +91,7 @@ C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Program.cpp(5,63): warning
           [
               T=float
           ]
+  Screen.cpp
   Source.cpp
 C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Source.cpp(4,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
   StartPage.cpp
@@ -101,6 +110,15 @@ C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\StartPage.cpp(62,3): warni
           [
               T=float
           ]
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Button.h(35,46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Button.h(32): message : while compiling class template member function 'void Button<sf::RenderWindow &,pybind11::module_ &,std::map<std::string,Screen *,std::less<std::string>,std::allocator<std::pair<const std::string,Screen *>>> &,Screen *&>::AddText(sf::String,float,sf::String,sf::Color)'
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\StartPage.cpp(60): message : see reference to function template instantiation 'void Button<sf::RenderWindow &,pybind11::module_ &,std::map<std::string,Screen *,std::less<std::string>,std::allocator<std::pair<const std::string,Screen *>>> &,Screen *&>::AddText(sf::String,float,sf::String,sf::Color)' being compiled
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\StartPage.cpp(58): message : see reference to class template instantiation 'Button<sf::RenderWindow &,pybind11::module_ &,std::map<std::string,Screen *,std::less<std::string>,std::allocator<std::pair<const std::string,Screen *>>> &,Screen *&>' being compiled
+  TextBox.cpp
+  UIElement.cpp
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\UIElement.cpp(43,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\UIElement.cpp(71,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\UIElement.cpp(77,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   UserBoard.cpp
 C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\UserBoard.cpp(22,15): warning C4101: 'rotInfo': unreferenced local variable
   Generating Code...

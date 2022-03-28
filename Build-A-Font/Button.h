@@ -4,7 +4,7 @@
 #define GRAY_SUB 30
 #define DEFAULT_BUTTON_DIM Vector2f(180, 90)
 #define DEFAULT_BUTTON_COLOR Color(143, 143, 143)
-#define DEFAULT_FONT "Fonts/default.ttf"
+#define DEFAULT_FONTPATH "Fonts/default.ttf"
 
 template <class... Args>
 class Button :
@@ -28,7 +28,7 @@ public:
         this->hoverColor = DarkenedColors(this->idleColor);
         this->pressColor = DarkenedColors(this->hoverColor);
     };
-    void AddText(String message, float textSize, String fontPath = DEFAULT_FONT, Color textColor = Color::Black)
+    void AddText(String message, float textSize, String fontPath = DEFAULT_FONTPATH, Color textColor = Color::Black)
     {
         if (!this->hasText)
         {

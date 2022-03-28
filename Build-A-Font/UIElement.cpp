@@ -53,7 +53,7 @@ void UIElement::InitElementTypes()
 	elementTypes.insert_or_assign(ElementType::Text, false);
 }
 
-bool UIElement::SetText(string text, string fontPath, float textSize, Color textColor)
+bool UIElement::SetText(string text, string fontPath, int textSize, Color textColor, TextOrigin textOrigin)
 {
 	Font* font = new Font;
 	if (!font->loadFromFile(fontPath))
@@ -64,11 +64,21 @@ bool UIElement::SetText(string text, string fontPath, float textSize, Color text
 	this->text.setFont(*font);
 	this->text.setCharacterSize(textSize);
 	this->text.setString(text);
-	this->text.setOrigin(this->text.getLocalBounds().width / 2,
-		this->text.getLocalBounds().height / 1.5);
+	this->textOrigin = textOrigin;
+	if (textOrigin == CENTER)
+	{
+		this->text.setOrigin(this->text.getLocalBounds().width / 2,
+			this->text.getLocalBounds().height / 1.5);
+		this->text.setPosition(this->pos);
+
+	}
+	else if (textOrigin == MARGIN_LEFT)
+	{
+		this->text.setOrigin(0, this->text.getLocalBounds().height / 1.5);
+		this->text.setPosition(Vector2f(this->pos.x - this->shape->getLocalBounds().width / 2, this->pos.y));
+	}
 	this->text.setFillColor(textColor);
 	this->elementTypes.insert_or_assign(ElementType::Text, true);
-	this->text.setPosition(this->pos);
 	return true;
 }
 
@@ -110,6 +120,33 @@ bool UIElement::SetPosition(Vector2f newPos)
 		this->sprite.setPosition(newPos);
 	if (this->elementTypes.at(ElementType::Text))
 		this->text.setPosition(newPos);
+	return true;
+}
+
+bool UIElement::SetShapeOutline(float outlineThickness, Color outlineColor)
+{
+	this->shape->setOutlineThickness(outlineThickness);
+	this->shape->setOutlineColor(outlineColor);
+	return true;
+}
+
+bool UIElement::SetTextMargin(Margin marginDirection, float margin)
+{
+	switch (marginDirection)
+	{
+	case MARGIN_LEFT:
+		this->text.move(Vector2f(margin, 0));
+		return true;
+	case MARGIN_RIGHT:
+		this->text.move(Vector2f(-margin, 0));
+		return true;
+	case MARGIN_TOP:
+		this->text.move(Vector2f(0, -margin));
+		return true;
+	case MARGIN_BOTTOM:
+		this->text.move(Vector2f(0, margin));
+		return true;
+	}
 	return true;
 }
 

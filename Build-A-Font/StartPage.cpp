@@ -48,7 +48,7 @@ StartPage::StartPage(RenderWindow& window, module_& pythonModule, map<string, Sc
 	this->logo.setScale(0.5f, 0.5f);
 	SetCommonAttributes(this->logo, LOGO_POS);
 	// Initiating title
-	this->title.setFont(*LoadFromFile<Font>(DEFAULT_FONT));
+	this->title.setFont(*LoadFromFile<Font>(DEFAULT_FONTPATH));
 	this->title.setString(TITLE);
 	this->title.setCharacterSize(50);
 	this->title.setOutlineColor(Color::Black);

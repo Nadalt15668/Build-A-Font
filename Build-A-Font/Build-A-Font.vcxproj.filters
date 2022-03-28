@@ -22,6 +22,15 @@
     <Filter Include="Pages\Source Files">
       <UniqueIdentifier>{570430e6-6fc9-42d7-a4cd-b6f5d075acd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI Elements">
+      <UniqueIdentifier>{ef3f4aa6-d8d8-4180-b4cf-0e1010513bdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI Elements\Header Files">
+      <UniqueIdentifier>{fddec6bb-41f3-4b13-ac21-661124fb743c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI Elements\Source Files">
+      <UniqueIdentifier>{71f66a11-215d-4620-ac19-fa177cc2af2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -30,13 +39,7 @@
     <ClCompile Include="Brush.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawingBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp">
@@ -48,33 +51,33 @@
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserBoard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CharsDrawingPage.cpp">
       <Filter>Pages\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StartPage.cpp">
       <Filter>Pages\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>UI Elements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserBoard.cpp">
+      <Filter>UI Elements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brush.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CharacterSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawingBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Program.h">
@@ -86,14 +89,26 @@
     <ClInclude Include="UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UserBoard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CharsDrawingPage.h">
       <Filter>Pages\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StartPage.h">
       <Filter>Pages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>UI Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>UI Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingBoard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserBoard.h">
+      <Filter>UI Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

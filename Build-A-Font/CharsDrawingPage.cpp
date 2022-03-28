@@ -40,7 +40,7 @@ CharsDrawingPage::CharsDrawingPage(RenderWindow& window, bool isUser, module_& p
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
     btnCaptureBoard = new Button<DrawingBoard&, CharacterSet&>(window, CAPTURE_POS, &CaptureBoard,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
-    btnToStartPage = new Button<map<string, Screen*>&, Screen*&>(window, BACK_BTN_POS, &ToStartPage, new CircleShape(30.f), DEFAULT_GRAY_BGROUND);
+    btnToStartPage = new Button<map<string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &ToStartPage, new CircleShape(30.f), DEFAULT_GRAY_BGROUND);
     btnClearBoard->AddText("CLEAR", 30);
     btnCaptureBoard->AddText("CAPTURE", 30);
     btnToStartPage->AddText("<-", 20);
