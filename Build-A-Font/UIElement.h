@@ -19,6 +19,8 @@ public:
 	// For a clean Sprite
 	UIElement(Vector2f pos, string filename);
 	bool SetText(string text, string fontPath, int textSize, Color textColor = Color::Black, TextOrigin textOrigin = CENTER);
+	bool SetText(string text, Font* font, int textSize, Color textColor = Color::Black, TextOrigin textOrigin = CENTER);
+	bool SetText(string text, Color textColor);
 	bool SetSprite(string filename);
 	bool SetShapeTex(string filename);
 	bool SetPosition(Vector2f newPos);

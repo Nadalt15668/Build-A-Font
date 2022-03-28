@@ -29,6 +29,7 @@
 #define GRAY_SUB 30
 #define DEFAULT_BUTTON_COLOR Color(143, 143, 143)
 #define HINT_TEXT_COLOR Color(191, 191, 191)
+#define SELECTED_TEXTBOX_COLOR Color(159,193,49)
 // ----- Files ------
 #define BLANK_TEMPLATE "Templates/blank.png"
 #define BLANK_CHARACTER "CharacterDrawings/blank.png"

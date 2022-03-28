@@ -61,6 +61,7 @@ StartPage::StartPage(RenderWindow& window, module_& pythonModule, map<string, Sc
 	btnAIProgram = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
 		AI_PROG_BTN_POS, &StartAIProgram, new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM)));
 	btnAIProgram->AddText("AI Program", 30);
+	test = new TextBox(window, Vector2f(300, 300), DEFAULT_TEXTBOX_DIM, "testing test", TEXTBOX_TEXT_SIZE);
 }
 
 void StartPage::Draw()
@@ -69,10 +70,12 @@ void StartPage::Draw()
 	this->window->draw(this->title);
 	btnUserProgam->Draw(*this->window);
 	btnAIProgram->Draw(*this->window);
+	test->Draw(*this->window);
 }
 
 void StartPage::Update(Event& event)
 {
 	btnUserProgam->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
 	btnAIProgram->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
+	test->Update(event);
 }

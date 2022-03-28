@@ -24,5 +24,6 @@ private:
     Screen** currentScreen;
     Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>* btnUserProgam;
     Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>* btnAIProgram;
+    TextBox* test;
 };
 
