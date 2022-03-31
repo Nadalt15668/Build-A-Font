@@ -8,8 +8,8 @@ using namespace sf;
 using namespace std;
 
 #define BACKSPACE 8
-#define ELAPSED_TIME_FOR_INPUT 0.1
-#define ELAPSED_TIME_FOR_BACKSPACE 0.1
+#define ELAPSED_TIME_FOR_INPUT 0.2
+#define ELAPSED_TIME_FOR_BACKSPACE 0.2
 #define CHARARCTER_INPUT static_cast<char>(event.text.unicode)
 
 class TextBox :

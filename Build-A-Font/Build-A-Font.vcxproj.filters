@@ -67,7 +67,7 @@
       <Filter>UI Elements\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextBox.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>UI Elements\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +108,7 @@
       <Filter>UI Elements\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextBox.h">
-      <Filter>Header Files</Filter>
+      <Filter>UI Elements\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
