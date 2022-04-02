@@ -21,11 +21,12 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 	object.setPosition(pos);
 }
 
-void StartUserProgram(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
+void StartUserProgram(EmptyDialog*& dialog, RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
-	Screen* userProgram = new CharsDrawingPage(window, true, pythonModule, screens, currentScreen);
+	/*Screen* userProgram = new CharsDrawingPage(window, true, pythonModule, screens, currentScreen);
 	screens.insert_or_assign(CHARS_DRAWING_PAGE, userProgram);
-	currentScreen = userProgram;
+	currentScreen = userProgram;*/
+	dialog->OpenDialog();
 }
 
 void StartAIProgram(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
@@ -55,12 +56,14 @@ StartPage::StartPage(RenderWindow& window, module_& pythonModule, map<string, Sc
 	this->title.setOutlineThickness(5);
 	SetCommonAttributes(this->title, TITLE_POS);
 	// Initiating navigation buttons
-	btnUserProgam = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
+	btnUserProgam = new Button<EmptyDialog*&, RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
 		USER_PROG_BTN_POS, &StartUserProgram, new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM)));
 	btnUserProgam->AddText("User Program", 25);
 	btnAIProgram = new Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>(window,
 		AI_PROG_BTN_POS, &StartAIProgram, new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM)));
 	btnAIProgram->AddText("AI Program", 30);
+
+	dialogTest = new EmptyDialog(window, Vector2f(500, 400), "Test");
 	test = new TextBox(window, Vector2f(300, 300), DEFAULT_TEXTBOX_DIM, "testing test", TEXTBOX_TEXT_SIZE);
 }
 
@@ -71,11 +74,13 @@ void StartPage::Draw()
 	btnUserProgam->Draw(*this->window);
 	btnAIProgram->Draw(*this->window);
 	test->Draw(*this->window);
+	dialogTest->Draw();
 }
 
 void StartPage::Update(Event& event)
 {
-	btnUserProgam->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
+	btnUserProgam->Update(event, this->dialogTest, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
 	btnAIProgram->Update(event, *this->window, *this->pythonModule, *this->screens, *this->currentScreen);
 	test->Update(event);
+	dialogTest->Update(event);
 }

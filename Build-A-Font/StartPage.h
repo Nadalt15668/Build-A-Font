@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Button.h"
 #include "TextBox.h"
+#include "EmptyDialog.h"
 #include "Constants.h"
 #include "CharsDrawingPage.h"
 
@@ -22,8 +23,9 @@ private:
     module_* pythonModule;
     map<string, Screen*>* screens;
     Screen** currentScreen;
-    Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>* btnUserProgam;
+    Button<EmptyDialog*&, RenderWindow&, module_&, map<string, Screen*>&, Screen*&>* btnUserProgam;
     Button<RenderWindow&, module_&, map<string, Screen*>&, Screen*&>* btnAIProgram;
     TextBox* test;
+    EmptyDialog* dialogTest;
 };
 

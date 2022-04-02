@@ -25,6 +25,7 @@ public:
 	bool SetShapeTex(string filename);
 	bool SetPosition(Vector2f newPos);
 	bool SetShapeOutline(float outlineThickness, Color outlineColor);
+	FloatRect GetTextBounds() { return this->text.getLocalBounds(); };
 	bool SetTextMargin(Margin marginDirection, float margin);
 	void Move(Vector2f offset);
 	virtual void Draw(RenderWindow& window) = 0;

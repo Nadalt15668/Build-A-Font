@@ -153,7 +153,9 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterSet.cpp" />
     <ClCompile Include="CharsDrawingPage.cpp" />
+    <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="DrawingBoard.cpp" />
+    <ClCompile Include="EmptyDialog.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -169,7 +171,9 @@
     <ClInclude Include="CharacterSet.h" />
     <ClInclude Include="CharsDrawingPage.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Dialog.h" />
     <ClInclude Include="DrawingBoard.h" />
+    <ClInclude Include="EmptyDialog.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="StartPage.h" />

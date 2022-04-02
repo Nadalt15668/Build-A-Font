@@ -26,6 +26,7 @@
 #define TEXTBOX_TEXT_SIZE 25
 // ----- Colors -----
 #define DEFAULT_GRAY_BGROUND Color(211, 211, 211)
+#define DEFAULT_DIALOG_COLOR Color(240, 240, 240)
 #define GRAY_SUB 30
 #define DEFAULT_BUTTON_COLOR Color(143, 143, 143)
 #define HINT_TEXT_COLOR Color(191, 191, 191)

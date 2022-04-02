@@ -31,6 +31,15 @@
     <Filter Include="UI Elements\Source Files">
       <UniqueIdentifier>{71f66a11-215d-4620-ac19-fa177cc2af2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{f26b062d-f87d-4ebf-9448-687c8db0a49d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogs\Header Files">
+      <UniqueIdentifier>{b97d7664-c338-4105-b974-fa5992ab9de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogs\Source Files">
+      <UniqueIdentifier>{41daf644-ad87-41e2-8598-91ca0f467195}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -68,6 +77,12 @@
     </ClCompile>
     <ClCompile Include="TextBox.cpp">
       <Filter>UI Elements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyDialog.cpp">
+      <Filter>Dialogs\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="TextBox.h">
       <Filter>UI Elements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyDialog.h">
+      <Filter>Dialogs\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
