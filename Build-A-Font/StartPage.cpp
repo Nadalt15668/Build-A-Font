@@ -63,7 +63,7 @@ StartPage::StartPage(RenderWindow& window, module_& pythonModule, map<string, Sc
 		AI_PROG_BTN_POS, &StartAIProgram, new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM)));
 	btnAIProgram->AddText("AI Program", 30);
 
-	dialogTest = new EmptyDialog(window, Vector2f(500, 400), "Test");
+	dialogTest = new EmptyDialog(window, Vector2f(500, 400), "Empty Dialog");
 	test = new TextBox(window, Vector2f(300, 300), DEFAULT_TEXTBOX_DIM, "testing test", TEXTBOX_TEXT_SIZE);
 }
 

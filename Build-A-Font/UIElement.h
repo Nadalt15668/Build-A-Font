@@ -28,6 +28,7 @@ public:
 	FloatRect GetTextBounds() { return this->text.getLocalBounds(); };
 	bool SetTextMargin(Margin marginDirection, float margin);
 	void Move(Vector2f offset);
+
 	virtual void Draw(RenderWindow& window) = 0;
 private:
 	void InitElementTypes();

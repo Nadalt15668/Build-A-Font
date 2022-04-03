@@ -12,10 +12,10 @@ bool DrawingBoard::SetTemplate(string filename)
 	return true;
 }
 
-bool CheckBorders(Vector2f worldPos)
+bool CheckBorders(Vector2f worldPos, FloatRect area, Vector2f pos)
 {
-	if (!(worldPos.x > DRAWING_POS.x - DRAWING_DIM.x / 2 && worldPos.x < DRAWING_POS.x + DRAWING_DIM.x / 2) ||
-		!(worldPos.y > DRAWING_POS.y - DRAWING_DIM.y / 2 && worldPos.y < DRAWING_POS.y + DRAWING_DIM.y / 2))
+	if (!(worldPos.x > pos.x - area.width / 2 && worldPos.x < pos.x + area.width / 2) ||
+		!(worldPos.y > pos.y - area.height / 2 && worldPos.y < pos.y + area.height / 2))
 		return false;
 	return true;
 }
@@ -39,18 +39,19 @@ void DrawingBoard::Update(Event& event)
 	Vector2i pixelPos = sf::Mouse::getPosition(*window);
 	Vector2f worldPos = window->mapPixelToCoords(pixelPos);
 	// ---------------------------------------------------------------------------
-	if (event.type == Event::MouseButtonReleased || !CheckBorders(worldPos))
+	if (event.type == Event::MouseButtonReleased || 
+		!CheckBorders(worldPos, FloatRect(DRAWING_POS, DRAWING_DIM), DRAWING_POS))
 		brush.ResetPositions();
 	if (Mouse::isButtonPressed(Mouse::Left) &&
 		(brush.curPos.x == NULL || brush.curPos.y == NULL) &&
-		CheckBorders(worldPos))
+		CheckBorders(worldPos, FloatRect(DRAWING_POS, DRAWING_DIM), DRAWING_POS))
 	{
 		brush.curPos.x = worldPos.x;
 		brush.curPos.y = worldPos.y;
 	}
 	else if (Mouse::isButtonPressed(Mouse::Left) &&
 		(worldPos.x != brush.curPos.x || worldPos.y != brush.curPos.y) &&
-		CheckBorders(worldPos))
+		CheckBorders(worldPos, FloatRect(DRAWING_POS, DRAWING_DIM), DRAWING_POS))
 	{
 		brush.NewPosition(worldPos);
 		CreateLine();
