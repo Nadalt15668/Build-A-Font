@@ -68,13 +68,13 @@ bool UIElement::SetText(string text, string fontPath, int textSize, Color textCo
 	if (textOrigin == CENTER)
 	{
 		this->text.setOrigin(this->text.getLocalBounds().width / 2,
-			this->text.getLocalBounds().height / 1.5);
+			this->text.getLocalBounds().height);
 		this->text.setPosition(this->pos);
 
 	}
 	else if (textOrigin == MARGIN_LEFT)
 	{
-		this->text.setOrigin(0, this->text.getLocalBounds().height / 1.5);
+		this->text.setOrigin(0, this->text.getLocalBounds().height);
 		this->text.setPosition(Vector2f(this->pos.x - this->shape->getLocalBounds().width / 2, this->pos.y));
 	}
 	this->text.setFillColor(textColor);
@@ -91,13 +91,13 @@ bool UIElement::SetText(string text, Font* font, int textSize, Color textColor, 
 	if (textOrigin == CENTER)
 	{
 		this->text.setOrigin(this->text.getLocalBounds().width / 2,
-			this->text.getLocalBounds().height / 1.5);
+			this->text.getLocalBounds().height / 2);
 		this->text.setPosition(this->pos);
 
 	}
 	else if (textOrigin == MARGIN_LEFT)
 	{
-		this->text.setOrigin(0, this->text.getLocalBounds().height / 1.5);
+		this->text.setOrigin(0, this->text.getLocalBounds().height / 2);
 		this->text.setPosition(Vector2f(this->pos.x - this->shape->getLocalBounds().width / 2, this->pos.y));
 	}
 	this->text.setFillColor(textColor);

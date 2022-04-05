@@ -1,9 +1,9 @@
 #include "Dialog.h"
 
-void closeDialog(bool& isOpen)
+void closeDialog(bool& isOpen, bool& isInteractable)
 {
 	isOpen = false;
-
+	isInteractable = true;
 }
 
 bool LoadDialogTitle(string dialogString, sf::Text*& dialogTitle)
@@ -26,9 +26,17 @@ bool CheckDialogBorders(Vector2f worldPos, FloatRect area, Vector2f pos)
 	return true;
 }
 
-void Dialog::OpenDialog()
+void Dialog::OpenDialog(bool& isInteractable)
 {
 	this->isOpen = true;
+	isInteractable = false;
+}
+
+Vector2f Dialog::CalculateStartingOffset()
+{
+	Vector2f startingOffset(this->dialogPos.x - this->dialogBground->getLocalBounds().width / 2,
+		this->dialogPos.y - this->dialogBground->getLocalBounds().height / 2 + this->dialogBar->getLocalBounds().height);
+	return startingOffset;
 }
 
 void Dialog::CheckForDragging(Event& event)
@@ -51,7 +59,7 @@ void Dialog::CheckForDragging(Event& event)
 		lastMouseHeldPos.y = worldPos.y;
 	}
 	else if (Mouse::isButtonPressed(Mouse::Left) &&
-		(worldPos.x != lastMouseHeldPos.x || worldPos.y != lastMouseHeldPos.y) &&
+		(worldPos.x != lastMouseHeldPos.x && lastMouseHeldPos.x != 0 || worldPos.y != lastMouseHeldPos.y && lastMouseHeldPos.x != 0) &&
 		CheckDialogBorders(worldPos, holdingArea, topBarPos))
 	{
 		Move(Vector2f(worldPos.x - lastMouseHeldPos.x, worldPos.y - lastMouseHeldPos.y));
@@ -63,8 +71,17 @@ void Dialog::CheckForDragging(Event& event)
 	}
 }
 
-Dialog::Dialog(RenderWindow& window, Vector2f size, string dialogTitle, Color bgroundColor)
+Dialog::~Dialog()
 {
+	delete dialogBar;
+	delete dialogBground;
+	delete dialogTitle;
+	delete btnCloseDialog;
+}
+
+Dialog::Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor)
+{
+	this->parentScreen = parentScreen;
 	this->dialogPos = Vector2f(Vector2f(PROGRAM_DIM.x / 2, PROGRAM_DIM.y / 2));
 	this->dialogTitle = new sf::Text();
 	this->window = &window;
@@ -89,7 +106,7 @@ Dialog::Dialog(RenderWindow& window, Vector2f size, string dialogTitle, Color bg
 		this->dialogPos.x + this->dialogBground->getLocalBounds().width / 2 - 10,
 		this->dialogPos.y - this->dialogBground->getLocalBounds().height / 2 + 10
 	);
-	btnCloseDialog = new Button<bool&>(window, closeBtnPos, &closeDialog,
+	btnCloseDialog = new Button<bool&, bool&>(window, closeBtnPos, &closeDialog,
 		new RectangleShape(Vector2f(20, BAR_THICKNESS)), this->dialogBar->getFillColor());
 	btnCloseDialog->AddText("X", 15, DEFAULT_FONTPATH, Color::White);
 	btnCloseDialog->SetShapeOutline(0, Color::Transparent);

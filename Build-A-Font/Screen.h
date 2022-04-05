@@ -11,5 +11,8 @@ public:
 	Screen();
 	virtual void Draw() = 0;
 	virtual void Update(Event& event) = 0;
+	bool& GetInteractability() { return isInteractable; };
+protected:
+	bool isInteractable = false;
 };
 

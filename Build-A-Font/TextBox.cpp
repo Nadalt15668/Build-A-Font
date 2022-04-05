@@ -106,10 +106,13 @@ void TextBox::Update(Event& event)
 	this->btnTextBox->Update(event, this->isWritable);
 	bool contains = CheckBorders(*this->window, worldPos, Vector2f(this->shape->getLocalBounds().width, this->shape->getLocalBounds().height),
 		this->pos);
-	if (!contains && Mouse::isButtonPressed(Mouse::Left))
+	if (Mouse::isButtonPressed(Mouse::Left))
 	{
-		this->isWritable = false;
-		this->shape->setOutlineColor(Color::Black);
+		if (!contains)
+		{ 
+			this->isWritable = false;
+			this->shape->setOutlineColor(Color::Black);
+		}
 	}
 	// Manage keyboard input
 	if (isWritable)
@@ -129,3 +132,5 @@ void TextBox::Update(Event& event)
 		SetText(this->shownText, Color::Black);
 	}
 }
+
+

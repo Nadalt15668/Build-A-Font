@@ -1,11 +1,6 @@
 #pragma once
 #include "UIElement.h"
 
-#define GRAY_SUB 30
-#define DEFAULT_BUTTON_DIM Vector2f(180, 90)
-#define DEFAULT_BUTTON_COLOR Color(143, 143, 143)
-#define DEFAULT_FONTPATH "Fonts/default.ttf"
-
 template <class... Args>
 class Button :
     public UIElement

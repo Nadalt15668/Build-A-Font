@@ -3,6 +3,13 @@
 Program::Program()
 {
     currentWindow = new RenderWindow(sf::VideoMode(PROGRAM_DIM.x, PROGRAM_DIM.y), "Build-A-Font");
+    Image* logo = new Image();
+    if (!logo->loadFromFile(PROJECT_LOGO))
+    {
+        // Handle Error
+        exit(0);
+    }
+    currentWindow->setIcon(logo->getSize().x, logo->getSize().y, logo->getPixelsPtr());
     pythonModule = module_::import("python"); // Importing the module from 'python.py'
     InitScreensMap();
     LoadCurrentPage(STARTING_PAGE);
@@ -11,14 +18,17 @@ Program::Program()
 void Program::InitScreensMap()
 {
     this->screens = {   {CHARS_DRAWING_PAGE, nullptr},
-                        {STARTING_PAGE, new StartPage(*this->currentWindow,
-                            this->pythonModule, this->screens, this->currentPage)} 
+                        {STARTING_PAGE, new OpeningPage(*this->currentWindow,
+                            this->pythonModule, this->screens, this->currentPage)
+                            }
                     };
 }
 
 void Program::LoadCurrentPage(string pageName)
 {
     this->currentPage = this->screens[pageName];
+    bool& isInteractable = this->currentPage->GetInteractability();
+    isInteractable = true;
 }
 
 void Program::Run()

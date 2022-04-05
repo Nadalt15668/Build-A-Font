@@ -19,6 +19,7 @@ public:
     TextBox(RenderWindow& window, Vector2f pos, Vector2f size, string hintText, int textSize, string fontPath = DEFAULT_FONTPATH);
     void Draw(RenderWindow& window);
     void Update(Event& event);
+    void MoveTextBox(Vector2f offset) { this->Move(offset); this->btnTextBox->Move(offset); };
     string GetText() { return this->totalText; };
 private:
     RenderWindow* window;

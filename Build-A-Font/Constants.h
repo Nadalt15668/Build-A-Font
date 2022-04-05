@@ -18,8 +18,6 @@
 #define TITLE_POS Vector2f(PROGRAM_DIM.x / 2, PROGRAM_DIM.x / 3.5)
 #define CAPTURE_POS Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65)
 #define CLEAR_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65)
-#define USER_PROG_BTN_POS Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 1.5, (PROGRAM_DIM.y / 1.5))
-#define AI_PROG_BTN_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 1.5, (PROGRAM_DIM.y / 1.5))
 #define TOP_LEFT_BTN_POS Vector2f(PROGRAM_DIM.x / 17, PROGRAM_DIM.y / 15)
 // ----- Sizes -----
 #define BRUSH_THICKNESS 4
@@ -34,7 +32,7 @@
 // ----- Files ------
 #define BLANK_TEMPLATE "Templates/blank.png"
 #define BLANK_CHARACTER "CharacterDrawings/blank.png"
-#define DEFAULT_FONTPATH "Fonts/default.ttf"
+#define DEFAULT_FONTPATH "Fonts/Teko-Bold.ttf"
 #define PROJECT_LOGO "Assets/project_logo.png"
 // ----- Directories -----
 #define BINARIES "CharacterDrawings/Binaries/"

@@ -40,6 +40,15 @@
     <Filter Include="Dialogs\Source Files">
       <UniqueIdentifier>{41daf644-ad87-41e2-8598-91ca0f467195}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{38d96630-cb45-4246-b2ab-c5d5b142a58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Header Files">
+      <UniqueIdentifier>{049c646a-59c6-4681-8006-c1c471053327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Source Files">
+      <UniqueIdentifier>{faeab0df-e2e0-4dcf-befc-8a81a63b039b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -63,7 +72,7 @@
     <ClCompile Include="CharsDrawingPage.cpp">
       <Filter>Pages\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StartPage.cpp">
+    <ClCompile Include="OpeningPage.cpp">
       <Filter>Pages\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
@@ -81,8 +90,11 @@
     <ClCompile Include="Dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EmptyDialog.cpp">
+    <ClCompile Include="StartProgramDialog.cpp">
       <Filter>Dialogs\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileDialog.cpp">
+      <Filter>Windows\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +119,7 @@
     <ClInclude Include="CharsDrawingPage.h">
       <Filter>Pages\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StartPage.h">
+    <ClInclude Include="OpeningPage.h">
       <Filter>Pages\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
@@ -128,8 +140,11 @@
     <ClInclude Include="Dialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EmptyDialog.h">
+    <ClInclude Include="StartProgramDialog.h">
       <Filter>Dialogs\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileDialog.h">
+      <Filter>Windows\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

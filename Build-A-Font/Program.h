@@ -2,8 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include<Python.h>
 #include <pybind11/embed.h>
-#include "CharsDrawingPage.h"
-#include "StartPage.h"
+#include "OpeningPage.h"
 
 using namespace sf;
 using namespace std;
