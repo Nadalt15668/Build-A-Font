@@ -15,10 +15,10 @@ void LastPage(int& currentPage)
 
 CharacterSet::CharacterSet(RenderWindow& window, module_& module)
 {
-    btnNextPage = new Button<int&>(window, NXT_PGE_POS, &NextPage, new RectangleShape(PAGE_BTN_DIM));
-    btnNextPage->AddText(">", 30);
-    btnLastPage = new Button<int&>(window, LST_PGE_POS, &LastPage, new RectangleShape(PAGE_BTN_DIM));
-    btnLastPage->AddText("<", 30);
+    btnNextPage = new Button<int&>(window, NXT_CHR_PGE_POS, &NextPage, new CircleShape(30, 3));
+    btnNextPage->SetRotation(90);
+    btnPreviousPage = new Button<int&>(window, PRVS_CHR_PGE_POS, &LastPage, new CircleShape(30, 3));
+    btnPreviousPage->SetRotation(-90);
     currentPage = 0;
     pythonModule = module;
     templateFilenames = FindTemplateNames();
@@ -146,7 +146,7 @@ void CharacterSet::LoadCharactersData()
 
 void CharacterSet::Update(Event& event, DrawingBoard& board)
 {
-    if (btnLastPage->Update(event, currentPage) ||
+    if (btnPreviousPage->Update(event, currentPage) ||
         btnNextPage->Update(event, currentPage))
         LoadCharactersData();
     for (int i = 0; i < NUM_OF_ROWS; i++)
@@ -164,5 +164,5 @@ void CharacterSet::Draw(RenderWindow& window)
     for (auto& character : characters)
         character->Draw(window);
     btnNextPage->Draw(window);
-    btnLastPage->Draw(window);
+    btnPreviousPage->Draw(window);
 }

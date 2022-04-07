@@ -15,7 +15,7 @@ void UserBoard::Capture()
     if (drawingTex.getTexture().copyToImage().saveToFile(DRAWINGS + charFilename))
     {
         cout << FILE_SAVED_TO << DRAWINGS << charFilename << endl;
-        // Creates a copy of the filename and changes it to a .dat file
+        // Creates a copy of the filename and changes it to a .txt4 file
         string txtName = charFilename;
         txtName.replace(txtName.find_last_of("."), txtName.length(), FILE_TYPE);
         txtName = BINARIES + txtName;

@@ -21,6 +21,7 @@ public:
 	bool SetText(string text, string fontPath, int textSize, Color textColor = Color::Black, TextOrigin textOrigin = CENTER);
 	bool SetText(string text, Font* font, int textSize, Color textColor = Color::Black, TextOrigin textOrigin = CENTER);
 	bool SetText(string text, Color textColor);
+	bool SetRotation(float rotation);
 	bool SetSprite(string filename);
 	bool SetShapeTex(string filename);
 	bool SetPosition(Vector2f newPos);
@@ -28,7 +29,7 @@ public:
 	FloatRect GetTextBounds() { return this->text.getLocalBounds(); };
 	bool SetTextMargin(Margin marginDirection, float margin);
 	void Move(Vector2f offset);
-
+	virtual ~UIElement();
 	virtual void Draw(RenderWindow& window) = 0;
 private:
 	void InitElementTypes();

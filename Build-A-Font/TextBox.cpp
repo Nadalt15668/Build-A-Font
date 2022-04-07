@@ -133,4 +133,11 @@ void TextBox::Update(Event& event)
 	}
 }
 
+TextBox::~TextBox()
+{
+	delete font;
+	delete btnTextBox;
+	delete lastInputClock;
+}
+
 

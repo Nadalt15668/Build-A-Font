@@ -157,6 +157,7 @@
     <ClCompile Include="CharsDrawingPage.cpp" />
     <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="DrawingBoard.cpp" />
+    <ClCompile Include="MenuDialog.cpp" />
     <ClCompile Include="StartProgramDialog.cpp" />
     <ClCompile Include="FileDialog.cpp" />
     <ClCompile Include="Program.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Dialog.h" />
     <ClInclude Include="DrawingBoard.h" />
+    <ClInclude Include="MenuDialog.h" />
     <ClInclude Include="StartProgramDialog.h" />
     <ClInclude Include="FileDialog.h" />
     <ClInclude Include="Program.h" />

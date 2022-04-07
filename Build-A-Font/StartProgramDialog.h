@@ -22,21 +22,22 @@ class StartProgramDialog :
 {
 public:
     StartProgramDialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, DrawingPagePars* parameters,
-        string dialogTitle = "", Color bgroundColor = DEFAULT_DIALOG_COLOR);
+        IShellItem**chosenItem, string dialogTitle = "", Color bgroundColor = DEFAULT_DIALOG_COLOR);
     void Draw();
     void Move(Vector2f offset);
-    void Update(Event& event);
+    bool Update(Event& event);
+    ~StartProgramDialog();
 
 private:
-    sf::Text* sttcNewFileName;
     sf::Text* sttcOr;
-    TextBox* newFileName;
+    sf::Text* sttcStartNewProj;
     sf::Text* chosenFileName;
-    Button<string&, sf::Text*&>* btnChooseFile;
-    Button<string&, sf::Text*&>* btnCancelChoice;
+    Button<string&, IShellItem**, sf::Text*&>* btnChooseFile;
+    Button<string&, IShellItem**, sf::Text*&>* btnCancelChoice;
     Button<DrawingPagePars*>* btnUserProgram;
     Button<DrawingPagePars*>* btnAIProgram;
     DrawingPagePars* parameters;
+    IShellItem** chosenItem;
     string filePath;
 };
 

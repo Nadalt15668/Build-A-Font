@@ -70,7 +70,9 @@ public:
     IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize*, DWORD, BOOL);
     IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD);
     static HRESULT CDialogEventHandler_CreateInstance(REFIID riid, void** ppv);
-    static string ChooseFromFolder();
+    static string ChooseFile(IShellItem*& chosenItem);
+    static string ChooseFolder();
+
     CDialogEventHandler() : _cRef(1) { };
 private:
     ~CDialogEventHandler() { };

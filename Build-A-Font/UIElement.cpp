@@ -112,6 +112,12 @@ bool UIElement::SetText(string text, Color textColor)
 	return true;
 }
 
+bool UIElement::SetRotation(float rotation)
+{
+	this->shape->setRotation(rotation);
+	return true;
+}
+
 bool UIElement::SetSprite(string filename)
 {
 	Texture* texture = new Texture();
@@ -190,5 +196,11 @@ void UIElement::Move(Vector2f offset)
 		this->sprite.move(offset);
 	if (this->elementTypes.at(ElementType::Text))
 		this->text.move(offset);
+}
+
+UIElement::~UIElement()
+{
+	if (this->elementTypes.at(ElementType::Shape))
+		delete shape;
 }
 

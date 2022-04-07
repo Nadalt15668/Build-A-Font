@@ -22,5 +22,6 @@ private:
 	RenderWindow* currentWindow;
 	Screen* currentPage;
 	map<string, Screen*> screens;
+	IShellItem* chosenItem;
 };
 

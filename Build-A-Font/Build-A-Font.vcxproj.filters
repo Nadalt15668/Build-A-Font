@@ -96,6 +96,9 @@
     <ClCompile Include="FileDialog.cpp">
       <Filter>Windows\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MenuDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brush.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="FileDialog.h">
       <Filter>Windows\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuDialog.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

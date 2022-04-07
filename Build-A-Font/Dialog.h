@@ -15,11 +15,12 @@ public:
     Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor);
     virtual void Draw() = 0;
     virtual void Move(Vector2f offset) = 0;
+    virtual bool Update(Event& event) = 0;
     void OpenDialog(bool& isInteractable);
     Vector2f CalculateStartingOffset();
     void CheckForDragging(Event& event);
     bool isDialogOpen() { return this->isOpen; };
-    ~Dialog();
+   virtual ~Dialog();
 private:
     void ResetLastPos() { this->lastMouseHeldPos = Vector2f(0, 0); };
 protected:

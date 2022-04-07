@@ -12,15 +12,15 @@
 #define CHARACTER_X_AXIS {150, 290, 430, 570, 710, 850, 990, 1130} 
 // If changing quantity, also change udner - Character Set - NUM_OF_ROWS
 #define CHARACTER_Y_AXIS {(PROGRAM_DIM.y / 5) * 3.5f, (PROGRAM_DIM.y / 5) * 3.5f + PROGRAM_DIM.y / 6} 
-#define NXT_PGE_POS Vector2f(1220, (PROGRAM_DIM.y / 15) * 12)
-#define LST_PGE_POS Vector2f(60, (PROGRAM_DIM.y / 15) * 12)
+#define NXT_CHR_PGE_POS Vector2f(1220, (PROGRAM_DIM.y / 15) * 11.8)
+#define PRVS_CHR_PGE_POS Vector2f(60, (PROGRAM_DIM.y / 15) * 11.8)
 #define LOGO_POS Vector2f(PROGRAM_DIM.x / 2, PROGRAM_DIM.x / 7)
 #define TITLE_POS Vector2f(PROGRAM_DIM.x / 2, PROGRAM_DIM.x / 3.5)
 #define CAPTURE_POS Vector2f(PROGRAM_DIM.x / 2 - DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65)
 #define CLEAR_POS Vector2f(PROGRAM_DIM.x / 2 + DEFAULT_BUTTON_DIM.x / 2.2, (PROGRAM_DIM.y / 3) * 1.65)
 #define TOP_LEFT_BTN_POS Vector2f(PROGRAM_DIM.x / 17, PROGRAM_DIM.y / 15)
 // ----- Sizes -----
-#define BRUSH_THICKNESS 4
+#define BRUSH_THICKNESS 5
 #define TEXTBOX_TEXT_SIZE 25
 // ----- Colors -----
 #define DEFAULT_GRAY_BGROUND Color(211, 211, 211)

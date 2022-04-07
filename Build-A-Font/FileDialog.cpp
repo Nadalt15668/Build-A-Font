@@ -167,11 +167,12 @@ HRESULT CDialogEventHandler::CDialogEventHandler_CreateInstance(REFIID riid, voi
     return hr;
 }
 
-string CDialogEventHandler::ChooseFromFolder()
+#define STR_BUFFER_SIZE 1024
+string CDialogEventHandler::ChooseFile(IShellItem*& chosenItem)
 
 {
     // CoCreate the File Open Dialog object.
-    char* path = (char*)calloc(512, sizeof(char));
+    char* path = new char[STR_BUFFER_SIZE];
     IFileDialog* pfd = NULL;
     HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
@@ -224,8 +225,9 @@ string CDialogEventHandler::ChooseFromFolder()
                                             hr = psiResult->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
                                             if (SUCCEEDED(hr))
                                             {
-                                                wcstombs(path, pszFilePath, 512);
+                                                wcstombs(path, pszFilePath, STR_BUFFER_SIZE);
                                                 CoTaskMemFree(pszFilePath);
+                                                chosenItem = psiResult;
                                             }
                                             psiResult->Release();
                                         }
@@ -242,5 +244,38 @@ string CDialogEventHandler::ChooseFromFolder()
         }
         pfd->Release();
     } 
-    return string(path);
+    string strPath(path);
+    delete[] path;
+    return strPath.substr(strPath.find_last_of('\\') + 1);
+}
+
+string CDialogEventHandler::ChooseFolder()
+{
+    IFileDialog* pfd;
+    char* path = new char[STR_BUFFER_SIZE];
+    if (SUCCEEDED(CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd))))
+    {
+        DWORD dwOptions;
+        if (SUCCEEDED(pfd->GetOptions(&dwOptions)))
+        {
+            pfd->SetOptions(dwOptions | FOS_PICKFOLDERS);
+        }
+        if (SUCCEEDED(pfd->Show(NULL)))
+        {
+            IShellItem* psi;
+            if (SUCCEEDED(pfd->GetResult(&psi)))
+            {
+                LPWSTR chosenPath;
+                if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &chosenPath)))
+                {
+                    wcstombs(path, chosenPath, STR_BUFFER_SIZE);
+                }
+                psi->Release();
+            }
+        }
+        pfd->Release();
+    }
+    string strPath(path);
+    delete[] path;
+    return strPath;
 }

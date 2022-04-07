@@ -21,7 +21,7 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 	object.setPosition(pos);
 }
 
-void StartProgram(StartProgramDialog*& dialog, RenderWindow*& window, module_*& pythonModule, map<string, Screen*>*& screens,
+void StartProgram(StartProgramDialog*& dialog,IShellItem** chosenItem, RenderWindow*& window, module_*& pythonModule, map<string, Screen*>*& screens,
 	Screen**& currentScreen)
 {
 	//ButtonParameters parameters = {window, pythonModule, screens, currentScreen };
@@ -30,7 +30,7 @@ void StartProgram(StartProgramDialog*& dialog, RenderWindow*& window, module_*& 
 	parameters->pythonModule = &pythonModule;
 	parameters->screens = &screens;
 	parameters->currentScreen = &currentScreen;
-	dialog = new StartProgramDialog(*window, *currentScreen, Vector2f(500, 400), parameters, "Empty Dialog");
+	dialog = new StartProgramDialog(*window, *currentScreen, Vector2f(500, 400), parameters, chosenItem, "Create Or Load Project");
 	dialog->OpenDialog((*currentScreen)->GetInteractability());
 }
 
@@ -40,8 +40,9 @@ void QuitProgram()
 }
 
 
-OpeningPage::OpeningPage(RenderWindow& window, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
+OpeningPage::OpeningPage(RenderWindow& window, IShellItem** chosenItem, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
+	this->chosenItem = chosenItem;
 	// Attributes for screen buttons
 	this->pythonModule = &pythonModule;
 	this->screens = &screens;
@@ -59,7 +60,7 @@ OpeningPage::OpeningPage(RenderWindow& window, module_& pythonModule, map<string
 	this->title.setOutlineThickness(5);
 	SetCommonAttributes(this->title, TITLE_POS);
 	// Initiating navigation buttons
-	btnStartProgram = new Button<StartProgramDialog*&, RenderWindow*&, module_*&, map<string, Screen*>*&, Screen**&>(window,
+	btnStartProgram = new Button<StartProgramDialog*&, IShellItem**,RenderWindow*&, module_*&, map<string, Screen*>*&, Screen**&>(window,
 		Vector2f(PROGRAM_DIM.x / 2, (PROGRAM_DIM.y / 1.5)), &StartProgram, new RectangleShape(Vector2f(140, 60)));
 	btnStartProgram->AddText("Start", 35);
 
@@ -82,9 +83,16 @@ void OpeningPage::Update(Event& event)
 {
 	if (isInteractable == true)
 	{
-		btnStartProgram->Update(event, this->dialogTest, this->window, this->pythonModule, this->screens, this->currentScreen);
+		btnStartProgram->Update(event, this->dialogTest, this->chosenItem, this->window, this->pythonModule, this->screens, this->currentScreen);
 		btnQuitProgram->Update(event);
 	}
 	if (dialogTest != nullptr)
-		dialogTest->Update(event);
+	{
+		if (!dialogTest->Update(event))
+		{
+			delete dialogTest;
+			dialogTest = nullptr;
+			isInteractable = true;
+		}
+	}
 }

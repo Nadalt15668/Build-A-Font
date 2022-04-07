@@ -29,6 +29,6 @@ private:
 	vector<RectangleShape>* currentLines;
 	map<string, string> drawingFilenames;
 	Button<int&>* btnNextPage;
-	Button<int&>* btnLastPage;
+	Button<int&>* btnPreviousPage;
 };
 
