@@ -13,6 +13,6 @@ public:
 	virtual void Update(Event& event) = 0;
 	bool& GetInteractability() { return isInteractable; };
 protected:
-	bool isInteractable = false;
+	bool isInteractable = true;
 };
 

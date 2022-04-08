@@ -17,11 +17,7 @@ using namespace std;
 
 const COMDLG_FILTERSPEC c_rgSaveTypes[] =
 {
-    {L"Word Document (*.doc; *.docx)",  L"*.doc;*.docx"},
-    {L"Powerpoint Presentation (*.ppt; *.pptx)",  L"*.ppt;*.pptx"},
-    {L"Web Page (*.htm; *.html)",       L"*.htm;*.html"},
-    {L"Text Document (*.txt)",          L"*.txt"},
-    {L"All Documents (*.*)",            L"*.*"}
+    {L"Build-A-Font Document (*.baf)", L"*.baf"}
 };
 
 // Indices of file types
@@ -71,6 +67,8 @@ public:
     IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD);
     static HRESULT CDialogEventHandler_CreateInstance(REFIID riid, void** ppv);
     static string ChooseFile(IShellItem*& chosenItem);
+    static HRESULT SaveFileAs(PWSTR fileData, IShellItem* chosenItem);
+    static HRESULT SaveChanges(PWSTR fileData, IShellItem* chosenItem);
     static string ChooseFolder();
 
     CDialogEventHandler() : _cRef(1) { };

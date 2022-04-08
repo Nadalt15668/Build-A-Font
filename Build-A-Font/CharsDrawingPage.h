@@ -3,6 +3,7 @@
 #include "Button.h"
 #include "UserBoard.h"
 #include "CharacterSet.h"
+#include "MenuDialog.h"
 
 using namespace sf;
 using namespace std;
@@ -11,7 +12,7 @@ class CharsDrawingPage :
     public Screen
 {
 public:
-    CharsDrawingPage(RenderWindow& window, bool isUser, module_& pythonModule,
+    CharsDrawingPage(RenderWindow& window, IShellItem** chosenItem, bool isUser, module_& pythonModule,
         map<string, Screen*>& screens, Screen*& currentScreen);
     void Draw();
     void Update(Event& event);
@@ -23,7 +24,11 @@ private:
     Screen** currentScreen;
     Button<DrawingBoard&>* btnClearBoard;
     Button<DrawingBoard&, CharacterSet&>* btnCaptureBoard;
+    Button<MenuDialog**, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
+        Vector2f, string>* btnLaunchMenu;
+    MenuDialog* menuDialog = nullptr;
     Button<map<string, Screen*>&, Screen*&>* btnToStartPage;
     CharacterSet* characterSet;
+    IShellItem** chosenItem;
 };
 

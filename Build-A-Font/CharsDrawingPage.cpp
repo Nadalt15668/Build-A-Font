@@ -13,11 +13,19 @@ void ToStartPage(map<string, Screen*>& screens, Screen*& currentScreen)
 {
     currentScreen = screens[STARTING_PAGE];
 }
+void LaunchMenu(MenuDialog** menuDialog, RenderWindow& window, CharacterSet** characterSet, IShellItem** chosenItem,
+    Screen*& parentScreen, Vector2f size, string dialogTitle)
+{
+    *menuDialog = new MenuDialog(window, characterSet, chosenItem, parentScreen, size, dialogTitle);
+    (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
+}
 
 
-CharsDrawingPage::CharsDrawingPage(RenderWindow& window, bool isUser, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen) 
+CharsDrawingPage::CharsDrawingPage(RenderWindow& window, IShellItem** chosenItem,
+    bool isUser, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen) 
     : Screen()
 {
+    this->chosenItem = chosenItem;
     this->window = &window;
     if (isUser)
         drawingBoard = new UserBoard
@@ -41,6 +49,9 @@ CharsDrawingPage::CharsDrawingPage(RenderWindow& window, bool isUser, module_& p
     btnCaptureBoard = new Button<DrawingBoard&, CharacterSet&>(window, CAPTURE_POS, &CaptureBoard,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
     btnToStartPage = new Button<map<string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &ToStartPage, new RectangleShape(Vector2f(50, 50)), DEFAULT_GRAY_BGROUND);
+    btnLaunchMenu = new Button< MenuDialog**, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
+        Vector2f, string>(window, Vector2f(PROGRAM_DIM.x / 17 * 16, PROGRAM_DIM.y / 15), &LaunchMenu, new RectangleShape(Vector2f(50, 50)));
+    btnLaunchMenu->SetShapeTex("Assets/menu.png");
     btnToStartPage->SetShapeTex("Assets/back_arrow.png");
     btnClearBoard->AddText("CLEAR", 30);
     btnCaptureBoard->AddText("CAPTURE", 30);
@@ -54,13 +65,30 @@ void CharsDrawingPage::Draw()
     this->btnClearBoard->Draw(*this->window);
     this->btnToStartPage->Draw(*this->window);
     this->characterSet->Draw(*this->window);
+    this->btnLaunchMenu->Draw(*this->window);
+    if (menuDialog != nullptr)
+        menuDialog->Draw();
 }
 
 void CharsDrawingPage::Update(Event& event)
 {
-    drawingBoard->Update(event);
-    btnCaptureBoard->Update(event, *this->drawingBoard, *this->characterSet);
-    btnClearBoard->Update(event, *this->drawingBoard);
-    characterSet->Update(event, *this->drawingBoard);
-    btnToStartPage->Update(event, *this->screens, *this->currentScreen);
+    if (isInteractable)
+    {
+        drawingBoard->Update(event);
+        btnCaptureBoard->Update(event, *this->drawingBoard, *this->characterSet);
+        btnClearBoard->Update(event, *this->drawingBoard);
+        characterSet->Update(event, *this->drawingBoard);
+        btnToStartPage->Update(event, *this->screens, *this->currentScreen);
+        this->btnLaunchMenu->Update(event, &menuDialog, *window, &characterSet, chosenItem,
+            *currentScreen, Vector2f(270, 350), "Menu");
+    }
+    if (menuDialog != nullptr)
+    {
+        if (!menuDialog->Update(event))
+        {
+            delete menuDialog;
+            menuDialog = nullptr;
+            isInteractable = true;
+        }
+    }
 }

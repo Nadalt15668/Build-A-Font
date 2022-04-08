@@ -22,16 +22,16 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 }
 
 void StartProgram(StartProgramDialog*& dialog,IShellItem** chosenItem, RenderWindow*& window, module_*& pythonModule, map<string, Screen*>*& screens,
-	Screen**& currentScreen)
+	Screen**& parentScreen)
 {
 	//ButtonParameters parameters = {window, pythonModule, screens, currentScreen };
 	DrawingPagePars* parameters = (DrawingPagePars*)malloc(sizeof(DrawingPagePars));
 	parameters->window = &window;
 	parameters->pythonModule = &pythonModule;
 	parameters->screens = &screens;
-	parameters->currentScreen = &currentScreen;
-	dialog = new StartProgramDialog(*window, *currentScreen, Vector2f(500, 400), parameters, chosenItem, "Create Or Load Project");
-	dialog->OpenDialog((*currentScreen)->GetInteractability());
+	parameters->currentScreen = &parentScreen;
+	dialog = new StartProgramDialog(*window, *parentScreen, Vector2f(500, 400), parameters, "Create Or Load Project");
+	dialog->OpenDialog((*parentScreen)->GetInteractability());
 }
 
 void QuitProgram()

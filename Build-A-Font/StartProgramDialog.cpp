@@ -43,7 +43,7 @@ void CancelChoice(string& filePath, IShellItem** chosenItem, sf::Text*& chosenFi
 
 void StartUserProgram(DrawingPagePars* parameters)
 {
-	Screen* userProgram = new CharsDrawingPage(**(parameters->window), true,
+	Screen* userProgram = new CharsDrawingPage(**(parameters->window), parameters->chosenItem, true,
 		**(parameters->pythonModule), **(parameters->screens), **(parameters->currentScreen));
 	(*(parameters->screens))->insert_or_assign(CHARS_DRAWING_PAGE, userProgram);
 	**(parameters->currentScreen) = userProgram;
@@ -52,11 +52,12 @@ void StartUserProgram(DrawingPagePars* parameters)
 
 void StartAIProgram(DrawingPagePars* parameters)
 {
-	Screen* aiProgram = new CharsDrawingPage(**(parameters->window), false,
+	Screen* aiProgram = new CharsDrawingPage(**(parameters->window), parameters->chosenItem, false,
 		**(parameters->pythonModule), **(parameters->screens), **(parameters->currentScreen));
 	(*(parameters->screens))->insert_or_assign(CHARS_DRAWING_PAGE, aiProgram);
 	**(parameters->currentScreen) = aiProgram;
 }
+
 void InitiateSttcCreatProj(Font*& font, sf::Text*& sttcCreateProj, FloatRect dialogBground, Vector2f& startingOffset)
 {
 	sttcCreateProj = new sf::Text("Start a new project:", *font, 50);
@@ -118,25 +119,25 @@ void InitiateBtnAIProgram(DrawingPagePars* parameters, Button<DrawingPagePars*>*
 }
 
 StartProgramDialog::StartProgramDialog(RenderWindow& window, Screen*& parentScreen, Vector2f size,
-	DrawingPagePars* parameters, IShellItem** chosenItem, string dialogTitle, Color bgroundColor) :
+	DrawingPagePars* parameters, string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
 	this->parameters = parameters;
-	this->chosenItem = chosenItem;
 	Vector2f startingOffset = CalculateStartingOffset();
+	FloatRect bgroundRect = this->dialogBground->getLocalBounds();
 	Font* font = new Font();
 	if (!font->loadFromFile(DEFAULT_FONTPATH))
 	{
 		// Handle Errors
 		exit(0);
 	}
-	InitiateSttcCreatProj(font, this->sttcStartNewProj, this->dialogBground->getLocalBounds(), startingOffset);
+	InitiateSttcCreatProj(font, this->sttcStartNewProj, bgroundRect, startingOffset);
 	InitiateSttcOr(font, sttcOr, dialogBground->getLocalBounds(), startingOffset);
-	InitiateBtnChooseFile(window, this->btnChooseFile, this->dialogBground->getLocalBounds(), startingOffset);
-	InitiateBtnCancelChoice(window, this->btnCancelChoice, this->dialogBar->getLocalBounds(), startingOffset);
-	InitiateTxtChosenFile(font, this->chosenFileName, this->dialogBground->getLocalBounds(), startingOffset);
-	InitiateBtnUserProgram(parameters, this->btnUserProgram, this->dialogBground->getLocalBounds(), startingOffset);
-	InitiateBtnAIProgram(parameters, this->btnAIProgram, this->dialogBground->getLocalBounds(), startingOffset);
+	InitiateBtnChooseFile(window, this->btnChooseFile, bgroundRect, startingOffset);
+	InitiateBtnCancelChoice(window, this->btnCancelChoice, bgroundRect, startingOffset);
+	InitiateTxtChosenFile(font, this->chosenFileName, bgroundRect, startingOffset);
+	InitiateBtnUserProgram(parameters, this->btnUserProgram, bgroundRect, startingOffset);
+	InitiateBtnAIProgram(parameters, this->btnAIProgram, bgroundRect, startingOffset);
 }
 
 void StartProgramDialog::Draw()
@@ -173,8 +174,8 @@ bool StartProgramDialog::Update(Event& event)
 		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()))
 			return false;
 		CheckForDragging(event);
-		btnChooseFile->		Update(event, filePath, chosenItem, chosenFileName);
-		btnCancelChoice->	Update(event, filePath, chosenItem, chosenFileName);
+		btnChooseFile->		Update(event, filePath, parameters->chosenItem, chosenFileName);
+		btnCancelChoice->	Update(event, filePath, parameters->chosenItem, chosenFileName);
 		if (btnUserProgram->Update(event, parameters) ||
 			btnAIProgram->	Update(event, parameters))
 			return false;

@@ -1,5 +1,52 @@
 #include "FileDialog.h"
 
+HRESULT _WriteDataToFile(HANDLE hFile, PCWSTR pszDataIn)
+{
+    // First figure out our required buffer size.
+    DWORD cbData = WideCharToMultiByte(CP_ACP, 0, pszDataIn, -1, NULL, 0, NULL, NULL);
+    HRESULT hr = (cbData == 0) ? HRESULT_FROM_WIN32(GetLastError()) : S_OK;
+    if (SUCCEEDED(hr))
+    {
+        // Now allocate a buffer of the required size, and call WideCharToMultiByte again to do the actual conversion.
+        char* pszData = new (std::nothrow) CHAR[cbData];
+        hr = pszData ? S_OK : E_OUTOFMEMORY;
+        if (SUCCEEDED(hr))
+        {
+            hr = WideCharToMultiByte(CP_ACP, 0, pszDataIn, -1, pszData, cbData, NULL, NULL)
+                ? S_OK
+                : HRESULT_FROM_WIN32(GetLastError());
+            if (SUCCEEDED(hr))
+            {
+                DWORD dwBytesWritten = 0;
+                hr = WriteFile(hFile, pszData, cbData - 1, &dwBytesWritten, NULL)
+                    ? S_OK
+                    : HRESULT_FROM_WIN32(GetLastError());
+            }
+            delete[] pszData;
+        }
+    }
+    return hr;
+}
+
+HRESULT _WriteDataToCustomFile(PCWSTR pszFileName, PCWSTR pszFileData)
+{
+    HANDLE hFile = CreateFileW(pszFileName,
+        GENERIC_READ | GENERIC_WRITE,
+        FILE_SHARE_READ,
+        NULL,
+        CREATE_ALWAYS,  // Let's always create this file.
+        FILE_ATTRIBUTE_NORMAL,
+        NULL);
+
+    HRESULT hr = (hFile == INVALID_HANDLE_VALUE) ? HRESULT_FROM_WIN32(GetLastError()) : S_OK;
+    if (SUCCEEDED(hr))
+    {
+        hr = _WriteDataToFile(hFile, pszFileData);
+        CloseHandle(hFile);
+    }
+    return hr;
+}
+
 IFACEMETHODIMP CDialogEventHandler::QueryInterface(REFIID riid, void** ppv)
 {
     static const QITAB qit[] = {
@@ -249,6 +296,82 @@ string CDialogEventHandler::ChooseFile(IShellItem*& chosenItem)
     return strPath.substr(strPath.find_last_of('\\') + 1);
 }
 
+HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem* chosenItem)
+{
+    // CoCreate the File Open Dialog object.
+    IFileSaveDialog* pfsd;
+    HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
+    if (SUCCEEDED(hr))
+    {
+        // Set the file types to display.
+        hr = pfsd->SetFileTypes(ARRAYSIZE(c_rgSaveTypes), c_rgSaveTypes);
+        if (SUCCEEDED(hr))
+        {
+            hr = pfsd->SetFileTypeIndex(0);
+            if (SUCCEEDED(hr))
+            {
+                // Set default file extension.
+                hr = pfsd->SetDefaultExtension(L"baf");
+                if (SUCCEEDED(hr))
+                {
+                    // Ensure the dialog only returns items that can be represented by file system paths.
+                    DWORD dwFlags;
+                    hr = pfsd->GetOptions(&dwFlags);
+                    if (SUCCEEDED(hr))
+                    {
+                        hr = pfsd->SetOptions(dwFlags | FOS_FORCEFILESYSTEM);
+                    }
+                }
+            }
+        }
+    }
+
+    if (SUCCEEDED(hr))
+    {
+        if (chosenItem != nullptr)
+            hr = pfsd->SetSaveAsItem(chosenItem);
+        // Now show the dialog.
+        hr = pfsd->Show(NULL);
+        if (SUCCEEDED(hr))
+        {
+            IShellItem* psiResult;
+            hr = pfsd->GetResult(&psiResult);
+            if (SUCCEEDED(hr))
+            {
+                // Get the path to the file.
+                PWSTR pszNewFileName;
+                hr = psiResult->GetDisplayName(SIGDN_FILESYSPATH, &pszNewFileName);
+                if (SUCCEEDED(hr))
+                {
+                    // Write data to the file.
+                    hr = _WriteDataToCustomFile(pszNewFileName, fileData);
+                    CoTaskMemFree(pszNewFileName);
+                }
+                psiResult->Release();
+            }
+        }
+    }
+    pfsd->Release();
+    return hr;
+}
+HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem* chosenItem)
+{
+    HRESULT hr;
+    if (chosenItem != nullptr)
+    {
+        PWSTR pszNewFileName;
+        hr = chosenItem->GetDisplayName(SIGDN_FILESYSPATH, &pszNewFileName);
+        if (SUCCEEDED(hr))
+        {
+            // Write data to the file.
+            hr = _WriteDataToCustomFile(pszNewFileName, fileData);
+            CoTaskMemFree(pszNewFileName);
+        }
+    }
+    else
+        hr = SaveFileAs(fileData, chosenItem);
+    return hr;
+}
 string CDialogEventHandler::ChooseFolder()
 {
     IFileDialog* pfd;

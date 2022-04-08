@@ -15,6 +15,7 @@ typedef struct DrawingPagePars
     module_** pythonModule;
     map<string, Screen*>** screens;
     Screen*** currentScreen;
+    IShellItem** chosenItem;
 }DrawingPagePars;
 
 class StartProgramDialog :
@@ -22,7 +23,7 @@ class StartProgramDialog :
 {
 public:
     StartProgramDialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, DrawingPagePars* parameters,
-        IShellItem**chosenItem, string dialogTitle = "", Color bgroundColor = DEFAULT_DIALOG_COLOR);
+        string dialogTitle = "", Color bgroundColor = DEFAULT_DIALOG_COLOR);
     void Draw();
     void Move(Vector2f offset);
     bool Update(Event& event);
@@ -37,7 +38,6 @@ private:
     Button<DrawingPagePars*>* btnUserProgram;
     Button<DrawingPagePars*>* btnAIProgram;
     DrawingPagePars* parameters;
-    IShellItem** chosenItem;
     string filePath;
 };
 
