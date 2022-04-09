@@ -21,7 +21,7 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 	object.setPosition(pos);
 }
 
-void StartProgram(StartProgramDialog*& dialog,IShellItem** chosenItem, RenderWindow*& window, module_*& pythonModule, map<string, Screen*>*& screens,
+void StartProgram(StartProgramDialog*& dialog,IShellItem** loadedProject, RenderWindow*& window, module_*& pythonModule, map<string, Screen*>*& screens,
 	Screen**& parentScreen)
 {
 	//ButtonParameters parameters = {window, pythonModule, screens, currentScreen };
@@ -40,9 +40,9 @@ void QuitProgram()
 }
 
 
-OpeningPage::OpeningPage(RenderWindow& window, IShellItem** chosenItem, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
+OpeningPage::OpeningPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
-	this->chosenItem = chosenItem;
+	this->loadedProject = loadedProject;
 	// Attributes for screen buttons
 	this->pythonModule = &pythonModule;
 	this->screens = &screens;
@@ -83,7 +83,7 @@ void OpeningPage::Update(Event& event)
 {
 	if (isInteractable == true)
 	{
-		btnStartProgram->Update(event, this->dialogTest, this->chosenItem, this->window, this->pythonModule, this->screens, this->currentScreen);
+		btnStartProgram->Update(event, this->dialogTest, this->loadedProject, this->window, this->pythonModule, this->screens, this->currentScreen);
 		btnQuitProgram->Update(event);
 	}
 	if (dialogTest != nullptr)

@@ -12,7 +12,7 @@ public:
     void CreateLine();
     void Update(Event& event);
     void RemoveBackground();
-    void SetCurrentCharacter(string templateFilename, vector<RectangleShape>& mainLines, string charFilename);
+    void SetCurrentCharacter(string templateFilename, vector<RectangleShape>& mainLines);
     void Draw();
     void Clear();
 protected:
@@ -20,7 +20,7 @@ protected:
     RenderTexture drawingTex;
     RenderWindow* window;
     Brush brush;
-    string templateFilename, charFilename;
+    string templateFilename;
     vector<RectangleShape> mainLines; // Actual mouse input
     vector<RectangleShape> texLines; // Lines for final character output
     vector<RectangleShape> viewLines; //Lines in the View

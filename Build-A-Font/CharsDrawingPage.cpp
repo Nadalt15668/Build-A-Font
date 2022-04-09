@@ -7,25 +7,25 @@ void ClearBoard(DrawingBoard& drawingBoard)
 void CaptureBoard(DrawingBoard& drawingBoard, CharacterSet& characterSet)
 {
     drawingBoard.Capture();
-    characterSet.LoadCharactersData();
+    characterSet.ReadProjectFile();
 }
 void ToStartPage(map<string, Screen*>& screens, Screen*& currentScreen)
 {
     currentScreen = screens[STARTING_PAGE];
 }
-void LaunchMenu(MenuDialog** menuDialog, RenderWindow& window, CharacterSet** characterSet, IShellItem** chosenItem,
+void LaunchMenu(MenuDialog** menuDialog, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
     Screen*& parentScreen, Vector2f size, string dialogTitle)
 {
-    *menuDialog = new MenuDialog(window, characterSet, chosenItem, parentScreen, size, dialogTitle);
+    *menuDialog = new MenuDialog(window, characterSet, loadedProject, parentScreen, size, dialogTitle);
     (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
 
-CharsDrawingPage::CharsDrawingPage(RenderWindow& window, IShellItem** chosenItem,
+CharsDrawingPage::CharsDrawingPage(RenderWindow& window, IShellItem** loadedProject,
     bool isUser, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen) 
     : Screen()
 {
-    this->chosenItem = chosenItem;
+    this->loadedProject = loadedProject;
     this->window = &window;
     if (isUser)
         drawingBoard = new UserBoard
@@ -42,8 +42,7 @@ CharsDrawingPage::CharsDrawingPage(RenderWindow& window, IShellItem** chosenItem
     else {/*Anitiating AIBoard Instead*/ }
     this->screens = &screens;
     this->currentScreen = &currentScreen;
-    characterSet = new CharacterSet(window, pythonModule);
-    characterSet->LoadCharactersData();
+    characterSet = new CharacterSet(window, pythonModule, loadedProject);
     btnClearBoard = new Button<DrawingBoard&>(window, CLEAR_POS, &ClearBoard,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
     btnCaptureBoard = new Button<DrawingBoard&, CharacterSet&>(window, CAPTURE_POS, &CaptureBoard,
@@ -79,7 +78,7 @@ void CharsDrawingPage::Update(Event& event)
         btnClearBoard->Update(event, *this->drawingBoard);
         characterSet->Update(event, *this->drawingBoard);
         btnToStartPage->Update(event, *this->screens, *this->currentScreen);
-        this->btnLaunchMenu->Update(event, &menuDialog, *window, &characterSet, chosenItem,
+        this->btnLaunchMenu->Update(event, &menuDialog, *window, &characterSet, loadedProject,
             *currentScreen, Vector2f(270, 350), "Menu");
     }
     if (menuDialog != nullptr)

@@ -13,7 +13,7 @@ class OpeningPage :
     public Screen
 {
 public:
-    OpeningPage(RenderWindow& window, IShellItem** chosenItem, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen);
+    OpeningPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen);
     void Draw();
     void Update(Event& event);
 private:
@@ -26,6 +26,6 @@ private:
     Button<StartProgramDialog*&, IShellItem**, RenderWindow*&, module_*&, map<string, Screen*>*&, Screen**&>* btnStartProgram;
     Button<>* btnQuitProgram;
     StartProgramDialog* dialogTest = nullptr;
-    IShellItem** chosenItem;
+    IShellItem** loadedProject;
 };
 

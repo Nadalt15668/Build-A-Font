@@ -134,6 +134,16 @@ bool UIElement::SetSprite(string filename)
 	return true;
 }
 
+bool UIElement::SetSprite(Texture* texture)
+{
+	this->sprite.setTexture(*texture);
+	this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2,
+		this->sprite.getLocalBounds().height / 2);
+	this->SetPosition(this->pos);
+	this->elementTypes.insert_or_assign(ElementType::Sprite, true);
+	return true;
+}
+
 bool UIElement::SetShapeTex(string filename)
 {
 	Texture* texture = new Texture;

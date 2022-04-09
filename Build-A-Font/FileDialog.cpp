@@ -215,7 +215,7 @@ HRESULT CDialogEventHandler::CDialogEventHandler_CreateInstance(REFIID riid, voi
 }
 
 #define STR_BUFFER_SIZE 1024
-string CDialogEventHandler::ChooseFile(IShellItem*& chosenItem)
+string CDialogEventHandler::ChooseFile(IShellItem*& loadedProject)
 
 {
     // CoCreate the File Open Dialog object.
@@ -274,7 +274,7 @@ string CDialogEventHandler::ChooseFile(IShellItem*& chosenItem)
                                             {
                                                 wcstombs(path, pszFilePath, STR_BUFFER_SIZE);
                                                 CoTaskMemFree(pszFilePath);
-                                                chosenItem = psiResult;
+                                                loadedProject = psiResult;
                                             }
                                             psiResult->Release();
                                         }
@@ -296,7 +296,7 @@ string CDialogEventHandler::ChooseFile(IShellItem*& chosenItem)
     return strPath.substr(strPath.find_last_of('\\') + 1);
 }
 
-HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem* chosenItem)
+HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem* loadedProject)
 {
     // CoCreate the File Open Dialog object.
     IFileSaveDialog* pfsd;
@@ -328,8 +328,8 @@ HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem* chosenItem)
 
     if (SUCCEEDED(hr))
     {
-        if (chosenItem != nullptr)
-            hr = pfsd->SetSaveAsItem(chosenItem);
+        if (loadedProject != nullptr)
+            hr = pfsd->SetSaveAsItem(loadedProject);
         // Now show the dialog.
         hr = pfsd->Show(NULL);
         if (SUCCEEDED(hr))
@@ -354,13 +354,13 @@ HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem* chosenItem)
     pfsd->Release();
     return hr;
 }
-HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem* chosenItem)
+HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem* loadedProject)
 {
     HRESULT hr;
-    if (chosenItem != nullptr)
+    if (loadedProject != nullptr)
     {
         PWSTR pszNewFileName;
-        hr = chosenItem->GetDisplayName(SIGDN_FILESYSPATH, &pszNewFileName);
+        hr = loadedProject->GetDisplayName(SIGDN_FILESYSPATH, &pszNewFileName);
         if (SUCCEEDED(hr))
         {
             // Write data to the file.
@@ -369,8 +369,14 @@ HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem* chosenItem)
         }
     }
     else
-        hr = SaveFileAs(fileData, chosenItem);
+        hr = SaveFileAs(fileData, loadedProject);
     return hr;
+}
+PWSTR CDialogEventHandler::StrToPWSTR(string fileData)
+{
+    PWSTR* returnedData = new PWSTR();
+    mbstowcs(*returnedData, fileData.c_str(), fileData.size());
+    return *returnedData;
 }
 string CDialogEventHandler::ChooseFolder()
 {

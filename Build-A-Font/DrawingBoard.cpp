@@ -63,17 +63,16 @@ void DrawingBoard::RemoveBackground()
 	this->shape->setTexture(nullptr);
 }
 
-void DrawingBoard::SetCurrentCharacter(string templateFilename, vector<RectangleShape>& mainLines, string charFilename)
+void DrawingBoard::SetCurrentCharacter(string templateFilename, vector<RectangleShape>& mainLines)
 {
+	// Sets the template as a background
 	string drawingTemplate = templateFilename;
 	string replacedDir = "CharacterTemplates";
 	drawingTemplate.replace(drawingTemplate.find_first_of("/") + 1, replacedDir.length(), "DrawingTemplates");
 	SetTemplate(drawingTemplate);
-	string drawingFilename = templateFilename;
-	drawingFilename.replace(0, drawingTemplate.find_last_of("/") + 3, "");
+	
 	this->templateFilename = drawingTemplate;
 	this->mainLines = mainLines;
-	this->charFilename = drawingFilename;
 }
 
 DrawingBoard::DrawingBoard(RenderWindow& window, Vector2f center,

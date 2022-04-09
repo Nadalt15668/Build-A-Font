@@ -18,7 +18,7 @@ Program::Program()
 void Program::InitScreensMap()
 {
     this->screens = {   {CHARS_DRAWING_PAGE, nullptr},
-                        {STARTING_PAGE, new OpeningPage(*this->currentWindow, &this->chosenItem,
+                        {STARTING_PAGE, new OpeningPage(*this->currentWindow, &this->loadedProject,
                             this->pythonModule, this->screens, this->currentPage)
                             }
                     };

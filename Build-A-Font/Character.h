@@ -10,17 +10,15 @@ public:
     Character(RenderWindow& window,
         Vector2f pos,
         sf::Shape* characterRect = new RectangleShape(Vector2f(CHARACTER_DIM.x / 2, CHARACTER_DIM.y / 2)));
-    void SetTemplateSprite(string templateFilename, vector<RectangleShape>& mainLines, string charFilename = "");
+    void SetCharacterData(string templateFilename, vector<RectangleShape>& mainLines);
     void Update(Event& event, DrawingBoard& board);
     void Draw(RenderWindow& window);
 private:
     sf::Shape& characterRect = *this->shape;
     vector<RectangleShape>* mainLines;
     string templateFilename;
-    string charFilename;
-    Button<DrawingBoard&, string, vector<RectangleShape>&, string>* btnCharacter;
+    Button<DrawingBoard&, string, vector<RectangleShape>&>* btnCharacter;
     Texture templateTex;
-    Texture characterTex;
-    sf::Sprite& characterSprite = this->sprite;
+    sf::Sprite& drawingSprite = sprite;
 };
 

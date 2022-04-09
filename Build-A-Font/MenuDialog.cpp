@@ -5,12 +5,12 @@ void btnFuncQuitProgram()
 	exit(0);
 }
 
-void btnFuncSaveChanges(IShellItem** chosenItem, CharacterSet** characterSet)
+void btnFuncSaveChanges(IShellItem** loadedProject, CharacterSet** characterSet)
 {
 
 }
 
-void btnFuncSaveAs(IShellItem** chosenItem, CharacterSet** characterSet)
+void btnFuncSaveAs(IShellItem** loadedProject, CharacterSet** characterSet)
 {
 
 }
@@ -58,11 +58,11 @@ void InitiateBtnQuitProgram(RenderWindow& window, Button<>** btnQuitProgram,
 }
 
 
-MenuDialog::MenuDialog(RenderWindow& window, CharacterSet** characterSet, IShellItem** chosenItem,
+MenuDialog::MenuDialog(RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
 	Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
-	this->chosenItem = chosenItem;
+	this->loadedProject = loadedProject;
 	this->characterSet = characterSet;
 	Vector2f startingOffset = CalculateStartingOffset();
 	FloatRect bgroundRect = this->dialogBground->getLocalBounds();
@@ -100,8 +100,8 @@ bool MenuDialog::Update(Event& event)
 		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()))
 			return false;
 		CheckForDragging(event);
-		btnSaveChanges->Update(event, chosenItem, characterSet);
-		btnSaveAs->Update(event, chosenItem, characterSet);
+		btnSaveChanges->Update(event, loadedProject, characterSet);
+		btnSaveAs->Update(event, loadedProject, characterSet);
 		btnExportFont->Update(event);
 		btnQuitProgram->Update(event);
 	}

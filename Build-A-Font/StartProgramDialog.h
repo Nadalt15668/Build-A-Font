@@ -15,7 +15,7 @@ typedef struct DrawingPagePars
     module_** pythonModule;
     map<string, Screen*>** screens;
     Screen*** currentScreen;
-    IShellItem** chosenItem;
+    IShellItem** loadedProject;
 }DrawingPagePars;
 
 class StartProgramDialog :

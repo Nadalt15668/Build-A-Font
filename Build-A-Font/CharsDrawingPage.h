@@ -12,7 +12,7 @@ class CharsDrawingPage :
     public Screen
 {
 public:
-    CharsDrawingPage(RenderWindow& window, IShellItem** chosenItem, bool isUser, module_& pythonModule,
+    CharsDrawingPage(RenderWindow& window, IShellItem** loadedProject, bool isUser, module_& pythonModule,
         map<string, Screen*>& screens, Screen*& currentScreen);
     void Draw();
     void Update(Event& event);
@@ -29,6 +29,6 @@ private:
     MenuDialog* menuDialog = nullptr;
     Button<map<string, Screen*>&, Screen*&>* btnToStartPage;
     CharacterSet* characterSet;
-    IShellItem** chosenItem;
+    IShellItem** loadedProject;
 };
 

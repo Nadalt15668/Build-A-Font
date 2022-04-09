@@ -66,9 +66,10 @@ public:
     IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize*, DWORD, BOOL);
     IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD);
     static HRESULT CDialogEventHandler_CreateInstance(REFIID riid, void** ppv);
-    static string ChooseFile(IShellItem*& chosenItem);
-    static HRESULT SaveFileAs(PWSTR fileData, IShellItem* chosenItem);
-    static HRESULT SaveChanges(PWSTR fileData, IShellItem* chosenItem);
+    static string ChooseFile(IShellItem*& loadedProject);
+    static HRESULT SaveFileAs(PWSTR fileData, IShellItem* loadedProject);
+    static HRESULT SaveChanges(PWSTR fileData, IShellItem* loadedProject);
+    static PWSTR StrToPWSTR(string fileData);
     static string ChooseFolder();
 
     CDialogEventHandler() : _cRef(1) { };

@@ -13,16 +13,15 @@ void LastPage(int& currentPage)
         currentPage = 4;
 }
 
-CharacterSet::CharacterSet(RenderWindow& window, module_& module)
+CharacterSet::CharacterSet(RenderWindow& window, module_& module, IShellItem** loadedProject)
 {
+    this->loadedProject = loadedProject;
+    this->pythonModule = module;
     btnNextPage = new Button<int&>(window, NXT_CHR_PGE_POS, &NextPage, new CircleShape(30, 3));
     btnNextPage->SetRotation(90);
     btnPreviousPage = new Button<int&>(window, PRVS_CHR_PGE_POS, &LastPage, new CircleShape(30, 3));
     btnPreviousPage->SetRotation(-90);
-    currentPage = 0;
-    pythonModule = module;
-    templateFilenames = FindTemplateNames();
-    FillMap();
+    CreateMaps();
     vector<float> x = CHARACTER_X_AXIS;
     vector<float> y = CHARACTER_Y_AXIS;
     for (int i = 0; i < y.size(); i++)
@@ -32,114 +31,62 @@ CharacterSet::CharacterSet(RenderWindow& window, module_& module)
             characters.push_back(new Character(window, Vector2f(x[j], y[i])));
         }
     }
+    auto FilenamesRetriever = pythonModule.attr("retrieve_clean_filenames");
+    pybind11::list filenamesPylist = FilenamesRetriever();
+    for (int i = 0; i < filenamesPylist.size(); i++)
+        mapsKeys.push_back(cast<string>(filenamesPylist[i]));
+    ReadProjectFile();
+    UpdateCharacters();
 }
 
-vector<string> CharacterSet::FindTemplateNames()
+void CharacterSet::CreateMaps()
 {
+    int index = 0;
     auto FilenamesRetriever = pythonModule.attr("retrieve_templates");
-    pybind11::list filenames_list = FilenamesRetriever();
-    vector<std::string> filenamesVector;
-    for (int i = 0; i < CHARACTERS_IN_SET; i++) // Adds characters
+    pybind11::list templatesPylist = FilenamesRetriever();
+    string filename;
+    for (index; index < CHARACTERS_IN_SET; index++) // Adds characters
     {
-        filenamesVector.push_back(TEMPLATES_CHARACTERS + (string)"Characters/" + cast<string>(filenames_list[i]));
-        drawingFilenames.insert_or_assign(cast<string>(filenames_list[i]), "");
+        filename = cast<string>(templatesPylist[index]);
+        filename.replace(filename.find_last_of('.'), 4, "");
+        templates.insert_or_assign(filename, TEMPLATES_CHARACTERS + 
+            (string)"Characters/" + filename + (string)".png");
+        charactersData.insert_or_assign(filename,  new vector<RectangleShape>);
     }
-    for (int i = CHARACTERS_IN_SET; i < CHARACTERS_IN_SET + NUMBERS_IN_SET; i++) // Adds numbers
+    for (index; index < CHARACTERS_IN_SET + NUMBERS_IN_SET; index++) // Adds numbers
     {
-        filenamesVector.push_back(TEMPLATES_CHARACTERS + (string)"Numbers/" + cast<string>(filenames_list[i]));
-        drawingFilenames.insert_or_assign(cast<string>(filenames_list[i]), "");
+        filename = cast<string>(templatesPylist[index]);
+        filename.replace(filename.find_last_of('.'), 4, "");
+        templates.insert_or_assign(filename, TEMPLATES_CHARACTERS + 
+            (string)"Numbers/" + filename + (string)".png");
+        charactersData.insert_or_assign(filename, new vector<RectangleShape>);
     }
-    for (int i = CHARACTERS_IN_SET + NUMBERS_IN_SET; i < TOTALS_IN_SET; i++) // Adds symbols
+    for (index; index < TOTALS_IN_SET; index++) // Adds symbols
     {
-        filenamesVector.push_back(TEMPLATES_CHARACTERS + (string)"Symbols/" + cast<string>(filenames_list[i]));
-        drawingFilenames.insert_or_assign(cast<string>(filenames_list[i]), "");
+        filename = cast<string>(templatesPylist[index]);
+        filename.replace(filename.find_last_of('.'), 4, "");
+        templates.insert_or_assign(filename, TEMPLATES_CHARACTERS + 
+            (string)"Symbols/" + filename + (string)".png");
+        charactersData.insert_or_assign(filename, new vector<RectangleShape>);
     }
-    return filenamesVector;
 }
 
-void CharacterSet::FillMap()
+void CharacterSet::ReadProjectFile()
 {
-    auto retrieveCharacters = pythonModule.attr("retrieve_characters");
-    pybind11::list characters_list = retrieveCharacters();
-    for (auto& character : characters_list)
-        drawingFilenames.insert_or_assign(cast<string>(character), cast<string>(character));
+    // Reads characters data from loadedProject
 }
 
-void ReadFromLinesFile(vector<RectangleShape>& mainLines, string filename)
-{
-    RectangleShape currentLine;
-    currentLine.setFillColor(Color::Black);
-    currentLine.setOrigin(Vector2f(0, BRUSH_THICKNESS / 2));
-    Vector2f info;
-    // Reading lines from file
-    filename = BINARIES + filename;
-    char* stringBuffer = (char*)malloc(10);
-    FILE* txtFile = fopen(filename.c_str(), "r");
-    if (txtFile == NULL)
-        cout << ERROR_WHILE_OPENING << endl;
-    else
-    {
-        while (!feof(txtFile))
-        {
-            // line.getSize().x
-            fgets(stringBuffer, 100, txtFile);
-            if (!feof(txtFile))
-            {
-                info.x = atof(stringBuffer);
-                // line.getSize().y
-                fgets(stringBuffer, 100, txtFile);
-                info.y = atof(stringBuffer);
-                currentLine.setSize(info);
-                // line.getPosition().x
-                fgets(stringBuffer, 100, txtFile);
-                info.x = atof(stringBuffer);
-                // line.getPosition().y
-                fgets(stringBuffer, 100, txtFile);
-                info.y = atof(stringBuffer);
-                currentLine.setPosition(info);
-                // line.getRotation()
-                fgets(stringBuffer, 100, txtFile);
-                info.x = atof(stringBuffer);
-                currentLine.setRotation(info.x);
-                mainLines.push_back(currentLine);
-            }
-            else
-                break;
-        }
-    }
-    fclose(txtFile);
-}
 
-void CharacterSet::LoadCharactersData()
+void CharacterSet::UpdateCharacters()
 {
-    FillMap();
+#define LOCATION_IN_MAP mapsKeys[CHARACTERS_IN_PAGE*currentPage+i*CHARACTERS_IN_ROW+j]
     for (int i = 0; i < NUM_OF_ROWS; i++)
     {
         for (int j = 0; j < CHARACTERS_IN_ROW; j++)
         {
-            string currentChar, currentTemp;
-            currentLines = new vector<RectangleShape>();
-            currentTemp = templateFilenames[currentPage * CHARACTERS_IN_PAGE + j + CHARACTERS_IN_ROW * i];
-            // For locating the drawing name in the drawings map, we need to remove the directories
-            // from currentTemp. After locating the drawing name (if exists) and the lines, the full name is located again.
-            currentTemp.replace(0, currentTemp.find_last_of("/") + 1, "");
-            if (drawingFilenames[currentTemp] != "")
-            {
-                currentChar = DRAWINGS + drawingFilenames[currentTemp];
-                string binName = drawingFilenames[currentTemp];
-                binName.replace(binName.find_last_of("."), binName.length(), FILE_TYPE);
-                ReadFromLinesFile(*currentLines, binName);
-            }
-            else
-            {
-                // If no drawing is available, will pass an empty string to the function
-                currentChar = drawingFilenames[currentTemp];
-                currentLines->clear();
-            }
-            // Locating the full name again:
-            currentTemp = templateFilenames[currentPage * CHARACTERS_IN_PAGE + j + CHARACTERS_IN_ROW * i];
-            // Updating each character's drawing and template (according to the current page)
-            characters[j + CHARACTERS_IN_ROW * i]->SetTemplateSprite(currentTemp, *currentLines, currentChar);
+            characters[i * CHARACTERS_IN_ROW + j]->
+                SetCharacterData(templates[mapsKeys[CHARACTERS_IN_PAGE * currentPage + i * CHARACTERS_IN_ROW + j]],
+                    *charactersData[mapsKeys[CHARACTERS_IN_PAGE * currentPage + i * CHARACTERS_IN_ROW + j]]);
         }
     }
 }
@@ -148,7 +95,7 @@ void CharacterSet::Update(Event& event, DrawingBoard& board)
 {
     if (btnPreviousPage->Update(event, currentPage) ||
         btnNextPage->Update(event, currentPage))
-        LoadCharactersData();
+        UpdateCharacters();
     for (int i = 0; i < NUM_OF_ROWS; i++)
     {
         for (int j = 0; j < CHARACTERS_IN_ROW; j++)

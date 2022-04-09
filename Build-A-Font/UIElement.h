@@ -23,6 +23,7 @@ public:
 	bool SetText(string text, Color textColor);
 	bool SetRotation(float rotation);
 	bool SetSprite(string filename);
+	bool SetSprite(Texture* texture);
 	bool SetShapeTex(string filename);
 	bool SetPosition(Vector2f newPos);
 	bool SetShapeOutline(float outlineThickness, Color outlineColor);

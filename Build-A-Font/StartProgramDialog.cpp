@@ -11,9 +11,9 @@ bool containsOnlyASCII(string& filePath) {
 
 #define DEFAULT_CHOOSE_MSG "No  project file is chosen"
 #define ERROR_NON_ASCII "Error: N0N-ASCII characters"
-void ChooseFile(string& fileName, IShellItem** chosenItem, sf::Text*& chosenFile)
+void ChooseFile(string& fileName, IShellItem** loadedProject, sf::Text*& chosenFile)
 {
-	fileName = CDialogEventHandler::ChooseFile(*chosenItem);
+	fileName = CDialogEventHandler::ChooseFile(*loadedProject);
 	if (fileName != "" && containsOnlyASCII(fileName))
 	{
 		chosenFile->setString(fileName);
@@ -31,10 +31,10 @@ void ChooseFile(string& fileName, IShellItem** chosenItem, sf::Text*& chosenFile
 	}
 }
 
-void CancelChoice(string& filePath, IShellItem** chosenItem, sf::Text*& chosenFile)
+void CancelChoice(string& filePath, IShellItem** loadedProject, sf::Text*& chosenFile)
 {
 	filePath = "";
-	*chosenItem = nullptr;
+	*loadedProject = nullptr;
 	chosenFile->setString(DEFAULT_CHOOSE_MSG);
 	chosenFile->setFillColor(Color::Black);
 	chosenFile->setOutlineColor(Color::Transparent);
@@ -43,7 +43,7 @@ void CancelChoice(string& filePath, IShellItem** chosenItem, sf::Text*& chosenFi
 
 void StartUserProgram(DrawingPagePars* parameters)
 {
-	Screen* userProgram = new CharsDrawingPage(**(parameters->window), parameters->chosenItem, true,
+	Screen* userProgram = new CharsDrawingPage(**(parameters->window), parameters->loadedProject, true,
 		**(parameters->pythonModule), **(parameters->screens), **(parameters->currentScreen));
 	(*(parameters->screens))->insert_or_assign(CHARS_DRAWING_PAGE, userProgram);
 	**(parameters->currentScreen) = userProgram;
@@ -52,7 +52,7 @@ void StartUserProgram(DrawingPagePars* parameters)
 
 void StartAIProgram(DrawingPagePars* parameters)
 {
-	Screen* aiProgram = new CharsDrawingPage(**(parameters->window), parameters->chosenItem, false,
+	Screen* aiProgram = new CharsDrawingPage(**(parameters->window), parameters->loadedProject, false,
 		**(parameters->pythonModule), **(parameters->screens), **(parameters->currentScreen));
 	(*(parameters->screens))->insert_or_assign(CHARS_DRAWING_PAGE, aiProgram);
 	**(parameters->currentScreen) = aiProgram;
@@ -174,8 +174,8 @@ bool StartProgramDialog::Update(Event& event)
 		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()))
 			return false;
 		CheckForDragging(event);
-		btnChooseFile->		Update(event, filePath, parameters->chosenItem, chosenFileName);
-		btnCancelChoice->	Update(event, filePath, parameters->chosenItem, chosenFileName);
+		btnChooseFile->		Update(event, filePath, parameters->loadedProject, chosenFileName);
+		btnCancelChoice->	Update(event, filePath, parameters->loadedProject, chosenFileName);
 		if (btnUserProgram->Update(event, parameters) ||
 			btnAIProgram->	Update(event, parameters))
 			return false;
