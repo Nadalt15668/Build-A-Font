@@ -1,6 +1,5 @@
 #pragma once
 #include "DrawingBoard.h"
-
 #define FILE_SAVED_TO "File successfully saved to "
 #define ERROR_WHILE_OPENING "An error has accured while opening the file"
 #define ERROR_WHILE_LOADING "An error has accured while loading the file"
@@ -15,7 +14,7 @@ class UserBoard :
 public:
     UserBoard(RenderWindow& window, Vector2f center, Vector2f size,
         Vector2f vpSizeRatio, Vector2f vpLocationRatio);
-    void Capture();
+    void Capture(map<string, vector<RectangleShape>*>* charactersData);
 private:
 };
 

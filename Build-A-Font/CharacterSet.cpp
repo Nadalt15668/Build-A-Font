@@ -71,6 +71,13 @@ void CharacterSet::CreateMaps()
     }
 }
 
+void CharacterSet::CaptureCharacter(string characterName, vector<RectangleShape> mainLines)
+{
+    this->charactersData[characterName]->clear();
+    for (auto line : mainLines)
+        this->charactersData[characterName]->push_back(line);
+}
+
 void CharacterSet::ReadProjectFile()
 {
     // Reads characters data from loadedProject
@@ -85,8 +92,8 @@ void CharacterSet::UpdateCharacters()
         for (int j = 0; j < CHARACTERS_IN_ROW; j++)
         {
             characters[i * CHARACTERS_IN_ROW + j]->
-                SetCharacterData(templates[mapsKeys[CHARACTERS_IN_PAGE * currentPage + i * CHARACTERS_IN_ROW + j]],
-                    *charactersData[mapsKeys[CHARACTERS_IN_PAGE * currentPage + i * CHARACTERS_IN_ROW + j]]);
+                SetCharacterData(LOCATION_IN_MAP, templates[LOCATION_IN_MAP],
+                    *charactersData[LOCATION_IN_MAP]);
         }
     }
 }

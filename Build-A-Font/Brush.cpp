@@ -38,7 +38,7 @@ float Brush::CalculateAngle()
     float oppositeSide = curPos.y - prevPos.y;
     if (adjacentSide != 0)
     {
-        float finalAngle = atan(abs(oppositeSide) / abs(adjacentSide)) * (180 / M_PI);
+        double finalAngle = atan(abs(oppositeSide) / abs(adjacentSide)) * (180 / M_PI);
 
         if (adjacentSide < 0 && oppositeSide < 0 ||
             adjacentSide > 0 && oppositeSide > 0) // From top left to bottom right or the opposite

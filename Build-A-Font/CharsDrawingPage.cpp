@@ -6,8 +6,8 @@ void ClearBoard(DrawingBoard& drawingBoard)
 }
 void CaptureBoard(DrawingBoard& drawingBoard, CharacterSet& characterSet)
 {
-    drawingBoard.Capture();
-    characterSet.ReadProjectFile();
+    drawingBoard.Capture((characterSet.GetCharactersDataPtr()));
+    characterSet.UpdateCharacters();
 }
 void ToStartPage(map<string, Screen*>& screens, Screen*& currentScreen)
 {
@@ -27,6 +27,7 @@ CharsDrawingPage::CharsDrawingPage(RenderWindow& window, IShellItem** loadedProj
 {
     this->loadedProject = loadedProject;
     this->window = &window;
+    characterSet = new CharacterSet(window, pythonModule, loadedProject);
     if (isUser)
         drawingBoard = new UserBoard
         (
@@ -42,7 +43,6 @@ CharsDrawingPage::CharsDrawingPage(RenderWindow& window, IShellItem** loadedProj
     else {/*Anitiating AIBoard Instead*/ }
     this->screens = &screens;
     this->currentScreen = &currentScreen;
-    characterSet = new CharacterSet(window, pythonModule, loadedProject);
     btnClearBoard = new Button<DrawingBoard&>(window, CLEAR_POS, &ClearBoard,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
     btnCaptureBoard = new Button<DrawingBoard&, CharacterSet&>(window, CAPTURE_POS, &CaptureBoard,

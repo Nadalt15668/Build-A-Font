@@ -97,7 +97,7 @@
       <Filter>Windows\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MenuDialog.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Dialogs\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +150,7 @@
       <Filter>Windows\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MenuDialog.h">
-      <Filter>Header Files</Filter>
+      <Filter>Dialogs\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

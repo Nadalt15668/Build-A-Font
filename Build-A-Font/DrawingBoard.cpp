@@ -63,14 +63,14 @@ void DrawingBoard::RemoveBackground()
 	this->shape->setTexture(nullptr);
 }
 
-void DrawingBoard::SetCurrentCharacter(string templateFilename, vector<RectangleShape>& mainLines)
+void DrawingBoard::SetCurrentCharacter(string characterName, string templateFilename, vector<RectangleShape>& mainLines)
 {
 	// Sets the template as a background
 	string drawingTemplate = templateFilename;
 	string replacedDir = "CharacterTemplates";
 	drawingTemplate.replace(drawingTemplate.find_first_of("/") + 1, replacedDir.length(), "DrawingTemplates");
 	SetTemplate(drawingTemplate);
-	
+	this->characterName = characterName;
 	this->templateFilename = drawingTemplate;
 	this->mainLines = mainLines;
 }
@@ -93,15 +93,12 @@ DrawingBoard::DrawingBoard(RenderWindow& window, Vector2f center,
 
 void DrawingBoard::Draw(RenderWindow& window)
 {
-	texLines = mainLines; // Used for exporting a RenderTexture object
 	viewLines = mainLines; // Used for actually showing the drawing
 	window.setView(drawingView);
 	window.draw(*this->shape);
 	for (int i = 0; i < mainLines.size(); i++)
 	{
-		texLines[i].move(-DRAWING_POS.x + DRAWING_DIM.x / 2, -DRAWING_POS.y + DRAWING_DIM.y / 2);
 		viewLines[i].move(Vector2f(PROGRAM_DIM.x / 2 + DRAWING_DIM.x / 2, (DRAWING_DIM.y / 2) - (PROGRAM_DIM.y / 3)));
-		drawingTex.draw(texLines[i]);
 		window.draw(viewLines[i]);
 	}
 	drawingTex.display();
@@ -116,7 +113,6 @@ void DrawingBoard::Draw()
 void DrawingBoard::Clear()
 {
 	mainLines.clear();
-	texLines.clear();
 	viewLines.clear();
 	drawingTex.clear(Color::Transparent);
 }

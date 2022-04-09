@@ -137,6 +137,7 @@ bool UIElement::SetSprite(string filename)
 bool UIElement::SetSprite(Texture* texture)
 {
 	this->sprite.setTexture(*texture);
+	this->sprite.setScale(0.5, 0.5);
 	this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2,
 		this->sprite.getLocalBounds().height / 2);
 	this->SetPosition(this->pos);
