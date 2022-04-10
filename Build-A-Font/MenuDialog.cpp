@@ -1,5 +1,27 @@
 #include "MenuDialog.h"
 
+string ReadCharacterSet(CharacterSet** characterSet)
+{
+	string fileData = "";
+	vector<string>* mapsKeys = (*characterSet)->GetMapsKeys();
+	map<string, vector<RectangleShape>*>* charactersData = (*characterSet)->GetCharactersDataPtr();
+	for (int i = 0; i < (*mapsKeys).size(); i++)
+	{
+		vector<RectangleShape>* curCharData = (*charactersData)[(*mapsKeys)[i]];
+		if ((*curCharData).size() != 0)
+			fileData += (*mapsKeys)[i] + "\n";
+		for (auto line : *curCharData)
+		{
+			fileData += to_string(line.getSize().x) + "\n";
+			fileData += to_string(line.getSize().y) + "\n";
+			fileData += to_string(line.getPosition().x) + "\n";
+			fileData += to_string(line.getPosition().y) + "\n";
+			fileData += to_string(line.getRotation()) + "\n";
+		}
+	}
+	return fileData;
+}
+
 void btnFuncQuitProgram()
 {
 	exit(0);
@@ -7,12 +29,16 @@ void btnFuncQuitProgram()
 
 void btnFuncSaveChanges(IShellItem** loadedProject, CharacterSet** characterSet)
 {
-
+	string fileData = ReadCharacterSet(characterSet);
+	PWSTR fileDataW = CDialogEventHandler::StrToPWSTR(fileData);
+	CDialogEventHandler::SaveChanges(fileDataW, loadedProject);
 }
 
 void btnFuncSaveAs(IShellItem** loadedProject, CharacterSet** characterSet)
 {
-
+	string fileData = ReadCharacterSet(characterSet);
+	PWSTR fileDataW = CDialogEventHandler::StrToPWSTR(fileData);
+	CDialogEventHandler::SaveFileAs(fileDataW, loadedProject);
 }
 
 void btnFuncExportFont()

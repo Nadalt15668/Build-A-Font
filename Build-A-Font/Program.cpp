@@ -1,6 +1,6 @@
 #include "Program.h"
 
-Program::Program()
+Program ::Program()
 {
     currentWindow = new RenderWindow(sf::VideoMode(PROGRAM_DIM.x, PROGRAM_DIM.y), "Build-A-Font");
     Image* logo = new Image();

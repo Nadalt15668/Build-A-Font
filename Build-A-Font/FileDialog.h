@@ -17,7 +17,8 @@ using namespace std;
 
 const COMDLG_FILTERSPEC c_rgSaveTypes[] =
 {
-    {L"Build-A-Font Document (*.baf)", L"*.baf"}
+    {L"Build-A-Font Document (*.baf)", L"*.baf"},
+    {L"Word Document (*.docx)", L"*.docx"}
 };
 
 // Indices of file types
@@ -66,9 +67,9 @@ public:
     IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize*, DWORD, BOOL);
     IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD);
     static HRESULT CDialogEventHandler_CreateInstance(REFIID riid, void** ppv);
-    static string ChooseFile(IShellItem*& loadedProject);
-    static HRESULT SaveFileAs(PWSTR fileData, IShellItem* loadedProject);
-    static HRESULT SaveChanges(PWSTR fileData, IShellItem* loadedProject);
+    static string ChooseFile(IShellItem** loadedProject);
+    static HRESULT SaveFileAs(PWSTR fileData, IShellItem** loadedProject);
+    static HRESULT SaveChanges(PWSTR fileData, IShellItem** loadedProject);
     static PWSTR StrToPWSTR(string fileData);
     static string ChooseFolder();
 

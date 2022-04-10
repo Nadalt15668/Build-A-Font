@@ -214,12 +214,11 @@ HRESULT CDialogEventHandler::CDialogEventHandler_CreateInstance(REFIID riid, voi
     return hr;
 }
 
-#define STR_BUFFER_SIZE 1024
-string CDialogEventHandler::ChooseFile(IShellItem*& loadedProject)
+string CDialogEventHandler::ChooseFile(IShellItem** loadedProject)
 
 {
     // CoCreate the File Open Dialog object.
-    char* path = new char[STR_BUFFER_SIZE];
+    char* path = new char[MAX_PATH];
     IFileDialog* pfd = NULL;
     HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
@@ -249,35 +248,22 @@ string CDialogEventHandler::ChooseFile(IShellItem*& loadedProject)
                         hr = pfd->SetFileTypes(ARRAYSIZE(c_rgSaveTypes), c_rgSaveTypes);
                         if (SUCCEEDED(hr))
                         {
-                            // Set the selected file type index to Word Docs for this example.
-                            hr = pfd->SetFileTypeIndex(INDEX_WORDDOC);
+                            // Show the dialog
+                            hr = pfd->Show(NULL);
                             if (SUCCEEDED(hr))
                             {
-                                // Set the default extension to be ".doc" file.
-                                hr = pfd->SetDefaultExtension(L"doc");
+                                // Obtain the result, once the user clicks the 'Open' button.
+                                // The result is an IShellItem object.
+                                hr = pfd->GetResult(loadedProject);
                                 if (SUCCEEDED(hr))
                                 {
-                                    // Show the dialog
-                                    hr = pfd->Show(NULL);
+                                    // We are just going to print out the name of the file for sample sake.
+                                    PWSTR pszFilePath = NULL;
+                                    hr = (*loadedProject)->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
                                     if (SUCCEEDED(hr))
                                     {
-                                        // Obtain the result, once the user clicks the 'Open' button.
-                                        // The result is an IShellItem object.
-                                        IShellItem* psiResult;
-                                        hr = pfd->GetResult(&psiResult);
-                                        if (SUCCEEDED(hr))
-                                        {
-                                            // We are just going to print out the name of the file for sample sake.
-                                            PWSTR pszFilePath = NULL;
-                                            hr = psiResult->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-                                            if (SUCCEEDED(hr))
-                                            {
-                                                wcstombs(path, pszFilePath, STR_BUFFER_SIZE);
-                                                CoTaskMemFree(pszFilePath);
-                                                loadedProject = psiResult;
-                                            }
-                                            psiResult->Release();
-                                        }
+                                        wcstombs(path, pszFilePath, MAX_PATH);
+                                        CoTaskMemFree(pszFilePath);
                                     }
                                 }
                             }
@@ -296,7 +282,7 @@ string CDialogEventHandler::ChooseFile(IShellItem*& loadedProject)
     return strPath.substr(strPath.find_last_of('\\') + 1);
 }
 
-HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem* loadedProject)
+HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem** loadedProject)
 {
     // CoCreate the File Open Dialog object.
     IFileSaveDialog* pfsd;
@@ -328,39 +314,42 @@ HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem* loadedProjec
 
     if (SUCCEEDED(hr))
     {
-        if (loadedProject != nullptr)
-            hr = pfsd->SetSaveAsItem(loadedProject);
-        // Now show the dialog.
-        hr = pfsd->Show(NULL);
+        if (*loadedProject != nullptr)
+                hr = pfsd->SetSaveAsItem(*loadedProject);
         if (SUCCEEDED(hr))
         {
-            IShellItem* psiResult;
-            hr = pfsd->GetResult(&psiResult);
+            // Now show the dialog.
+            hr = pfsd->Show(NULL);
             if (SUCCEEDED(hr))
             {
-                // Get the path to the file.
-                PWSTR pszNewFileName;
-                hr = psiResult->GetDisplayName(SIGDN_FILESYSPATH, &pszNewFileName);
+
+                hr = pfsd->GetResult(loadedProject);
                 if (SUCCEEDED(hr))
                 {
-                    // Write data to the file.
-                    hr = _WriteDataToCustomFile(pszNewFileName, fileData);
-                    CoTaskMemFree(pszNewFileName);
+                    // Get the path to the file.
+                    PWSTR pszNewFileName;
+                    hr = (*loadedProject)->GetDisplayName(SIGDN_FILESYSPATH, &pszNewFileName);
+                    if (SUCCEEDED(hr))
+                    {
+                        // Write data to the file.
+                        hr = _WriteDataToCustomFile(pszNewFileName, fileData);
+                        CoTaskMemFree(pszNewFileName);
+                    }
                 }
-                psiResult->Release();
             }
         }
+        
     }
     pfsd->Release();
     return hr;
 }
-HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem* loadedProject)
+HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem** loadedProject)
 {
     HRESULT hr;
-    if (loadedProject != nullptr)
+    if (*loadedProject != nullptr)
     {
         PWSTR pszNewFileName;
-        hr = loadedProject->GetDisplayName(SIGDN_FILESYSPATH, &pszNewFileName);
+        hr = (*loadedProject)->GetDisplayName(SIGDN_FILESYSPATH, &pszNewFileName);
         if (SUCCEEDED(hr))
         {
             // Write data to the file.
@@ -374,14 +363,15 @@ HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem* loadedProje
 }
 PWSTR CDialogEventHandler::StrToPWSTR(string fileData)
 {
-    PWSTR* returnedData = new PWSTR();
-    mbstowcs(*returnedData, fileData.c_str(), fileData.size());
-    return *returnedData;
+    size_t newsize =fileData.length() + 1;
+    PWSTR returnedData = new wchar_t[newsize];
+    mbstowcs(returnedData, fileData.c_str(), newsize);
+    return returnedData;
 }
 string CDialogEventHandler::ChooseFolder()
 {
     IFileDialog* pfd;
-    char* path = new char[STR_BUFFER_SIZE];
+    char* path = new char[MAX_PATH];
     if (SUCCEEDED(CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd))))
     {
         DWORD dwOptions;
@@ -397,7 +387,7 @@ string CDialogEventHandler::ChooseFolder()
                 LPWSTR chosenPath;
                 if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &chosenPath)))
                 {
-                    wcstombs(path, chosenPath, STR_BUFFER_SIZE);
+                    wcstombs(path, chosenPath, MAX_PATH);
                 }
                 psi->Release();
             }

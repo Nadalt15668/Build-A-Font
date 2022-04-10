@@ -25,6 +25,10 @@ public:
 	{
 		return &charactersData;
 	}
+	vector<string>* GetMapsKeys()
+	{
+		return &mapsKeys;
+	}
 private:
 	module_ pythonModule;
 	int currentPage;

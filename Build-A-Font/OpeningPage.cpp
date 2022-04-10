@@ -21,7 +21,7 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 	object.setPosition(pos);
 }
 
-void StartProgram(StartProgramDialog*& dialog,IShellItem** loadedProject, RenderWindow*& window, module_*& pythonModule, map<string, Screen*>*& screens,
+void StartProgram(StartProgramDialog*& dialog,IShellItem*& loadedProject, RenderWindow*& window, module_*& pythonModule, map<string, Screen*>*& screens,
 	Screen**& parentScreen)
 {
 	//ButtonParameters parameters = {window, pythonModule, screens, currentScreen };
@@ -30,6 +30,7 @@ void StartProgram(StartProgramDialog*& dialog,IShellItem** loadedProject, Render
 	parameters->pythonModule = &pythonModule;
 	parameters->screens = &screens;
 	parameters->currentScreen = &parentScreen;
+	parameters->loadedProject = &loadedProject;
 	dialog = new StartProgramDialog(*window, *parentScreen, Vector2f(500, 400), parameters, "Create Or Load Project");
 	dialog->OpenDialog((*parentScreen)->GetInteractability());
 }
@@ -42,7 +43,7 @@ void QuitProgram()
 
 OpeningPage::OpeningPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
-	this->loadedProject = loadedProject;
+	this->loadedProject = *loadedProject;
 	// Attributes for screen buttons
 	this->pythonModule = &pythonModule;
 	this->screens = &screens;
@@ -60,7 +61,7 @@ OpeningPage::OpeningPage(RenderWindow& window, IShellItem** loadedProject, modul
 	this->title.setOutlineThickness(5);
 	SetCommonAttributes(this->title, TITLE_POS);
 	// Initiating navigation buttons
-	btnStartProgram = new Button<StartProgramDialog*&, IShellItem**,RenderWindow*&, module_*&, map<string, Screen*>*&, Screen**&>(window,
+	btnStartProgram = new Button<StartProgramDialog*&, IShellItem*&,RenderWindow*&, module_*&, map<string, Screen*>*&, Screen**&>(window,
 		Vector2f(PROGRAM_DIM.x / 2, (PROGRAM_DIM.y / 1.5)), &StartProgram, new RectangleShape(Vector2f(140, 60)));
 	btnStartProgram->AddText("Start", 35);
 

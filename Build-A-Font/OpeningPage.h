@@ -23,9 +23,9 @@ private:
     module_* pythonModule;
     map<string, Screen*>* screens;
     Screen** currentScreen;
-    Button<StartProgramDialog*&, IShellItem**, RenderWindow*&, module_*&, map<string, Screen*>*&, Screen**&>* btnStartProgram;
+    Button<StartProgramDialog*&, IShellItem*&, RenderWindow*&, module_*&, map<string, Screen*>*&, Screen**&>* btnStartProgram;
     Button<>* btnQuitProgram;
     StartProgramDialog* dialogTest = nullptr;
-    IShellItem** loadedProject;
+    IShellItem* loadedProject;
 };
 

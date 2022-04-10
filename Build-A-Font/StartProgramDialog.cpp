@@ -13,7 +13,7 @@ bool containsOnlyASCII(string& filePath) {
 #define ERROR_NON_ASCII "Error: N0N-ASCII characters"
 void ChooseFile(string& fileName, IShellItem** loadedProject, sf::Text*& chosenFile)
 {
-	fileName = CDialogEventHandler::ChooseFile(*loadedProject);
+	fileName = CDialogEventHandler::ChooseFile(loadedProject);
 	if (fileName != "" && containsOnlyASCII(fileName))
 	{
 		chosenFile->setString(fileName);
