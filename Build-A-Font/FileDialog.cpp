@@ -315,6 +315,7 @@ char* CDialogEventHandler::ReadFromFile(IShellItem** loadedProject)
                         hr = ReadFile(hFile, fileData, size, &dwBytesRead, NULL);
                         if (SUCCEEDED(hr))
                         {
+                            CloseHandle(hFile);
                             return fileData;
                         }
                     }
@@ -361,14 +362,13 @@ HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem** loadedProje
     if (SUCCEEDED(hr))
     {
         if (*loadedProject != nullptr)
-                hr = pfsd->SetSaveAsItem(*loadedProject);
+            hr = pfsd->SetSaveAsItem(*loadedProject);
         if (SUCCEEDED(hr))
         {
             // Now show the dialog.
             hr = pfsd->Show(NULL);
             if (SUCCEEDED(hr))
             {
-
                 hr = pfsd->GetResult(loadedProject);
                 if (SUCCEEDED(hr))
                 {
@@ -400,7 +400,7 @@ HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem** loadedProj
         {
             // Write data to the file.
             hr = _WriteDataToCustomFile(pszNewFileName, fileData);
-            CoTaskMemFree(pszNewFileName);
+             CoTaskMemFree(pszNewFileName);
         }
     }
     else
