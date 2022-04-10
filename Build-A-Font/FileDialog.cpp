@@ -282,6 +282,52 @@ string CDialogEventHandler::ChooseFile(IShellItem** loadedProject)
     return strPath.substr(strPath.find_last_of('\\') + 1);
 }
 
+char* CDialogEventHandler::ReadFromFile(IShellItem** loadedProject)
+{
+    HRESULT hr;
+    if ((*loadedProject) != nullptr)
+    {
+        IPropertyStore* ps;
+        if (SUCCEEDED((*loadedProject)->BindToHandler(NULL, BHID_PropertyStore, IID_PPV_ARGS(&ps))))
+        {
+            PROPVARIANT pv;
+            PropVariantInit(&pv);
+            if (SUCCEEDED(ps->GetValue(PKEY_Size, &pv)))  // include propkey.h
+            {
+                ULONGLONG size;
+                DWORD dwBytesRead = 0;
+                char* fileData;
+                if (SUCCEEDED(PropVariantToUInt64(pv, &size))) // include propvarutil.h
+                {
+                    fileData = new char[size];
+                    PWSTR pszFilePath = NULL;
+                    hr = (*loadedProject)->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+                    if (SUCCEEDED(hr))
+                    {
+                        OVERLAPPED ol = { 0 };
+                        HANDLE hFile = CreateFileW(pszFilePath,
+                            GENERIC_READ,
+                            FILE_SHARE_READ,
+                            NULL,
+                            OPEN_ALWAYS,  // Let's always create this file.
+                            FILE_ATTRIBUTE_NORMAL,
+                            NULL);
+                        hr = ReadFile(hFile, fileData, size, &dwBytesRead, NULL);
+                        if (SUCCEEDED(hr))
+                        {
+                            return fileData;
+                        }
+                    }
+                }
+                PropVariantClear(&pv);
+            }
+            ps->Release();
+        }
+    }
+    else
+        return nullptr;
+}
+
 HRESULT CDialogEventHandler::SaveFileAs(PWSTR fileData, IShellItem** loadedProject)
 {
     // CoCreate the File Open Dialog object.

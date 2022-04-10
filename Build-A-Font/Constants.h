@@ -57,4 +57,4 @@
 #define CHARS_DRAWING_PAGE "CharsDrawingPage"
 #define STARTING_PAGE "StartPage"
 // ----- Other -----
-#define FILE_TYPE ".txt"
+#define FILE_DELIM "\n"

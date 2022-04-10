@@ -12,7 +12,6 @@ UserBoard::UserBoard(RenderWindow& window,
 
 void UserBoard::Capture(map<string, vector<RectangleShape>*>* charactersData)
 {
-    // Needs to insert to the vector itself - not the map!!!
     (*charactersData)[this->characterName]->clear();
     for (auto line : this->mainLines)
         (*charactersData)[this->characterName]->push_back(line);

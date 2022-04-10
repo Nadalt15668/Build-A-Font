@@ -5,6 +5,8 @@
 #include <shlwapi.h>
 #include <string>
 #include <sstream>
+#include <propkey.h>
+#include <propvarutil.h>
 #pragma comment(lib, "Shlwapi.lib")
 #pragma comment(lib, "Comctl32.lib")
 #pragma comment(lib, "Propsys.lib")
@@ -17,8 +19,7 @@ using namespace std;
 
 const COMDLG_FILTERSPEC c_rgSaveTypes[] =
 {
-    {L"Build-A-Font Document (*.baf)", L"*.baf"},
-    {L"Word Document (*.docx)", L"*.docx"}
+    {L"Build-A-Font Document (*.baf)", L"*.baf"}
 };
 
 // Indices of file types
@@ -68,6 +69,7 @@ public:
     IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD);
     static HRESULT CDialogEventHandler_CreateInstance(REFIID riid, void** ppv);
     static string ChooseFile(IShellItem** loadedProject);
+    static char* ReadFromFile(IShellItem** loadedProject);
     static HRESULT SaveFileAs(PWSTR fileData, IShellItem** loadedProject);
     static HRESULT SaveChanges(PWSTR fileData, IShellItem** loadedProject);
     static PWSTR StrToPWSTR(string fileData);

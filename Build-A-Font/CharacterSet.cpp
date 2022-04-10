@@ -36,7 +36,6 @@ CharacterSet::CharacterSet(RenderWindow& window, module_& module, IShellItem** l
     for (int i = 0; i < filenamesPylist.size(); i++)
         mapsKeys.push_back(cast<string>(filenamesPylist[i]));
     ReadProjectFile();
-    UpdateCharacters();
 }
 
 void CharacterSet::CreateMaps()
@@ -80,7 +79,40 @@ void CharacterSet::CaptureCharacter(string characterName, vector<RectangleShape>
 
 void CharacterSet::ReadProjectFile()
 {
-    // Reads characters data from loadedProject
+#define NUM_OF_FIELDS 5
+    char* fileData = CDialogEventHandler::ReadFromFile(this->loadedProject);
+    if (fileData != nullptr)
+    {
+        char* token;
+        vector<string> splittedFile;
+        token = strtok(fileData, FILE_DELIM);
+        while (token != NULL)
+        {
+            splittedFile.push_back(token);
+            token = strtok(NULL, FILE_DELIM);
+        }
+        vector<RectangleShape>* characterData;
+        int numOfLines = 0;
+        for (int i = 0; i < splittedFile.size() - 1;)
+        {
+            characterData = charactersData[splittedFile[i++]];
+            numOfLines = stoi(splittedFile[i++]);
+            for (int j = 0; j < numOfLines; j++)
+            {
+                RectangleShape curLine;
+                curLine.setFillColor(Color::Black);
+                curLine.setOrigin(Vector2f(0, BRUSH_THICKNESS / 2));
+                curLine.setSize(Vector2f(stof(splittedFile[i]), stof(splittedFile[i+1])));
+                i += 2;
+                curLine.setPosition(Vector2f(stof(splittedFile[i]), stof(splittedFile[i+1])));
+                i += 2;
+                curLine.setRotation(stof(splittedFile[i]));
+                i++;
+                characterData->push_back(curLine);
+            }
+        }
+    }
+    UpdateCharacters();
 }
 
 

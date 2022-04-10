@@ -9,14 +9,17 @@ string ReadCharacterSet(CharacterSet** characterSet)
 	{
 		vector<RectangleShape>* curCharData = (*charactersData)[(*mapsKeys)[i]];
 		if ((*curCharData).size() != 0)
-			fileData += (*mapsKeys)[i] + "\n";
-		for (auto line : *curCharData)
 		{
-			fileData += to_string(line.getSize().x) + "\n";
-			fileData += to_string(line.getSize().y) + "\n";
-			fileData += to_string(line.getPosition().x) + "\n";
-			fileData += to_string(line.getPosition().y) + "\n";
-			fileData += to_string(line.getRotation()) + "\n";
+			fileData += (*mapsKeys)[i] + FILE_DELIM; // Character Name
+			fileData += to_string((*curCharData).size()) + FILE_DELIM; // Num of lines
+		}
+		for (auto line : *curCharData) // Writing a character's lines
+		{
+			fileData += to_string(line.getSize().x) + FILE_DELIM;
+			fileData += to_string(line.getSize().y) + FILE_DELIM;
+			fileData += to_string(line.getPosition().x) + FILE_DELIM;
+			fileData += to_string(line.getPosition().y) + FILE_DELIM;
+			fileData += to_string(line.getRotation()) + FILE_DELIM;
 		}
 	}
 	return fileData;
@@ -38,6 +41,8 @@ void btnFuncSaveAs(IShellItem** loadedProject, CharacterSet** characterSet)
 {
 	string fileData = ReadCharacterSet(characterSet);
 	PWSTR fileDataW = CDialogEventHandler::StrToPWSTR(fileData);
+	int sizeofstr = sizeof(fileData);
+	int sizeofpwstr = sizeof(fileDataW);
 	CDialogEventHandler::SaveFileAs(fileDataW, loadedProject);
 }
 
