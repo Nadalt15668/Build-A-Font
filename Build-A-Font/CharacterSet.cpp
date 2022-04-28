@@ -80,7 +80,8 @@ void CharacterSet::CaptureCharacter(string characterName, vector<RectangleShape>
 void CharacterSet::ReadProjectFile()
 {
 #define NUM_OF_FIELDS 5
-    char* fileData = CDialogEventHandler::ReadFromFile(this->loadedProject);
+    char* fileData = new char;
+    fileData = CDialogEventHandler::ReadFromFile(this->loadedProject);
     if (fileData != nullptr)
     {
         char* token;

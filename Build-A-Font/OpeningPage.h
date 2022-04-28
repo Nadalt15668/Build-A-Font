@@ -4,7 +4,7 @@
 #include "TextBox.h"
 #include "StartProgramDialog.h"
 #include "Constants.h"
-#include "CharsDrawingPage.h"
+#include "UserPage.h"
 
 using namespace sf;
 using namespace std;

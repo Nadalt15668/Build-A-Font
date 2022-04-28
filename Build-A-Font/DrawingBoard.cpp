@@ -77,7 +77,7 @@ void DrawingBoard::SetCurrentCharacter(string characterName, string templateFile
 
 DrawingBoard::DrawingBoard(RenderWindow& window, Vector2f center,
 	Vector2f size, Vector2f vpSizeRatio, Vector2f vpLocationRatio) :
-	UIElement(center, new RectangleShape(size), Color::White)
+	UIElement(center, new RectangleShape(Vector2f(199,216)), Color::White)
 {
 	this->window = &window;
 	// -------------------- Drawing Final Texture (for .png later) -------------------- 

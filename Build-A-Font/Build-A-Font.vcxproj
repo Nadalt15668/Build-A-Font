@@ -78,13 +78,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\pybind11-2.9.1\include;C:\Python310\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Python310\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\opencv\build\include;C:\pybind11-2.9.1\include;C:\Python310\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv\build\x64\vc15\lib;C:\Python310\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\pybind11-2.9.1\include;C:\Python310\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Python310\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\opencv\build\include;C:\pybind11-2.9.1\include;C:\Python310\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv\build\x64\vc15\lib;C:\Python310\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -126,7 +126,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;opencv_world455d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/VERBOSE %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -138,7 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\opencv\build\include;C:\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,18 +146,21 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-system.lib;sfml-window.lib;sfml-graphics.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-system.lib;sfml-window.lib;sfml-graphics.lib;sfml-main.lib;opencv_world455.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/VERBOSE %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AIBoard.cpp" />
+    <ClCompile Include="AIPage.cpp" />
     <ClCompile Include="Brush.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterSet.cpp" />
-    <ClCompile Include="CharsDrawingPage.cpp" />
+    <ClCompile Include="UserPage.cpp" />
     <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="DrawingBoard.cpp" />
     <ClCompile Include="MenuDialog.cpp" />
+    <ClCompile Include="NeuralNetwork.cpp" />
     <ClCompile Include="StartProgramDialog.cpp" />
     <ClCompile Include="FileDialog.cpp" />
     <ClCompile Include="Program.cpp" />
@@ -169,15 +172,18 @@
     <ClCompile Include="UserBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIBoard.h" />
+    <ClInclude Include="AIPage.h" />
     <ClInclude Include="Brush.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterSet.h" />
-    <ClInclude Include="CharsDrawingPage.h" />
+    <ClInclude Include="UserPage.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Dialog.h" />
     <ClInclude Include="DrawingBoard.h" />
     <ClInclude Include="MenuDialog.h" />
+    <ClInclude Include="NeuralNetwork.h" />
     <ClInclude Include="StartProgramDialog.h" />
     <ClInclude Include="FileDialog.h" />
     <ClInclude Include="Program.h" />

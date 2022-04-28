@@ -43,7 +43,7 @@ void CancelChoice(string& filePath, IShellItem** loadedProject, sf::Text*& chose
 
 void StartUserProgram(DrawingPagePars* parameters)
 {
-	Screen* userProgram = new CharsDrawingPage(**(parameters->window), parameters->loadedProject, true,
+	Screen* userProgram = new UserPage(**(parameters->window), parameters->loadedProject,
 		**(parameters->pythonModule), **(parameters->screens), **(parameters->currentScreen));
 	(*(parameters->screens))->insert_or_assign(CHARS_DRAWING_PAGE, userProgram);
 	**(parameters->currentScreen) = userProgram;
@@ -52,13 +52,13 @@ void StartUserProgram(DrawingPagePars* parameters)
 
 void StartAIProgram(DrawingPagePars* parameters)
 {
-	Screen* aiProgram = new CharsDrawingPage(**(parameters->window), parameters->loadedProject, false,
+	Screen* aiProgram = new AIPage(**(parameters->window), parameters->loadedProject,
 		**(parameters->pythonModule), **(parameters->screens), **(parameters->currentScreen));
 	(*(parameters->screens))->insert_or_assign(CHARS_DRAWING_PAGE, aiProgram);
 	**(parameters->currentScreen) = aiProgram;
 }
 
-void InitiateSttcCreatProj(Font*& font, sf::Text*& sttcCreateProj, FloatRect dialogBground, Vector2f& startingOffset)
+void InitializeSttcCreatProj(Font*& font, sf::Text*& sttcCreateProj, FloatRect dialogBground, Vector2f& startingOffset)
 {
 	sttcCreateProj = new sf::Text("Start a new project:", *font, 50);
 	sttcCreateProj->setFillColor(Color::Black);
@@ -68,7 +68,7 @@ void InitiateSttcCreatProj(Font*& font, sf::Text*& sttcCreateProj, FloatRect dia
 			215 + startingOffset.y)
 	);
 }
-void InitiateSttcOr(Font*& font, sf::Text*& sttcOr, FloatRect dialogBground, Vector2f& startingOffset)
+void InitializeSttcOr(Font*& font, sf::Text*& sttcOr, FloatRect dialogBground, Vector2f& startingOffset)
 {
 	sttcOr = new sf::Text("or", *font, 40);
 	sttcOr->setFillColor(Color::Black);
@@ -78,21 +78,21 @@ void InitiateSttcOr(Font*& font, sf::Text*& sttcOr, FloatRect dialogBground, Vec
 			160 + startingOffset.y)
 	);
 }
-void InitiateBtnChooseFile(RenderWindow& window, Button<string&,IShellItem**,sf::Text*&>*& btnChooseFile, FloatRect dialogBground, Vector2f startingOffset)
+void InitializeBtnChooseFile(RenderWindow& window, Button<string&,IShellItem**,sf::Text*&>*& btnChooseFile, FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(110, 40));
 	Vector2f position(dialogBground.width / 2 - size.x / 1.5 + startingOffset.x, startingOffset.y + size.y / 2 + 30);
 	btnChooseFile = new Button<string&, IShellItem**, sf::Text*&>(window, position, &ChooseFile, new RectangleShape(size), Color(200, 200, 200));
 	btnChooseFile->AddText("Choose...", 25);
 }
-void InitiateBtnCancelChoice(RenderWindow& window, Button<string&,IShellItem**,sf::Text*&>*& btnCancelChoice, FloatRect dialogBground, Vector2f startingOffset)
+void InitializeBtnCancelChoice(RenderWindow& window, Button<string&,IShellItem**,sf::Text*&>*& btnCancelChoice, FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(110, 40));
 	Vector2f position(dialogBground.width / 2 + size.x / 1.5 + startingOffset.x, startingOffset.y + size.y / 2 + 30);
 	btnCancelChoice = new Button<string&, IShellItem**, sf::Text*&>(window, position, &CancelChoice, new RectangleShape(size), Color(200, 200, 200));
 	btnCancelChoice->AddText("Cancel", 25);
 }
-void InitiateTxtChosenFile(Font*& font, sf::Text*& chosenFile, FloatRect dialogBground, Vector2f& startingOffset)
+void InitializeTxtChosenFile(Font*& font, sf::Text*& chosenFile, FloatRect dialogBground, Vector2f& startingOffset)
 {
 	chosenFile = new sf::Text(DEFAULT_CHOOSE_MSG, *font, 30);
 	chosenFile->setFillColor(Color::Black);
@@ -101,7 +101,7 @@ void InitiateTxtChosenFile(Font*& font, sf::Text*& chosenFile, FloatRect dialogB
 	chosenFile->setOrigin(Vector2f(chosenFile->getLocalBounds().width / 2, chosenFile->getLocalBounds().height / 2));
 	chosenFile->setPosition(Vector2f(dialogBground.width / 2 + startingOffset.x, startingOffset.y + 105));
 }
-void InitiateBtnUserProgram(DrawingPagePars* parameters, Button<DrawingPagePars*>*& btnUserProgram, FloatRect dialogBground, Vector2f startingOffset)
+void InitializeBtnUserProgram(DrawingPagePars* parameters, Button<DrawingPagePars*>*& btnUserProgram, FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(120, 40));
 	Vector2f position(dialogBground.width / 2 - size.x / 1.5 + startingOffset.x, startingOffset.y + size.y / 2 + 300);
@@ -109,7 +109,7 @@ void InitiateBtnUserProgram(DrawingPagePars* parameters, Button<DrawingPagePars*
 		new RectangleShape(size), Color(200, 200, 200));
 	btnUserProgram->AddText("User Mode", 25);
 }
-void InitiateBtnAIProgram(DrawingPagePars* parameters, Button<DrawingPagePars*>*& btnAIProgram, FloatRect dialogBground, Vector2f startingOffset)
+void InitializeBtnAIProgram(DrawingPagePars* parameters, Button<DrawingPagePars*>*& btnAIProgram, FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(120, 40));
 	Vector2f position(dialogBground.width / 2 + size.x / 1.5 + startingOffset.x, startingOffset.y + size.y / 2 + 300);
@@ -131,13 +131,13 @@ StartProgramDialog::StartProgramDialog(RenderWindow& window, Screen*& parentScre
 		// Handle Errors
 		exit(0);
 	}
-	InitiateSttcCreatProj(font, this->sttcStartNewProj, bgroundRect, startingOffset);
-	InitiateSttcOr(font, sttcOr, dialogBground->getLocalBounds(), startingOffset);
-	InitiateBtnChooseFile(window, this->btnChooseFile, bgroundRect, startingOffset);
-	InitiateBtnCancelChoice(window, this->btnCancelChoice, bgroundRect, startingOffset);
-	InitiateTxtChosenFile(font, this->chosenFileName, bgroundRect, startingOffset);
-	InitiateBtnUserProgram(parameters, this->btnUserProgram, bgroundRect, startingOffset);
-	InitiateBtnAIProgram(parameters, this->btnAIProgram, bgroundRect, startingOffset);
+	InitializeSttcCreatProj(font, this->sttcStartNewProj, bgroundRect, startingOffset);
+	InitializeSttcOr(font, sttcOr, dialogBground->getLocalBounds(), startingOffset);
+	InitializeBtnChooseFile(window, this->btnChooseFile, bgroundRect, startingOffset);
+	InitializeBtnCancelChoice(window, this->btnCancelChoice, bgroundRect, startingOffset);
+	InitializeTxtChosenFile(font, this->chosenFileName, bgroundRect, startingOffset);
+	InitializeBtnUserProgram(parameters, this->btnUserProgram, bgroundRect, startingOffset);
+	InitializeBtnAIProgram(parameters, this->btnAIProgram, bgroundRect, startingOffset);
 }
 
 void StartProgramDialog::Draw()

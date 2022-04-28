@@ -34,6 +34,9 @@
 #define BLANK_CHARACTER "CharacterDrawings/blank.png"
 #define DEFAULT_FONTPATH "Fonts/Teko-Bold.ttf"
 #define PROJECT_LOGO "Assets/project_logo.png"
+#define TRASH_CAN "Assets/trash_can.png"
+#define MENU "Assets/menu.png"
+#define BACK_ARROW "Assets/back_arrow.png"
 // ----- Directories -----
 #define BINARIES "CharacterDrawings/Binaries/"
 #define DRAWINGS "CharacterDrawings/Drawings/"
@@ -54,7 +57,7 @@
 #define NUM_OF_PAGES 5
 #define NUM_OF_ROWS 2
 // ----- Pages Names -----
-#define CHARS_DRAWING_PAGE "CharsDrawingPage"
+#define CHARS_DRAWING_PAGE "DrawingPage"
 #define STARTING_PAGE "StartPage"
 // ----- Other -----
 #define FILE_DELIM "\n"

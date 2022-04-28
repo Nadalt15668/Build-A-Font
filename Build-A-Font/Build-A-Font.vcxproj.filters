@@ -49,6 +49,15 @@
     <Filter Include="Windows\Source Files">
       <UniqueIdentifier>{faeab0df-e2e0-4dcf-befc-8a81a63b039b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Neural Network">
+      <UniqueIdentifier>{64bdd1f3-3d93-43bf-8188-a72d65bdfeb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Neural Network\Header Files">
+      <UniqueIdentifier>{449cd738-9861-4309-a13d-761a16602be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Neural Network\Source Files">
+      <UniqueIdentifier>{33046435-14c1-4b06-b3f8-28af31b774dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -69,7 +78,7 @@
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CharsDrawingPage.cpp">
+    <ClCompile Include="UserPage.cpp">
       <Filter>Pages\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OpeningPage.cpp">
@@ -99,6 +108,15 @@
     <ClCompile Include="MenuDialog.cpp">
       <Filter>Dialogs\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NeuralNetwork.cpp">
+      <Filter>Neural Network\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AIPage.cpp">
+      <Filter>Pages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AIBoard.cpp">
+      <Filter>UI Elements\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brush.h">
@@ -119,7 +137,7 @@
     <ClInclude Include="UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CharsDrawingPage.h">
+    <ClInclude Include="UserPage.h">
       <Filter>Pages\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OpeningPage.h">
@@ -151,6 +169,15 @@
     </ClInclude>
     <ClInclude Include="MenuDialog.h">
       <Filter>Dialogs\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuralNetwork.h">
+      <Filter>Neural Network\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AIPage.h">
+      <Filter>Pages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AIBoard.h">
+      <Filter>UI Elements\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

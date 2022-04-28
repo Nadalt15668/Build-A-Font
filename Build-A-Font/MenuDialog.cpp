@@ -51,7 +51,7 @@ void btnFuncExportFont()
 
 }
 
-void InitiateBtnSaveChanges(RenderWindow& window, Button<IShellItem**, CharacterSet**>** btnSaveChanges,
+void InitializeBtnSaveChanges(RenderWindow& window, Button<IShellItem**, CharacterSet**>** btnSaveChanges,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(170, 50));
@@ -60,7 +60,7 @@ void InitiateBtnSaveChanges(RenderWindow& window, Button<IShellItem**, Character
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnSaveChanges)->AddText("Save Changes", 30);
 }
-void InitiateBtnSaveAs(RenderWindow& window, Button<IShellItem**, CharacterSet**>** btnSaveAs,
+void InitializeBtnSaveAs(RenderWindow& window, Button<IShellItem**, CharacterSet**>** btnSaveAs,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(170, 50));
@@ -69,7 +69,7 @@ void InitiateBtnSaveAs(RenderWindow& window, Button<IShellItem**, CharacterSet**
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnSaveAs)->AddText("Save As", 30);
 }
-void InitiateBtnExportFont(RenderWindow& window, Button<>** btnExportFont,
+void InitializeBtnExportFont(RenderWindow& window, Button<>** btnExportFont,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(170, 50));
@@ -78,7 +78,7 @@ void InitiateBtnExportFont(RenderWindow& window, Button<>** btnExportFont,
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnExportFont)->AddText("Export Font", 30);
 }
-void InitiateBtnQuitProgram(RenderWindow& window, Button<>** btnQuitProgram,
+void InitializeBtnQuitProgram(RenderWindow& window, Button<>** btnQuitProgram,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(170, 50));
@@ -97,10 +97,10 @@ MenuDialog::MenuDialog(RenderWindow& window, CharacterSet** characterSet, IShell
 	this->characterSet = characterSet;
 	Vector2f startingOffset = CalculateStartingOffset();
 	FloatRect bgroundRect = this->dialogBground->getLocalBounds();
-	InitiateBtnSaveChanges(window, &(this->btnSaveChanges), bgroundRect, startingOffset);
-	InitiateBtnSaveAs(window, &(this->btnSaveAs), bgroundRect, startingOffset);
-	InitiateBtnExportFont(window, &(this->btnExportFont), bgroundRect, startingOffset);
-	InitiateBtnQuitProgram(window, &(this->btnQuitProgram), bgroundRect, startingOffset);
+	InitializeBtnSaveChanges(window, &(this->btnSaveChanges), bgroundRect, startingOffset);
+	InitializeBtnSaveAs(window, &(this->btnSaveAs), bgroundRect, startingOffset);
+	InitializeBtnExportFont(window, &(this->btnExportFont), bgroundRect, startingOffset);
+	InitializeBtnQuitProgram(window, &(this->btnQuitProgram), bgroundRect, startingOffset);
 }
 
 void MenuDialog::Draw()

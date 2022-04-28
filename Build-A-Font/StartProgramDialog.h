@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "CharsDrawingPage.h"
+#include "AIPage.h"
+#include "UserPage.h"
 #include "Dialog.h"
 #include "FileDialog.h"
 #include "TextBox.h"
