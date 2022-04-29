@@ -22,6 +22,7 @@ public:
     void SetCurrentCharacter(string characterName, string templateFilename, vector<RectangleShape>& mainLines);
     void Draw();
     void Clear();
+    bool CheckIfEmpty();
 protected:
     void Draw(RenderWindow& window);
     RenderTexture drawingTex;

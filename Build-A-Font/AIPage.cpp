@@ -6,8 +6,11 @@ void ClearAIBoard(DrawingBoard& drawingBoard)
 }
 void CaptureCharacters(DrawingBoard& drawingBoard, CharacterSet& characterSet)
 {
-    drawingBoard.Capture(characterSet.GetCharactersDataPtr());
-    characterSet.UpdateCharacters();
+    if (!drawingBoard.CheckIfEmpty())
+    {
+        drawingBoard.Capture((characterSet.GetCharactersDataPtr()));
+        characterSet.UpdateCharacters();
+    }
 }
 void CaptureNumbers(AIBoard& drawingBoard, CharacterSet& characterSet)
 {
@@ -87,6 +90,9 @@ void AIPage::Update(Event& event)
         btnToStartPage->Update(event, *this->screens, *this->currentScreen);
         this->btnLaunchMenu->Update(event, &menuDialog, *window, &characterSet, loadedProject,
             *currentScreen, Vector2f(270, 350), "Menu");
+        if (Keyboard::isKeyPressed(Keyboard::Escape))
+            LaunchAIMenu(&menuDialog, *window, &characterSet, loadedProject,
+                *currentScreen, Vector2f(270, 350), "Menu");
     }
     if (menuDialog != nullptr)
     {

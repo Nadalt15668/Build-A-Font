@@ -6,8 +6,11 @@ void ClearBoard(DrawingBoard& drawingBoard)
 }
 void CaptureBoard(DrawingBoard& drawingBoard, CharacterSet& characterSet)
 {
-    drawingBoard.Capture((characterSet.GetCharactersDataPtr()));
-    characterSet.UpdateCharacters();
+    if (!drawingBoard.CheckIfEmpty())
+    {
+        drawingBoard.Capture((characterSet.GetCharactersDataPtr()));
+        characterSet.UpdateCharacters();
+    }
 }
 void ToStartPage(map<string, Screen*>& screens, Screen*& currentScreen)
 {
@@ -78,6 +81,9 @@ void UserPage::Update(Event& event)
         btnToStartPage->Update(event, *this->screens, *this->currentScreen);
         this->btnLaunchMenu->Update(event, &menuDialog, *window, &characterSet, loadedProject,
             *currentScreen, Vector2f(270, 350), "Menu");
+        if (Keyboard::isKeyPressed(Keyboard::Escape))
+            LaunchMenu(&menuDialog, *window, &characterSet, loadedProject,
+                *currentScreen, Vector2f(270, 350), "Menu");
     }
     if (menuDialog != nullptr)
     {

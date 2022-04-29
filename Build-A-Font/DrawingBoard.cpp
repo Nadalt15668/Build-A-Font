@@ -67,6 +67,7 @@ void DrawingBoard::SetCurrentCharacter(string characterName, string templateFile
 {
 	// Sets the template as a background
 	string drawingTemplate = templateFilename;
+	SetTemplate(drawingTemplate);
 	string replacedDir = "CharacterTemplates";
 	drawingTemplate.replace(drawingTemplate.find_first_of("/") + 1, replacedDir.length(), "DrawingTemplates");
 	SetTemplate(drawingTemplate);
@@ -88,7 +89,7 @@ DrawingBoard::DrawingBoard(RenderWindow& window, Vector2f center,
 	drawingView.setSize(size.x + 2, size.y + 2);
 	drawingView.setViewport(FloatRect(vpLocationRatio.x, vpLocationRatio.y,
 		vpSizeRatio.x, vpSizeRatio.y));
-	SetTemplate(BLANK_TEMPLATE);
+	SetCurrentCharacter("", BLANK_TEMPLATE, *(new vector<RectangleShape>));
 }
 
 void DrawingBoard::Draw(RenderWindow& window)
@@ -115,4 +116,9 @@ void DrawingBoard::Clear()
 	mainLines.clear();
 	viewLines.clear();
 	drawingTex.clear(Color::Transparent);
+}
+
+bool DrawingBoard::CheckIfEmpty()
+{
+	return (this->characterName != "") ? false : true;
 }
