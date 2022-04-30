@@ -60,8 +60,8 @@ AIPage::AIPage(RenderWindow& window, IShellItem** loadedProject, module_& python
     btnLaunchMenu->SetShapeTex(MENU);
     btnToStartPage->SetShapeTex(BACK_ARROW);
     btnClearBoard->SetShapeTex(TRASH_CAN);
-    btnCaptChar->AddText("Characters", 30);
-    btnCaptNum->AddText("Numbers", 30);
+    btnCaptChar->AddText("Manual", 30);
+    btnCaptNum->AddText("Auto (Numbers)", 25);
     btnToStartPage->SetShapeOutline(0, Color::Transparent);
 }
 

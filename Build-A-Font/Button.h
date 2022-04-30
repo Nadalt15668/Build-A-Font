@@ -47,12 +47,17 @@ public:
         {
             button.setFillColor(this->hoverColor);
             // Inner if checks if the button is pressed
-            if (Mouse::isButtonPressed(Mouse::Left) && this->isClickable)
+            if (event.type == Event::MouseButtonPressed && this->isClickable)
             {
                 this->clickedLastFrame = true;
                 button.setFillColor(pressColor);
                 if (this->onPressFunction != NULL) // Checks if the button has functionality
+                {
                     (this->onPressFunction)(args...);
+                    Event newEvent;
+                    newEvent.type = Event::MouseButtonReleased;
+                    event = newEvent;
+                }
                 return true;
             }
         }
