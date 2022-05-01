@@ -69,7 +69,23 @@ void AIBoard::CaptNum(map<string, vector<RectangleShape>*>* charactersData)
 	}
 	// Retrieves the result from the NN and saves the drawing accordingly
 	string result = std::to_string(network->Calc(input));
+	// Saves the data of the number the NN 'thought' the number is - for undoing purposes
+	this->lastNumDrawing = *((*charactersData)[result]);
+	// If its the first character drawn, save it as the last character
+	this->lastNumName = result;
+	// Changes the current chosen character on the drawing board and replaces the data of the drawing
+	this->characterName = result;
 	(*charactersData)[result]->clear();
 	for (auto line : this->mainLines)
 		(*charactersData)[result]->push_back(line);
+}
+
+void AIBoard::UndoNum(map<string, vector<RectangleShape>*>* charactersData)
+{
+	if (this->lastNumName != "")
+	{
+		(*charactersData)[this->lastNumName]->clear();
+			for (auto line : (this->lastNumDrawing))
+				(*charactersData)[this->lastNumName]->push_back(line);
+	}
 }

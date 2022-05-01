@@ -11,6 +11,9 @@ public:
         Vector2f vpSizeRatio, Vector2f vpLocationRatio);
     void Capture(map<string, vector<RectangleShape>*>* charactersData);
     void CaptNum(map<string, vector<RectangleShape>*>* charactersData);
+    void UndoNum(map<string, vector<RectangleShape>*>* charactersData);
 private:
     NeuralNetwork* network;
+    vector<RectangleShape> lastNumDrawing;
+    string lastNumName;
 };

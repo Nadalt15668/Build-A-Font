@@ -25,6 +25,7 @@ private:
     Button<DrawingBoard&>* btnClearBoard;
     Button<DrawingBoard&, CharacterSet&>* btnCaptChar;
     Button<AIBoard&, CharacterSet&>* btnCaptNum;
+    Button<AIBoard&, CharacterSet&>* btnUndoNumbers;
     Button<MenuDialog**, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
         Vector2f, string>* btnLaunchMenu;
     MenuDialog* menuDialog = nullptr;

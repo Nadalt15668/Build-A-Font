@@ -28,6 +28,12 @@ void LaunchAIMenu(MenuDialog** menuDialog, RenderWindow& window, CharacterSet** 
     (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
+void UndoNum(AIBoard& drawingBoard, CharacterSet& characterSet)
+{
+    drawingBoard.UndoNum(characterSet.GetCharactersDataPtr());
+    characterSet.UpdateCharacters();
+}
+
 AIPage::AIPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
 {
     this->loadedProject = loadedProject;
@@ -54,14 +60,18 @@ AIPage::AIPage(RenderWindow& window, IShellItem** loadedProject, module_& python
     btnCaptNum = new Button<AIBoard&, CharacterSet&>(window,
         Vector2f(PROGRAM_DIM.x / 2 + btnClearBoard->GetShapeSize().x + 5 + DEFAULT_BUTTON_DIM.x / 2.6, CLEAR_POS.y), &CaptureNumbers,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
+    btnUndoNumbers = new Button<AIBoard&, CharacterSet&>(window,
+        Vector2f(PROGRAM_DIM.x / 2 + btnClearBoard->GetShapeSize().x + 5 + DEFAULT_BUTTON_DIM.x, CLEAR_POS.y), &UndoNum,
+        new RectangleShape(Vector2f(30, 30)), Color::Red);
     btnToStartPage = new Button<map<string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &AIToStartPage, new RectangleShape(Vector2f(50, 50)), DEFAULT_GRAY_BGROUND);
     btnLaunchMenu = new Button< MenuDialog**, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
         Vector2f, string>(window, Vector2f(PROGRAM_DIM.x / 17 * 16, PROGRAM_DIM.y / 15), &LaunchAIMenu, new RectangleShape(Vector2f(50, 50)));
     btnLaunchMenu->SetShapeTex(MENU);
     btnToStartPage->SetShapeTex(BACK_ARROW);
     btnClearBoard->SetShapeTex(TRASH_CAN);
+    btnUndoNumbers->SetShapeTex(UNDO);
     btnCaptChar->AddText("Manual", 30);
-    btnCaptNum->AddText("Auto (Numbers)", 25);
+    btnCaptNum->AddText("Numbers", 30);
     btnToStartPage->SetShapeOutline(0, Color::Transparent);
 }
 
@@ -72,6 +82,7 @@ void AIPage::Draw()
     this->btnCaptNum->Draw(*this->window);
     this->btnClearBoard->Draw(*this->window);
     this->btnToStartPage->Draw(*this->window);
+    this->btnUndoNumbers->Draw(*this->window);
     this->characterSet->Draw(*this->window);
     this->btnLaunchMenu->Draw(*this->window);
     if (menuDialog != nullptr)
@@ -83,6 +94,7 @@ void AIPage::Update(Event& event)
     if (isInteractable)
     {
         drawingBoard->Update(event);
+        btnUndoNumbers->Update(event, *this->drawingBoard, *this->characterSet);
         btnCaptChar->Update(event, *this->drawingBoard, *this->characterSet);
         btnCaptNum->Update(event, *this->drawingBoard, *this->characterSet);
         btnClearBoard->Update(event, *this->drawingBoard);

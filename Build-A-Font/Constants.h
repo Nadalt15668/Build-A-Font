@@ -36,6 +36,7 @@
 #define PROJECT_LOGO "Assets/project_logo.png"
 #define TRASH_CAN "Assets/trash_can.png"
 #define MENU "Assets/menu.png"
+#define UNDO "Assets/undo.png"
 #define BACK_ARROW "Assets/back_arrow.png"
 // ----- Directories -----
 #define BINARIES "CharacterDrawings/Binaries/"
