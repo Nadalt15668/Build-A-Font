@@ -46,9 +46,10 @@ void btnFuncSaveAs(IShellItem** loadedProject, CharacterSet** characterSet)
 	CDialogEventHandler::SaveFileAs(fileDataW, loadedProject);
 }
 
-void btnFuncExportFont()
+void btnFuncExportFont(ExportingDialog** exportDialog, RenderWindow& window, pybind11::module_& pythonMoudle, Screen*& parentScreen)
 {
-
+	*exportDialog = new ExportingDialog(window, pythonMoudle, parentScreen, Vector2f(400, 400), "Export Font");
+	(*exportDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
 void InitializeBtnSaveChanges(RenderWindow& window, Button<IShellItem**, CharacterSet**>** btnSaveChanges,
@@ -69,12 +70,12 @@ void InitializeBtnSaveAs(RenderWindow& window, Button<IShellItem**, CharacterSet
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnSaveAs)->AddText("Save As", 30);
 }
-void InitializeBtnExportFont(RenderWindow& window, Button<>** btnExportFont,
+void InitializeBtnExportFont(RenderWindow& window, Button<ExportingDialog**, RenderWindow&, pybind11::module_&, Screen*&>** btnExportFont,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(170, 50));
 	Vector2f position(dialogBground.width / 2 + startingOffset.x, startingOffset.y + size.y / 2 + 170);
-	*btnExportFont = new Button<>(window, position, &btnFuncExportFont,
+	*btnExportFont = new Button<ExportingDialog**, RenderWindow&, pybind11::module_&, Screen*&>(window, position, &btnFuncExportFont,
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnExportFont)->AddText("Export Font", 30);
 }
@@ -89,10 +90,12 @@ void InitializeBtnQuitProgram(RenderWindow& window, Button<>** btnQuitProgram,
 }
 
 
-MenuDialog::MenuDialog(RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
+MenuDialog::MenuDialog(RenderWindow& window, ExportingDialog** exportDialog, pybind11::module_& pythonModule, CharacterSet * *characterSet, IShellItem** loadedProject,
 	Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
+	this->pythonModule = pythonModule;
+	this->exportDialog = exportDialog;
 	this->loadedProject = loadedProject;
 	this->characterSet = characterSet;
 	Vector2f startingOffset = CalculateStartingOffset();
@@ -128,12 +131,12 @@ bool MenuDialog::Update(Event& event)
 {
 	if (isOpen)
 	{
-		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()))
+		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()) ||
+			btnExportFont->Update(event, exportDialog, *this->window, this->pythonModule, this->parentScreen))
 			return false;
 		CheckForDragging(event);
 		btnSaveChanges->Update(event, loadedProject, characterSet);
 		btnSaveAs->Update(event, loadedProject, characterSet);
-		btnExportFont->Update(event);
 		btnQuitProgram->Update(event);
 	}
 	return true;

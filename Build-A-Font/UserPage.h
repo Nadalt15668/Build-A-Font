@@ -4,6 +4,7 @@
 #include "UserBoard.h"
 #include "CharacterSet.h"
 #include "MenuDialog.h"
+#include "ExportingDialog.h"
 
 using namespace sf;
 using namespace std;
@@ -24,9 +25,10 @@ private:
     Screen** currentScreen;
     Button<DrawingBoard&>* btnClearBoard;
     Button<DrawingBoard&, CharacterSet&>* btnCaptureBoard;
-    Button<MenuDialog**, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
+    Button<MenuDialog**, ExportingDialog**, pybind11::module_&, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
         Vector2f, string>* btnLaunchMenu;
     MenuDialog* menuDialog = nullptr;
+    ExportingDialog* exportDialog = nullptr;
     Button<map<string, Screen*>&, Screen*&>* btnToStartPage;
     CharacterSet* characterSet;
     IShellItem** loadedProject;

@@ -1,7 +1,7 @@
 #pragma once
 // ----- Dimensions -----
 #define PROGRAM_DIM Vector2f(1280, 720)
-#define DRAWING_DIM Vector2f(199, 216)
+#define DRAWING_DIM Vector2f(128, 128)
 #define CHARACTER_DIM Vector2f(199, 216)
 #define PAGE_BTN_DIM Vector2f(50, 50)
 #define DEFAULT_BUTTON_DIM Vector2f(180, 90)

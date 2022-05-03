@@ -126,7 +126,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;opencv_world455d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;opencv_world455d.lib;python310_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/VERBOSE %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -156,6 +156,7 @@
     <ClCompile Include="Brush.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterSet.cpp" />
+    <ClCompile Include="ExportingDialog.cpp" />
     <ClCompile Include="UserPage.cpp" />
     <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="DrawingBoard.cpp" />
@@ -164,7 +165,6 @@
     <ClCompile Include="StartProgramDialog.cpp" />
     <ClCompile Include="FileDialog.cpp" />
     <ClCompile Include="Program.cpp" />
-    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="OpeningPage.cpp" />
     <ClCompile Include="TextBox.cpp" />
@@ -178,6 +178,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterSet.h" />
+    <ClInclude Include="ExportingDialog.h" />
     <ClInclude Include="UserPage.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Dialog.h" />

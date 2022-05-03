@@ -21,10 +21,10 @@ void AIToStartPage(map<string, Screen*>& screens, Screen*& currentScreen)
 {
     currentScreen = screens[STARTING_PAGE];
 }
-void LaunchAIMenu(MenuDialog** menuDialog, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
+void LaunchAIMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybind11::module_& pythonModule, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
     Screen*& parentScreen, Vector2f size, string dialogTitle)
 {
-    *menuDialog = new MenuDialog(window, characterSet, loadedProject, parentScreen, size, dialogTitle);
+    *menuDialog = new MenuDialog(window, exportDialog, pythonModule, characterSet, loadedProject, parentScreen, size, dialogTitle);
     (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
@@ -64,7 +64,7 @@ AIPage::AIPage(RenderWindow& window, IShellItem** loadedProject, module_& python
         Vector2f(PROGRAM_DIM.x / 2 + btnClearBoard->GetShapeSize().x + 5 + DEFAULT_BUTTON_DIM.x, CLEAR_POS.y), &UndoNum,
         new RectangleShape(Vector2f(30, 30)), Color::Red);
     btnToStartPage = new Button<map<string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &AIToStartPage, new RectangleShape(Vector2f(50, 50)), DEFAULT_GRAY_BGROUND);
-    btnLaunchMenu = new Button< MenuDialog**, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
+    btnLaunchMenu = new Button< MenuDialog**, ExportingDialog**, pybind11::module_&, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
         Vector2f, string>(window, Vector2f(PROGRAM_DIM.x / 17 * 16, PROGRAM_DIM.y / 15), &LaunchAIMenu, new RectangleShape(Vector2f(50, 50)));
     btnLaunchMenu->SetShapeTex(MENU);
     btnToStartPage->SetShapeTex(BACK_ARROW);
@@ -87,6 +87,8 @@ void AIPage::Draw()
     this->btnLaunchMenu->Draw(*this->window);
     if (menuDialog != nullptr)
         menuDialog->Draw();
+    if (exportDialog != nullptr)
+        exportDialog->Draw();
 }
 
 void AIPage::Update(Event& event)
@@ -100,10 +102,10 @@ void AIPage::Update(Event& event)
         btnClearBoard->Update(event, *this->drawingBoard);
         characterSet->Update(event, *this->drawingBoard);
         btnToStartPage->Update(event, *this->screens, *this->currentScreen);
-        this->btnLaunchMenu->Update(event, &menuDialog, *window, &characterSet, loadedProject,
+        this->btnLaunchMenu->Update(event, &menuDialog, &exportDialog, pythonModule, *window, &characterSet, loadedProject,
             *currentScreen, Vector2f(270, 350), "Menu");
         if (Keyboard::isKeyPressed(Keyboard::Escape))
-            LaunchAIMenu(&menuDialog, *window, &characterSet, loadedProject,
+            LaunchAIMenu(&menuDialog, &exportDialog, pythonModule, *window, &characterSet, loadedProject,
                 *currentScreen, Vector2f(270, 350), "Menu");
     }
     if (menuDialog != nullptr)
@@ -112,6 +114,16 @@ void AIPage::Update(Event& event)
         {
             delete menuDialog;
             menuDialog = nullptr;
+            isInteractable = true;
+        }
+    }
+    if (exportDialog != nullptr)
+    {
+        isInteractable = false;
+        if (!exportDialog->Update(event))
+        {
+            delete exportDialog;
+            exportDialog = nullptr;
             isInteractable = true;
         }
     }

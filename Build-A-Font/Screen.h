@@ -8,7 +8,7 @@ using namespace std;
 class Screen
 {
 public:
-	Screen();
+	Screen() {};
 	virtual void Draw() = 0;
 	virtual void Update(Event& event) = 0;
 	bool& GetInteractability() { return isInteractable; };

@@ -16,10 +16,10 @@ void ToStartPage(map<string, Screen*>& screens, Screen*& currentScreen)
 {
     currentScreen = screens[STARTING_PAGE];
 }
-void LaunchMenu(MenuDialog** menuDialog, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
+void LaunchMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybind11::module_& pythonModule, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
     Screen*& parentScreen, Vector2f size, string dialogTitle)
 {
-    *menuDialog = new MenuDialog(window, characterSet, loadedProject, parentScreen, size, dialogTitle);
+    *menuDialog = new MenuDialog(window, exportDialog, pythonModule, characterSet, loadedProject, parentScreen, size, dialogTitle);
     (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
@@ -49,7 +49,7 @@ UserPage::UserPage(RenderWindow& window, IShellItem** loadedProject,
     btnCaptureBoard = new Button<DrawingBoard&, CharacterSet&>(window, CAPTURE_POS, &CaptureBoard,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
     btnToStartPage = new Button<map<string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &ToStartPage, new RectangleShape(Vector2f(50, 50)), DEFAULT_GRAY_BGROUND);
-    btnLaunchMenu = new Button< MenuDialog**, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
+    btnLaunchMenu = new Button< MenuDialog**, ExportingDialog**, pybind11::module_&, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
         Vector2f, string>(window, Vector2f(PROGRAM_DIM.x / 17 * 16, PROGRAM_DIM.y / 15), &LaunchMenu, new RectangleShape(Vector2f(50, 50)));
     btnLaunchMenu->SetShapeTex("Assets/menu.png");
     btnToStartPage->SetShapeTex("Assets/back_arrow.png");
@@ -68,6 +68,8 @@ void UserPage::Draw()
     this->btnLaunchMenu->Draw(*this->window);
     if (menuDialog != nullptr)
         menuDialog->Draw();
+    if (exportDialog != nullptr)
+        exportDialog->Draw();
 }
 
 void UserPage::Update(Event& event)
@@ -79,10 +81,10 @@ void UserPage::Update(Event& event)
         btnClearBoard->Update(event, *this->drawingBoard);
         characterSet->Update(event, *this->drawingBoard);
         btnToStartPage->Update(event, *this->screens, *this->currentScreen);
-        this->btnLaunchMenu->Update(event, &menuDialog, *window, &characterSet, loadedProject,
+        this->btnLaunchMenu->Update(event, &menuDialog, &exportDialog, pythonModule, *window, &characterSet, loadedProject,
             *currentScreen, Vector2f(270, 350), "Menu");
         if (Keyboard::isKeyPressed(Keyboard::Escape))
-            LaunchMenu(&menuDialog, *window, &characterSet, loadedProject,
+            LaunchMenu(&menuDialog, &exportDialog, pythonModule, *window, &characterSet, loadedProject,
                 *currentScreen, Vector2f(270, 350), "Menu");
     }
     if (menuDialog != nullptr)
@@ -91,6 +93,16 @@ void UserPage::Update(Event& event)
         {
             delete menuDialog;
             menuDialog = nullptr;
+            isInteractable = true;
+        }
+    }
+    if (exportDialog != nullptr)
+    {
+        isInteractable = false;
+        if (!exportDialog->Update(event))
+        {
+            delete exportDialog;
+            exportDialog = nullptr;
             isInteractable = true;
         }
     }

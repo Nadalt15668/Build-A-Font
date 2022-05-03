@@ -9,6 +9,7 @@ bool DrawingBoard::SetTemplate(string filename)
 		return false;
 	}
 	this->shape->setTexture(templateTex);
+	this->shape->setScale(0.8, 0.8);
 	return true;
 }
 

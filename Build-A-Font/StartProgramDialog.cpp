@@ -171,14 +171,13 @@ bool StartProgramDialog::Update(Event& event)
 {
 	if (isOpen)
 	{
-		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()))
+		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()) ||
+			btnUserProgram->Update(event, parameters) ||
+			btnAIProgram->	Update(event, parameters))
 			return false;
 		CheckForDragging(event);
 		btnChooseFile->		Update(event, filePath, parameters->loadedProject, chosenFileName);
 		btnCancelChoice->	Update(event, filePath, parameters->loadedProject, chosenFileName);
-		if (btnUserProgram->Update(event, parameters) ||
-			btnAIProgram->	Update(event, parameters))
-			return false;
 	}
 	return true;
 }
