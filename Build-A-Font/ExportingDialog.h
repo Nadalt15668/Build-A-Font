@@ -18,10 +18,13 @@ public:
     ~ExportingDialog();
 private:
     pybind11::module_ pythonModule;
+    IShellItem* chosenItemPath = nullptr;
+    string chosenItemStr;
     TextBox* txtbxCopyright;
     TextBox* txtbxFamilyname;
     TextBox* txtbxVersion;
-    Button<>* btnChooseDest;
+    sf::Text* txtChosenItem;
+    Button<IShellItem**>* btnChooseDest;
     Button<>* btnFinalExport;
 };
 

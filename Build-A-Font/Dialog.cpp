@@ -41,33 +41,36 @@ Vector2f Dialog::CalculateStartingOffset()
 
 void Dialog::CheckForDragging(Event& event)
 {
-	Vector2f topBarPos = Vector2f(this->dialogBar->getPosition().x,
-		this->dialogBar->getPosition().y + this->dialogBar->getLocalBounds().height / 2);
-	FloatRect holdingArea = FloatRect(Vector2f(0, 0),
-		Vector2f(this->dialogBar->getLocalBounds().width * 2, this->dialogBar->getLocalBounds().height * 2));
-	// ----------------- Current position of mouse in our window -----------------
-	Vector2i pixelPos = sf::Mouse::getPosition(*window);
-	Vector2f worldPos = window->mapPixelToCoords(pixelPos);
-	// ---------------------------------------------------------------------------
-	if (event.type == Event::MouseButtonReleased)
-		ResetLastPos();
-	if (Mouse::isButtonPressed(Mouse::Left) &&
-		(lastMouseHeldPos.x == NULL || lastMouseHeldPos.y == NULL) &&
-		CheckDialogBorders(worldPos, this->dialogBar->getLocalBounds(), topBarPos))
+	if (isDraggable)
 	{
-		lastMouseHeldPos.x = worldPos.x;
-		lastMouseHeldPos.y = worldPos.y;
-	}
-	else if (Mouse::isButtonPressed(Mouse::Left) &&
-		(worldPos.x != lastMouseHeldPos.x && lastMouseHeldPos.x != 0 || worldPos.y != lastMouseHeldPos.y && lastMouseHeldPos.x != 0) &&
-		CheckDialogBorders(worldPos, holdingArea, topBarPos))
-	{
-		Move(Vector2f(worldPos.x - lastMouseHeldPos.x, worldPos.y - lastMouseHeldPos.y));
-		lastMouseHeldPos.x = worldPos.x;
-		lastMouseHeldPos.y = worldPos.y;
-		// Adds offset to current position
-		this->dialogPos.x += worldPos.x - lastMouseHeldPos.x;
-		this->dialogPos.y += worldPos.y - lastMouseHeldPos.y;
+		Vector2f topBarPos = Vector2f(this->dialogBar->getPosition().x,
+			this->dialogBar->getPosition().y + this->dialogBar->getLocalBounds().height / 2);
+		FloatRect holdingArea = FloatRect(Vector2f(0, 0),
+			Vector2f(this->dialogBar->getLocalBounds().width * 2, this->dialogBar->getLocalBounds().height * 2));
+		// ----------------- Current position of mouse in our window -----------------
+		Vector2i pixelPos = sf::Mouse::getPosition(*window);
+		Vector2f worldPos = window->mapPixelToCoords(pixelPos);
+		// ---------------------------------------------------------------------------
+		if (event.type == Event::MouseButtonReleased)
+			ResetLastPos();
+		if (Mouse::isButtonPressed(Mouse::Left) &&
+			(lastMouseHeldPos.x == NULL || lastMouseHeldPos.y == NULL) &&
+			CheckDialogBorders(worldPos, this->dialogBar->getLocalBounds(), topBarPos))
+		{
+			lastMouseHeldPos.x = worldPos.x;
+			lastMouseHeldPos.y = worldPos.y;
+		}
+		else if (Mouse::isButtonPressed(Mouse::Left) &&
+			(worldPos.x != lastMouseHeldPos.x && lastMouseHeldPos.x != 0 || worldPos.y != lastMouseHeldPos.y && lastMouseHeldPos.x != 0) &&
+			CheckDialogBorders(worldPos, holdingArea, topBarPos))
+		{
+			Move(Vector2f(worldPos.x - lastMouseHeldPos.x, worldPos.y - lastMouseHeldPos.y));
+			lastMouseHeldPos.x = worldPos.x;
+			lastMouseHeldPos.y = worldPos.y;
+			// Adds offset to current position
+			this->dialogPos.x += worldPos.x - lastMouseHeldPos.x;
+			this->dialogPos.y += worldPos.y - lastMouseHeldPos.y;
+		}
 	}
 }
 

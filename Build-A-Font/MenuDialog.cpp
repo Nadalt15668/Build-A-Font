@@ -89,11 +89,22 @@ void InitializeBtnQuitProgram(RenderWindow& window, Button<>** btnQuitProgram,
 	(*btnQuitProgram)->AddText("Quit Program", 30);
 }
 
+bool IsFull(CharacterSet** characterSet)
+{
+	map<string, vector<RectangleShape>*>* charactersMap = (*characterSet)->GetCharactersDataPtr();
+	for (auto key : *(*characterSet)->GetMapsKeys())
+	{
+		if (charactersMap->at(key)->empty())
+			return false;
+	}
+	return true;
+}
 
-MenuDialog::MenuDialog(RenderWindow& window, ExportingDialog** exportDialog, pybind11::module_& pythonModule, CharacterSet * *characterSet, IShellItem** loadedProject,
+MenuDialog::MenuDialog(RenderWindow& window, ExportingDialog** exportDialog, pybind11::module_& pythonModule, CharacterSet** characterSet, IShellItem** loadedProject,
 	Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
+	this->isExportAvailable = IsFull(characterSet);
 	this->pythonModule = pythonModule;
 	this->exportDialog = exportDialog;
 	this->loadedProject = loadedProject;
@@ -131,7 +142,10 @@ bool MenuDialog::Update(Event& event)
 {
 	if (isOpen)
 	{
-		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()) ||
+		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()))
+			return false;
+		// Checks if all drawings for characters exist
+		if (this->isExportAvailable &&
 			btnExportFont->Update(event, exportDialog, *this->window, this->pythonModule, this->parentScreen))
 			return false;
 		CheckForDragging(event);

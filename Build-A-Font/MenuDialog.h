@@ -23,5 +23,6 @@ private:
     IShellItem** loadedProject;
     CharacterSet** characterSet;
     ExportingDialog** exportDialog;
+    bool isExportAvailable;
 };
 

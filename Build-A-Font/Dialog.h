@@ -15,7 +15,7 @@ public:
     Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor);
     virtual void Draw() = 0;
     virtual void Move(Vector2f offset) = 0;
-    virtual bool Update(Event& event) = 0;
+    virtual bool Update(Event& event) = 0; // Returns false if the dialog is closed
     void OpenDialog(bool& isInteractable);
     Vector2f CalculateStartingOffset();
     void CheckForDragging(Event& event);
@@ -34,6 +34,7 @@ protected:
     sf::Text* dialogTitle;
     Button<bool&, bool&>* btnCloseDialog;
     bool isOpen;
+    bool isDraggable;
     Vector2f lastMouseHeldPos; // For dragging purposes 
 };
 

@@ -73,7 +73,7 @@ public:
     static HRESULT SaveFileAs(PWSTR fileData, IShellItem** loadedProject);
     static HRESULT SaveChanges(PWSTR fileData, IShellItem** loadedProject);
     static PWSTR StrToPWSTR(string fileData);
-    static string ChooseFolder();
+    static string ChooseFolder(IShellItem** chosenPath);
 
     CDialogEventHandler() : _cRef(1) { };
 private:

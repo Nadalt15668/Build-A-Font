@@ -414,7 +414,7 @@ PWSTR CDialogEventHandler::StrToPWSTR(string fileData)
     mbstowcs(returnedData, fileData.c_str(), newsize);
     return returnedData;
 }
-string CDialogEventHandler::ChooseFolder()
+string CDialogEventHandler::ChooseFolder(IShellItem** chosenPathItem)
 {
     IFileDialog* pfd;
     char* path = new char[MAX_PATH];
@@ -424,18 +424,21 @@ string CDialogEventHandler::ChooseFolder()
         if (SUCCEEDED(pfd->GetOptions(&dwOptions)))
         {
             pfd->SetOptions(dwOptions | FOS_PICKFOLDERS);
-        }
-        if (SUCCEEDED(pfd->Show(NULL)))
-        {
-            IShellItem* psi;
-            if (SUCCEEDED(pfd->GetResult(&psi)))
+            if (SUCCEEDED(pfd->SetDefaultFolder(*chosenPathItem)))
             {
-                LPWSTR chosenPath;
-                if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &chosenPath)))
+                if (SUCCEEDED(pfd->Show(NULL)))
                 {
-                    wcstombs(path, chosenPath, MAX_PATH);
+                    if (SUCCEEDED(pfd->GetResult(chosenPathItem)))
+                    {
+                        LPWSTR chosenPath;
+                        if (SUCCEEDED((*chosenPathItem)->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &chosenPath)))
+                        {
+                            wcstombs(path, chosenPath, MAX_PATH);
+                        }
+                        // If there are releasing problems
+                        //(*chosenPathItem)->Release();
+                    }
                 }
-                psi->Release();
             }
         }
         pfd->Release();
