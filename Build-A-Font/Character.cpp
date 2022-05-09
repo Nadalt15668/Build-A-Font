@@ -1,6 +1,6 @@
 #include "Character.h"
 
-void LoadCharacter(DrawingBoard& board, string characterName, string templateFilename, vector<RectangleShape>& mainLines)
+void LoadCharacter(DrawingBoard& board, std::string characterName, std::string templateFilename, std::vector<RectangleShape>& mainLines)
 {
 	board.Clear();
 	board.SetCurrentCharacter(characterName, templateFilename, mainLines);
@@ -9,14 +9,14 @@ void LoadCharacter(DrawingBoard& board, string characterName, string templateFil
 Character::Character(RenderWindow& window, Vector2f pos, sf::Shape* characterRect) :
 	UIElement(pos, characterRect, Color::White)
 {
-	btnCharacter = new Button<DrawingBoard&, string, string, vector<RectangleShape>&>
+	btnCharacter = new Button<DrawingBoard&, std::string, std::string, std::vector<RectangleShape>&>
 		(window, pos, &LoadCharacter, characterRect, Color::White);
 	this->characterRect.setOutlineThickness(1);
 	this->characterRect.setOutlineColor(Color::Black);
 	this->characterRect.setPosition(pos);
 }
 
-void Character::SetCharacterData(string characterName, string templateFilename, vector<RectangleShape>& mainLines)
+void Character::SetCharacterData(std::string characterName, std::string templateFilename, std::vector<RectangleShape>& mainLines)
 {
 	RenderTexture drawingRenderTex;
 	drawingRenderTex.create(DRAWING_DIM.x, DRAWING_DIM.y);
@@ -25,7 +25,7 @@ void Character::SetCharacterData(string characterName, string templateFilename, 
 	this->characterName = characterName;;
 	this->mainLines = &mainLines;
 	this->templateFilename = templateFilename;
-	vector<RectangleShape> texLines = mainLines;
+	std::vector<RectangleShape> texLines = mainLines;
 	for (int i = 0; i < mainLines.size(); i++)
 	{
 		texLines[i].move(-DRAWING_POS.x + DRAWING_DIM.x / 2, -DRAWING_POS.y + DRAWING_DIM.y / 2);

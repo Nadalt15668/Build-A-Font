@@ -22,8 +22,8 @@ CharacterSet::CharacterSet(RenderWindow& window, module_& module, IShellItem** l
     btnPreviousPage = new Button<int&>(window, PRVS_CHR_PGE_POS, &LastPage, new CircleShape(30, 3));
     btnPreviousPage->SetRotation(-90);
     CreateMaps();
-    vector<float> x = CHARACTER_X_AXIS;
-    vector<float> y = CHARACTER_Y_AXIS;
+    std::vector<float> x = CHARACTER_X_AXIS;
+    std::vector<float> y = CHARACTER_Y_AXIS;
     for (int i = 0; i < y.size(); i++)
     { // Starts in 150, 8 characters in a row with a clean distance of 40.5
         for (int j = 0; j < x.size(); j++)
@@ -34,7 +34,7 @@ CharacterSet::CharacterSet(RenderWindow& window, module_& module, IShellItem** l
     auto FilenamesRetriever = pythonModule.attr("retrieve_clean_filenames");
     pybind11::list filenamesPylist = FilenamesRetriever();
     for (int i = 0; i < filenamesPylist.size(); i++)
-        mapsKeys.push_back(cast<string>(filenamesPylist[i]));
+        mapsKeys.push_back(cast<std::string>(filenamesPylist[i]));
     ReadProjectFile();
 }
 
@@ -43,34 +43,34 @@ void CharacterSet::CreateMaps()
     int index = 0;
     auto FilenamesRetriever = pythonModule.attr("retrieve_templates");
     pybind11::list templatesPylist = FilenamesRetriever();
-    string filename;
+    std::string filename;
     for (index; index < CHARACTERS_IN_SET; index++) // Adds characters
     {
-        filename = cast<string>(templatesPylist[index]);
+        filename = cast<std::string>(templatesPylist[index]);
         filename.replace(filename.find_last_of('.'), 4, "");
         templates.insert_or_assign(filename, TEMPLATES_CHARACTERS + 
-            (string)"Characters/" + filename + (string)".png");
-        charactersData.insert_or_assign(filename,  new vector<RectangleShape>);
+            (std::string)"Characters/" + filename + (std::string)".png");
+        charactersData.insert_or_assign(filename,  new std::vector<RectangleShape>);
     }
     for (index; index < CHARACTERS_IN_SET + NUMBERS_IN_SET; index++) // Adds numbers
     {
-        filename = cast<string>(templatesPylist[index]);
+        filename = cast<std::string>(templatesPylist[index]);
         filename.replace(filename.find_last_of('.'), 4, "");
         templates.insert_or_assign(filename, TEMPLATES_CHARACTERS + 
-            (string)"Numbers/" + filename + (string)".png");
-        charactersData.insert_or_assign(filename, new vector<RectangleShape>);
+            (std::string)"Numbers/" + filename + (std::string)".png");
+        charactersData.insert_or_assign(filename, new std::vector<RectangleShape>);
     }
     for (index; index < TOTALS_IN_SET; index++) // Adds symbols
     {
-        filename = cast<string>(templatesPylist[index]);
+        filename = cast<std::string>(templatesPylist[index]);
         filename.replace(filename.find_last_of('.'), 4, "");
         templates.insert_or_assign(filename, TEMPLATES_CHARACTERS + 
-            (string)"Symbols/" + filename + (string)".png");
-        charactersData.insert_or_assign(filename, new vector<RectangleShape>);
+            (std::string)"Symbols/" + filename + (std::string)".png");
+        charactersData.insert_or_assign(filename, new std::vector<RectangleShape>);
     }
 }
 
-void CharacterSet::CaptureCharacter(string characterName, vector<RectangleShape> mainLines)
+void CharacterSet::CaptureCharacter(std::string characterName, std::vector<RectangleShape> mainLines)
 {
     this->charactersData[characterName]->clear();
     for (auto line : mainLines)
@@ -85,14 +85,14 @@ void CharacterSet::ReadProjectFile()
     if (fileData != nullptr)
     {
         char* token;
-        vector<string> splittedFile;
+        std::vector<std::string> splittedFile;
         token = strtok(fileData, FILE_DELIM);
         while (token != NULL)
         {
             splittedFile.push_back(token);
             token = strtok(NULL, FILE_DELIM);
         }
-        vector<RectangleShape>* characterData;
+        std::vector<RectangleShape>* characterData;
         int numOfLines = 0;
         for (int i = 0; i < splittedFile.size() - 1;)
         {

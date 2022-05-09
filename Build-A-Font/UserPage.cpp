@@ -12,12 +12,12 @@ void CaptureBoard(DrawingBoard& drawingBoard, CharacterSet& characterSet)
         characterSet.UpdateCharacters();
     }
 }
-void ToStartPage(map<string, Screen*>& screens, Screen*& currentScreen)
+void ToStartPage(std::map<std::string, Screen*>& screens, Screen*& currentScreen)
 {
     currentScreen = screens[STARTING_PAGE];
 }
 void LaunchMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybind11::module_& pythonModule, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
-    Screen*& parentScreen, Vector2f size, string dialogTitle)
+    Screen*& parentScreen, Vector2f size, std::string dialogTitle)
 {
     *menuDialog = new MenuDialog(window, exportDialog, pythonModule, characterSet, loadedProject, parentScreen, size, dialogTitle);
     (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
@@ -25,7 +25,7 @@ void LaunchMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybind1
 
 
 UserPage::UserPage(RenderWindow& window, IShellItem** loadedProject,
-    module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen) 
+    module_& pythonModule, std::map<std::string, Screen*>& screens, Screen*& currentScreen)
     : Screen()
 {
     this->loadedProject = loadedProject;
@@ -48,9 +48,9 @@ UserPage::UserPage(RenderWindow& window, IShellItem** loadedProject,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
     btnCaptureBoard = new Button<DrawingBoard&, CharacterSet&>(window, CAPTURE_POS, &CaptureBoard,
         new RectangleShape(Vector2f(DEFAULT_BUTTON_DIM.x / 1.3, 50)));
-    btnToStartPage = new Button<map<string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &ToStartPage, new RectangleShape(Vector2f(50, 50)), DEFAULT_GRAY_BGROUND);
+    btnToStartPage = new Button<std::map<std::string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &ToStartPage, new RectangleShape(Vector2f(50, 50)), DEFAULT_GRAY_BGROUND);
     btnLaunchMenu = new Button< MenuDialog**, ExportingDialog**, pybind11::module_&, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
-        Vector2f, string>(window, Vector2f(PROGRAM_DIM.x / 17 * 16, PROGRAM_DIM.y / 15), &LaunchMenu, new RectangleShape(Vector2f(50, 50)));
+        Vector2f, std::string>(window, Vector2f(PROGRAM_DIM.x / 17 * 16, PROGRAM_DIM.y / 15), &LaunchMenu, new RectangleShape(Vector2f(50, 50)));
     btnLaunchMenu->SetShapeTex("Assets/menu.png");
     btnToStartPage->SetShapeTex("Assets/back_arrow.png");
     btnClearBoard->AddText("CLEAR", 30);

@@ -1,6 +1,6 @@
 #include "StartProgramDialog.h"
 
-bool containsOnlyASCII(string& filePath) {
+bool containsOnlyASCII(std::string& filePath) {
 	for (auto c : filePath) {
 		if (static_cast<unsigned char>(c) > 127 || static_cast<unsigned char>(c) == 63) {
 			return false;
@@ -11,7 +11,7 @@ bool containsOnlyASCII(string& filePath) {
 
 #define DEFAULT_CHOOSE_MSG "No  project file is chosen"
 #define ERROR_NON_ASCII "Error: N0N-ASCII characters"
-void ChooseFile(string& fileName, IShellItem** loadedProject, sf::Text*& chosenFile)
+void ChooseFile(std::string& fileName, IShellItem** loadedProject, sf::Text*& chosenFile)
 {
 	fileName = CDialogEventHandler::ChooseFile(loadedProject);
 	if (fileName != "" && containsOnlyASCII(fileName))
@@ -31,7 +31,7 @@ void ChooseFile(string& fileName, IShellItem** loadedProject, sf::Text*& chosenF
 	}
 }
 
-void CancelChoice(string& filePath, IShellItem** loadedProject, sf::Text*& chosenFile)
+void CancelChoice(std::string& filePath, IShellItem** loadedProject, sf::Text*& chosenFile)
 {
 	filePath = "";
 	*loadedProject = nullptr;
@@ -78,18 +78,18 @@ void InitializeSttcOr(Font*& font, sf::Text*& sttcOr, FloatRect dialogBground, V
 			160 + startingOffset.y)
 	);
 }
-void InitializeBtnChooseFile(RenderWindow& window, Button<string&,IShellItem**,sf::Text*&>*& btnChooseFile, FloatRect dialogBground, Vector2f startingOffset)
+void InitializeBtnChooseFile(RenderWindow& window, Button<std::string&,IShellItem**,sf::Text*&>*& btnChooseFile, FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(110, 40));
 	Vector2f position(dialogBground.width / 2 - size.x / 1.5 + startingOffset.x, startingOffset.y + size.y / 2 + 30);
-	btnChooseFile = new Button<string&, IShellItem**, sf::Text*&>(window, position, &ChooseFile, new RectangleShape(size), Color(200, 200, 200));
+	btnChooseFile = new Button<std::string&, IShellItem**, sf::Text*&>(window, position, &ChooseFile, new RectangleShape(size), Color(200, 200, 200));
 	btnChooseFile->AddText("Choose...", 25);
 }
-void InitializeBtnCancelChoice(RenderWindow& window, Button<string&,IShellItem**,sf::Text*&>*& btnCancelChoice, FloatRect dialogBground, Vector2f startingOffset)
+void InitializeBtnCancelChoice(RenderWindow& window, Button<std::string&,IShellItem**,sf::Text*&>*& btnCancelChoice, FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(110, 40));
 	Vector2f position(dialogBground.width / 2 + size.x / 1.5 + startingOffset.x, startingOffset.y + size.y / 2 + 30);
-	btnCancelChoice = new Button<string&, IShellItem**, sf::Text*&>(window, position, &CancelChoice, new RectangleShape(size), Color(200, 200, 200));
+	btnCancelChoice = new Button<std::string&, IShellItem**, sf::Text*&>(window, position, &CancelChoice, new RectangleShape(size), Color(200, 200, 200));
 	btnCancelChoice->AddText("Cancel", 25);
 }
 void InitializeTxtChosenFile(Font*& font, sf::Text*& chosenFile, FloatRect dialogBground, Vector2f& startingOffset)
@@ -119,7 +119,7 @@ void InitializeBtnAIProgram(DrawingPagePars* parameters, Button<DrawingPagePars*
 }
 
 StartProgramDialog::StartProgramDialog(RenderWindow& window, Screen*& parentScreen, Vector2f size,
-	DrawingPagePars* parameters, string dialogTitle, Color bgroundColor) :
+	DrawingPagePars* parameters, std::string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
 	this->parameters = parameters;

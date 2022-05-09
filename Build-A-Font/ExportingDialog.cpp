@@ -1,9 +1,10 @@
 #include "ExportingDialog.h"
 #include <string>
 #include <regex>
+#include <filesystem>
 #define TEXTBOX_BETWEEN_SPACE (DEFAULT_TEXTBOX_DIM.y + 20)
 
-bool CheckPath(string& str) {
+bool CheckPath(std::string& str) {
 	for (auto c : str) {
 		if (static_cast<unsigned char>(c) > 127 || static_cast<unsigned char>(c) == 63) {
 			return false;
@@ -12,7 +13,7 @@ bool CheckPath(string& str) {
 	return true;
 }
 
-void ChooseDest(IShellItem** chosenDest, string& chosenItemStr, sf::Text** txtChosenItem)
+void ChooseDest(IShellItem** chosenDest, std::string& chosenItemStr, sf::Text** txtChosenItem)
 {
 	chosenItemStr = CDialogEventHandler::ChooseFolder(chosenDest);
 	if (CheckPath(chosenItemStr))
@@ -33,10 +34,9 @@ void ChooseDest(IShellItem** chosenDest, string& chosenItemStr, sf::Text** txtCh
 
 void FinalExport()
 {
-
 }
 
-void InitializeTxtboxCopyright(RenderWindow& window, TextBox** txtboxCopyright, string hintText, int textSize,
+void InitializeTxtboxCopyright(RenderWindow& window, TextBox** txtboxCopyright, std::string hintText, int textSize,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(DEFAULT_TEXTBOX_DIM.x * 1.5, DEFAULT_TEXTBOX_DIM.y);
@@ -44,7 +44,7 @@ void InitializeTxtboxCopyright(RenderWindow& window, TextBox** txtboxCopyright, 
 	(*txtboxCopyright) = new TextBox(window, pos, size, hintText, textSize);
 }
 
-void InitializeTxtboxFamilyname(RenderWindow& window, TextBox** txtboxFamilyname, string hintText, int textSize,
+void InitializeTxtboxFamilyname(RenderWindow& window, TextBox** txtboxFamilyname, std::string hintText, int textSize,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(DEFAULT_TEXTBOX_DIM.x * 1.5, DEFAULT_TEXTBOX_DIM.y);
@@ -52,7 +52,7 @@ void InitializeTxtboxFamilyname(RenderWindow& window, TextBox** txtboxFamilyname
 	(*txtboxFamilyname) = new TextBox(window, pos, size, hintText, textSize);
 }
 
-void InitializeTxtboxVersion(RenderWindow& window, TextBox** txtboxVerssion, string hintText, int textSize,
+void InitializeTxtboxVersion(RenderWindow& window, TextBox** txtboxVerssion, std::string hintText, int textSize,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(DEFAULT_TEXTBOX_DIM.x * 1.5, DEFAULT_TEXTBOX_DIM.y);
@@ -60,12 +60,12 @@ void InitializeTxtboxVersion(RenderWindow& window, TextBox** txtboxVerssion, str
 	(*txtboxVerssion) = new TextBox(window, pos, size, hintText, textSize);
 }
 
-void InitializeBtnChooseDest(RenderWindow& window, Button <IShellItem**, string&, sf::Text**> ** btnChooseDest,
+void InitializeBtnChooseDest(RenderWindow& window, Button <IShellItem**, std::string&, sf::Text**> ** btnChooseDest,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(100, 30));
 	Vector2f pos(dialogBground.width / 2 + startingOffset.x - size.x / 2 - 10, TEXTBOX_BETWEEN_SPACE * 3 + startingOffset.y + size.y + 30);
-	(*btnChooseDest) = new Button<IShellItem**, string&, sf::Text**>(window, pos, &ChooseDest, new RectangleShape(size));
+	(*btnChooseDest) = new Button<IShellItem**, std::string&, sf::Text**>(window, pos, &ChooseDest, new RectangleShape(size));
 	(*btnChooseDest)->AddText("Choose...", 25);
 }
 
@@ -91,7 +91,7 @@ void InitializeBtnFinalExport(RenderWindow& window, Button <>** btnFinalExport,
 	(*btnFinalExport)->AddText("Export", 30);
 }
 
-ExportingDialog::ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule, Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor) :
+ExportingDialog::ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
 	this->isDraggable = false;

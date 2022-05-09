@@ -9,7 +9,7 @@ class MenuDialog :
 {
 public:
     MenuDialog(RenderWindow& window, ExportingDialog** exportDialog, pybind11::module_& pythonModule, CharacterSet** characterSet, IShellItem** loadedProject,
-        Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor = DEFAULT_DIALOG_COLOR);
+        Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor = DEFAULT_DIALOG_COLOR);
     void Draw();
     void Move(Vector2f offset);
     bool Update(Event& event);

@@ -27,14 +27,14 @@ cv::Mat sfImg2cvImg(const sf::Image& img) {
 	return mat.clone();
 }
 
-void AIBoard::Capture(map<string, vector<RectangleShape>*>* charactersData)
+void AIBoard::Capture(std::map<std::string, std::vector<RectangleShape>*>* charactersData)
 {
 	(*charactersData)[this->characterName]->clear();
 	for (auto line : this->mainLines)
 		(*charactersData)[this->characterName]->push_back(line);
 }
 
-void AIBoard::CaptNum(map<string, vector<RectangleShape>*>* charactersData)
+void AIBoard::CaptNum(std::map<std::string, std::vector<RectangleShape>*>* charactersData)
 {
 	// Build a RenderTexture to convert to an opencv::Image
 	RectangleShape texLine;
@@ -68,7 +68,7 @@ void AIBoard::CaptNum(map<string, vector<RectangleShape>*>* charactersData)
 		}
 	}
 	// Retrieves the result from the NN and saves the drawing accordingly
-	string result = std::to_string(network->Calc(input));
+	std::string result = std::to_string(network->Calc(input));
 	// Saves the data of the number the NN 'thought' the number is - for undoing purposes
 	this->lastNumDrawing = *((*charactersData)[result]);
 	// If its the first character drawn, save it as the last character
@@ -80,7 +80,7 @@ void AIBoard::CaptNum(map<string, vector<RectangleShape>*>* charactersData)
 		(*charactersData)[result]->push_back(line);
 }
 
-void AIBoard::UndoNum(map<string, vector<RectangleShape>*>* charactersData)
+void AIBoard::UndoNum(std::map<std::string, std::vector<RectangleShape>*>* charactersData)
 {
 	if (this->lastNumName != "")
 	{

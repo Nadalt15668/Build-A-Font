@@ -7,7 +7,7 @@ class UserBoard :
 public:
     UserBoard(RenderWindow& window, Vector2f center, Vector2f size,
         Vector2f vpSizeRatio, Vector2f vpLocationRatio);
-    void Capture(map<string, vector<RectangleShape>*>* charactersData);
+    void Capture(std::map<std::string, std::vector<RectangleShape>*>* charactersData);
 private:
 };
 

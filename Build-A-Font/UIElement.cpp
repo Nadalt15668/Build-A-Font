@@ -12,7 +12,7 @@ UIElement::UIElement(Vector2f pos, sf::Shape* shape, Color shapeColor)
 	this->elementTypes.insert_or_assign(ElementType::Shape, true);
 }
 
-UIElement::UIElement(Vector2f pos, string text, int textSize, string fontPath)
+UIElement::UIElement(Vector2f pos, std::string text, int textSize, std::string fontPath)
 {
 	InitElementTypes();
 	this->text.setString(text);
@@ -30,7 +30,7 @@ UIElement::UIElement(Vector2f pos, string text, int textSize, string fontPath)
 	this->elementTypes.insert_or_assign(ElementType::Text, true);
 }
 
-UIElement::UIElement(Vector2f pos, string filename)
+UIElement::UIElement(Vector2f pos, std::string filename)
 {
 	InitElementTypes();
 	Texture* texture = new Texture;
@@ -53,7 +53,7 @@ void UIElement::InitElementTypes()
 	elementTypes.insert_or_assign(ElementType::Text, false);
 }
 
-bool UIElement::SetText(string text, string fontPath, int textSize, Color textColor, TextOrigin textOrigin)
+bool UIElement::SetText(std::string text, std::string fontPath, int textSize, Color textColor, TextOrigin textOrigin)
 {
 	Font* font = new Font;
 	if (!font->loadFromFile(fontPath))
@@ -82,7 +82,7 @@ bool UIElement::SetText(string text, string fontPath, int textSize, Color textCo
 	return true;
 }
 
-bool UIElement::SetText(string text, Font* font, int textSize, Color textColor, TextOrigin textOrigin)
+bool UIElement::SetText(std::string text, Font* font, int textSize, Color textColor, TextOrigin textOrigin)
 {
 	this->text.setFont(*font);
 	this->text.setCharacterSize(textSize);
@@ -105,7 +105,7 @@ bool UIElement::SetText(string text, Font* font, int textSize, Color textColor, 
 	return true;
 }
 
-bool UIElement::SetText(string text, Color textColor)
+bool UIElement::SetText(std::string text, Color textColor)
 {
 	this->text.setString(text);
 	this->text.setFillColor(textColor);
@@ -118,7 +118,7 @@ bool UIElement::SetRotation(float rotation)
 	return true;
 }
 
-bool UIElement::SetSprite(string filename)
+bool UIElement::SetSprite(std::string filename)
 {
 	Texture* texture = new Texture();
 	if (!texture->loadFromFile(filename))
@@ -146,7 +146,7 @@ bool UIElement::SetSprite(Texture* texture)
 	return true;
 }
 
-bool UIElement::SetShapeTex(string filename)
+bool UIElement::SetShapeTex(std::string filename)
 {
 	Texture* texture = new Texture;
 	if (!texture->loadFromFile(filename))

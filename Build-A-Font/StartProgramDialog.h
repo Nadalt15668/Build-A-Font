@@ -7,14 +7,13 @@
 #include "TextBox.h"
 #include "Button.h"
 
-using namespace std;
-using namespace sf;
+
 
 typedef struct DrawingPagePars
 {
     RenderWindow** window;
     module_** pythonModule;
-    map<string, Screen*>** screens;
+    std::map<std::string, Screen*>** screens;
     Screen*** currentScreen;
     IShellItem** loadedProject;
 }DrawingPagePars;
@@ -24,7 +23,7 @@ class StartProgramDialog :
 {
 public:
     StartProgramDialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, DrawingPagePars* parameters,
-        string dialogTitle = "", Color bgroundColor = DEFAULT_DIALOG_COLOR);
+        std::string dialogTitle = "", Color bgroundColor = DEFAULT_DIALOG_COLOR);
     void Draw();
     void Move(Vector2f offset);
     bool Update(Event& event);
@@ -34,11 +33,11 @@ private:
     sf::Text* sttcOr;
     sf::Text* sttcStartNewProj;
     sf::Text* chosenFileName;
-    Button<string&, IShellItem**, sf::Text*&>* btnChooseFile;
-    Button<string&, IShellItem**, sf::Text*&>* btnCancelChoice;
+    Button<std::string&, IShellItem**, sf::Text*&>* btnChooseFile;
+    Button<std::string&, IShellItem**, sf::Text*&>* btnCancelChoice;
     Button<DrawingPagePars*>* btnUserProgram;
     Button<DrawingPagePars*>* btnAIProgram;
     DrawingPagePars* parameters;
-    string filePath;
+    std::string filePath;
 };
 

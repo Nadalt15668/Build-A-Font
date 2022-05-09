@@ -10,7 +10,7 @@ UserBoard::UserBoard(RenderWindow& window,
 {
 }
 
-void UserBoard::Capture(map<string, vector<RectangleShape>*>* charactersData)
+void UserBoard::Capture(std::map<std::string, std::vector<RectangleShape>*>* charactersData)
 {
     (*charactersData)[this->characterName]->clear();
     for (auto line : this->mainLines)

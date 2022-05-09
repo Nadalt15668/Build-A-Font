@@ -24,7 +24,7 @@ void Program::InitScreensMap()
                     };
 }
 
-void Program::LoadCurrentPage(string pageName)
+void Program::LoadCurrentPage(std::string pageName)
 {
     this->currentPage = this->screens[pageName];
     bool& isInteractable = this->currentPage->GetInteractability();

@@ -5,7 +5,7 @@ void OpenFile(FILE*& file, const char* fileName)
 	file = fopen(fileName, "rb");
 	if (!(file))
 	{
-		std::cout << "can't open file" << endl;
+		std::cout << "can't open file" << std::endl;
 		return;
 	}
 }
@@ -71,7 +71,7 @@ NeuralNetwork::NeuralNetwork()
 
 }
 
-NeuralNetwork::NeuralNetwork(string fileName)
+NeuralNetwork::NeuralNetwork(std::string fileName)
 {
 	layers[0].resize(NumOfNodesInInput);
 	layers[NumOfHiddenLayers + 1].resize(NumOfNodesInOutput);
@@ -84,7 +84,7 @@ NeuralNetwork::NeuralNetwork(string fileName)
 
 	std::ifstream file(fileName, std::ofstream::binary);
 	if (!file) {
-		cout << "cant open file" << endl;
+		std::cout << "cant open file" << std::endl;
 		return;
 	}
 
@@ -166,11 +166,11 @@ int NeuralNetwork::Calc(double* input)
 	return maxn;
 }
 
-void NeuralNetwork::SaveToFile(string fileName)
+void NeuralNetwork::SaveToFile(std::string fileName)
 {
 	std::ofstream file(fileName, std::ofstream::binary);
 	if (!file) {
-		cout << "cant open file" << endl;
+		std::cout << "cant open file" << std::endl;
 		return;
 	}
 
@@ -209,13 +209,13 @@ void NeuralNetwork::SaveToFile(string fileName)
 
 
 
-void NeuralNetwork::Backprop(vector<double*> input, vector<int> label, double jumpSize)
+void NeuralNetwork::Backprop(std::vector<double*> input, std::vector<int> label, double jumpSize)
 {
 	double inputWG[NumOfNodesInHidden][NumOfNodesInInput];
 	double outputWG[NumOfNodesInOutput][NumOfNodesInHidden];
 	HiddenW hiddenWsG[NumOfHiddenLayers - 1];
-	vector<double> biasG[NumOfHiddenLayers + 1];
-	vector<double> error[NumOfHiddenLayers + 2];
+	std::vector<double> biasG[NumOfHiddenLayers + 1];
+	std::vector<double> error[NumOfHiddenLayers + 2];
 	int SetLen = input.size();
 
 	error[0].resize(NumOfNodesInInput);
@@ -243,8 +243,8 @@ void NeuralNetwork::Backprop(vector<double*> input, vector<int> label, double ju
 
 	// reset the error
 	for (int t = 0; t < SetLen; t++) {
-		cout << label[t] << "l" << endl;
-		cout << Calc(input[t]) << "c" << endl;
+		std::cout << label[t] << "l" << std::endl;
+		std::cout << Calc(input[t]) << "c" << std::endl;
 		for (int p = 0; p < NumOfHiddenLayers + 2; p++) {
 			for (auto& e : error[p]) {
 				e = 0;
@@ -307,22 +307,22 @@ void NeuralNetwork::Backprop(vector<double*> input, vector<int> label, double ju
 	}
 }
 
-void randomize(vector<double*>& input, vector<int>& label)
+void randomize(std::vector<double*>& input, std::vector<int>& label)
 {
 	int s = input.size();
 	for (int i = 0; i < s; i++)
 	{
 		int k = rand() % s;
-		swap(input[i], input[k]);
-		swap(label[i], label[k]);
+		std::swap(input[i], input[k]);
+		std::swap(label[i], label[k]);
 	}
 }
 
-void NeuralNetwork::Learn(vector<double*>& input, vector<int>& label, double jumpSize)
+void NeuralNetwork::Learn(std::vector<double*>& input, std::vector<int>& label, double jumpSize)
 {
 	int totalSize = input.size();
-	vector<double*> trainSet;
-	vector<int> labelSet;
+	std::vector<double*> trainSet;
+	std::vector<int> labelSet;
 	for (int t = 0; t < TimeToGoOverTrain; t++)
 	{
 		randomize(input, label);
@@ -340,7 +340,7 @@ void NeuralNetwork::Learn(vector<double*>& input, vector<int>& label, double jum
 	}
 }
 
-void NeuralNetwork::Test(vector<double*>& input, vector<int>& label)
+void NeuralNetwork::Test(std::vector<double*>& input, std::vector<int>& label)
 {
 	int len = input.size();
 	int cor = 0;
@@ -349,14 +349,14 @@ void NeuralNetwork::Test(vector<double*>& input, vector<int>& label)
 		if (Calc(input[i]) == label[i])
 			cor++;
 	}
-	cout << (double)cor / len << endl;
+	std::cout << (double)cor / len << std::endl;
 }
 
 void NeuralNetwork::InsertInput(const char* dataName, const char* labelName, int mode)
 {
 	unsigned int fileLen = 0;
-	vector<double*> inputV;
-	vector<int> labelV;
+	std::vector<double*> inputV;
+	std::vector<int> labelV;
 	// Opens images set file
 	FILE* fdata = NULL;
 	OpenFile(fdata, dataName);
@@ -370,7 +370,7 @@ void NeuralNetwork::InsertInput(const char* dataName, const char* labelName, int
 		((fileLen << 8) & 0x00ff0000) |
 		((fileLen >> 8) & 0x0000ff00) |
 		(fileLen << 24);
-	std::cout << fileLen << endl;
+	std::cout << fileLen << std::endl;
 	// Skips to information in both files
 	std::fseek(fdata, 16, SEEK_SET);
 	std::fseek(flabel, 8, SEEK_SET);

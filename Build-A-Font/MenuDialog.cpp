@@ -1,25 +1,25 @@
 #include "MenuDialog.h"
 
-string ReadCharacterSet(CharacterSet** characterSet)
+std::string ReadCharacterSet(CharacterSet** characterSet)
 {
-	string fileData = "";
-	vector<string>* mapsKeys = (*characterSet)->GetMapsKeys();
-	map<string, vector<RectangleShape>*>* charactersData = (*characterSet)->GetCharactersDataPtr();
+	std::string fileData = "";
+	std::vector<std::string>* mapsKeys = (*characterSet)->GetMapsKeys();
+	std::map<std::string, std::vector<RectangleShape>*>* charactersData = (*characterSet)->GetCharactersDataPtr();
 	for (int i = 0; i < (*mapsKeys).size(); i++)
 	{
-		vector<RectangleShape>* curCharData = (*charactersData)[(*mapsKeys)[i]];
+		std::vector<RectangleShape>* curCharData = (*charactersData)[(*mapsKeys)[i]];
 		if ((*curCharData).size() != 0)
 		{
 			fileData += (*mapsKeys)[i] + FILE_DELIM; // Character Name
-			fileData += to_string((*curCharData).size()) + FILE_DELIM; // Num of lines
+			fileData += std::to_string((*curCharData).size()) + FILE_DELIM; // Num of lines
 		}
 		for (auto line : *curCharData) // Writing a character's lines
 		{
-			fileData += to_string(line.getSize().x) + FILE_DELIM;
-			fileData += to_string(line.getSize().y) + FILE_DELIM;
-			fileData += to_string(line.getPosition().x) + FILE_DELIM;
-			fileData += to_string(line.getPosition().y) + FILE_DELIM;
-			fileData += to_string(line.getRotation()) + FILE_DELIM;
+			fileData += std::to_string(line.getSize().x) + FILE_DELIM;
+			fileData += std::to_string(line.getSize().y) + FILE_DELIM;
+			fileData += std::to_string(line.getPosition().x) + FILE_DELIM;
+			fileData += std::to_string(line.getPosition().y) + FILE_DELIM;
+			fileData += std::to_string(line.getRotation()) + FILE_DELIM;
 		}
 	}
 	return fileData;
@@ -32,14 +32,14 @@ void btnFuncQuitProgram()
 
 void btnFuncSaveChanges(IShellItem** loadedProject, CharacterSet** characterSet)
 {
-	string fileData = ReadCharacterSet(characterSet);
+	std::string fileData = ReadCharacterSet(characterSet);
 	PWSTR fileDataW = CDialogEventHandler::StrToPWSTR(fileData);
 	CDialogEventHandler::SaveChanges(fileDataW, loadedProject);
 }
 
 void btnFuncSaveAs(IShellItem** loadedProject, CharacterSet** characterSet)
 {
-	string fileData = ReadCharacterSet(characterSet);
+	std::string fileData = ReadCharacterSet(characterSet);
 	PWSTR fileDataW = CDialogEventHandler::StrToPWSTR(fileData);
 	int sizeofstr = sizeof(fileData);
 	int sizeofpwstr = sizeof(fileDataW);
@@ -91,7 +91,7 @@ void InitializeBtnQuitProgram(RenderWindow& window, Button<>** btnQuitProgram,
 
 bool IsFull(CharacterSet** characterSet)
 {
-	map<string, vector<RectangleShape>*>* charactersMap = (*characterSet)->GetCharactersDataPtr();
+	std::map<std::string, std::vector<RectangleShape>*>* charactersMap = (*characterSet)->GetCharactersDataPtr();
 	for (auto key : *(*characterSet)->GetMapsKeys())
 	{
 		if (charactersMap->at(key)->empty())
@@ -101,7 +101,7 @@ bool IsFull(CharacterSet** characterSet)
 }
 
 MenuDialog::MenuDialog(RenderWindow& window, ExportingDialog** exportDialog, pybind11::module_& pythonModule, CharacterSet** characterSet, IShellItem** loadedProject,
-	Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor) :
+	Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
 	this->isExportAvailable = IsFull(characterSet);

@@ -9,11 +9,11 @@ class AIBoard :
 public:
     AIBoard(RenderWindow& window, Vector2f center, Vector2f size,
         Vector2f vpSizeRatio, Vector2f vpLocationRatio);
-    void Capture(map<string, vector<RectangleShape>*>* charactersData);
-    void CaptNum(map<string, vector<RectangleShape>*>* charactersData);
-    void UndoNum(map<string, vector<RectangleShape>*>* charactersData);
+    void Capture(std::map<std::string, std::vector<RectangleShape>*>* charactersData);
+    void CaptNum(std::map<std::string, std::vector<RectangleShape>*>* charactersData);
+    void UndoNum(std::map<std::string, std::vector<RectangleShape>*>* charactersData);
 private:
     NeuralNetwork* network;
-    vector<RectangleShape> lastNumDrawing;
-    string lastNumName;
+    std::vector<RectangleShape> lastNumDrawing;
+    std::string lastNumName;
 };

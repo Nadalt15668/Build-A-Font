@@ -5,7 +5,6 @@
 #include "Button.h"
 
 using namespace sf;
-using namespace std;
 
 #define BACKSPACE 8
 #define ELAPSED_TIME_FOR_INPUT 0.3
@@ -16,11 +15,11 @@ class TextBox :
     public UIElement
 {
 public:
-    TextBox(RenderWindow& window, Vector2f pos, Vector2f size, string hintText, int textSize, string fontPath = DEFAULT_FONTPATH);
+    TextBox(RenderWindow& window, Vector2f pos, Vector2f size, std::string hintText, int textSize,std::string fontPath = DEFAULT_FONTPATH);
     void Draw(RenderWindow& window);
     void Update(Event& event);
     void MoveTextBox(Vector2f offset) { this->Move(offset); this->btnTextBox->Move(offset); };
-    string GetText() { return this->totalText; };
+    std::string GetText() { return this->totalText; };
     bool IsFilled() { return (this->totalText != "") ? true : false; };
     ~TextBox();
 private:
@@ -28,9 +27,9 @@ private:
     Font* font;
     int numOfShownCharacters;
     int textSize;
-    string shownText = ""; // The text that is actually shown
-    string totalText = ""; // The total written text
-    string hintText = ""; // A hint text of the textbox
+    std::string shownText = ""; // The text that is actually shown
+    std::string totalText = ""; // The total written text
+    std::string hintText = ""; // A hint text of the textbox
     Button<bool&>* btnTextBox;
     bool isWritable = false;
     Clock* lastInputClock;

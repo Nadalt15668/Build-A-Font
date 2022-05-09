@@ -204,7 +204,7 @@ HRESULT CDialogEventHandler::CDialogEventHandler_CreateInstance(REFIID riid, voi
 
 {
     *ppv = NULL;
-    CDialogEventHandler* pDialogEventHandler = new (nothrow) CDialogEventHandler();
+    CDialogEventHandler* pDialogEventHandler = new (std::nothrow) CDialogEventHandler();
     HRESULT hr = pDialogEventHandler ? S_OK : E_OUTOFMEMORY;
     if (SUCCEEDED(hr))
     {
@@ -214,7 +214,7 @@ HRESULT CDialogEventHandler::CDialogEventHandler_CreateInstance(REFIID riid, voi
     return hr;
 }
 
-string CDialogEventHandler::ChooseFile(IShellItem** loadedProject)
+std::string CDialogEventHandler::ChooseFile(IShellItem** loadedProject)
 
 {
     // CoCreate the File Open Dialog object.
@@ -277,7 +277,7 @@ string CDialogEventHandler::ChooseFile(IShellItem** loadedProject)
         }
         pfd->Release();
     } 
-    string strPath(path);
+    std::string strPath(path);
     delete[] path;
     return strPath.substr(strPath.find_last_of('\\') + 1);
 }
@@ -407,14 +407,14 @@ HRESULT CDialogEventHandler::SaveChanges(PWSTR fileData, IShellItem** loadedProj
         hr = SaveFileAs(fileData, loadedProject);
     return hr;
 }
-PWSTR CDialogEventHandler::StrToPWSTR(string fileData)
+PWSTR CDialogEventHandler::StrToPWSTR(std::string fileData)
 {
     size_t newsize =fileData.length() + 1;
     PWSTR returnedData = new wchar_t[newsize];
     mbstowcs(returnedData, fileData.c_str(), newsize);
     return returnedData;
 }
-string CDialogEventHandler::ChooseFolder(IShellItem** chosenPathItem)
+std::string CDialogEventHandler::ChooseFolder(IShellItem** chosenPathItem)
 {
     IFileDialog* pfd;
     char* path = new char[MAX_PATH];
@@ -443,7 +443,7 @@ string CDialogEventHandler::ChooseFolder(IShellItem** chosenPathItem)
         }
         pfd->Release();
     }
-    string strPath(path);
+    std::string strPath(path);
     delete[] path;
     return strPath;
 }

@@ -11,7 +11,7 @@
 #pragma comment(lib, "Comctl32.lib")
 #pragma comment(lib, "Propsys.lib")
 
-using namespace std;
+
 
 #pragma comment(linker, "\"/manifestdependency:type='Win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 // Added for changing the entry point
@@ -68,12 +68,12 @@ public:
     IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize*, DWORD, BOOL);
     IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD);
     static HRESULT CDialogEventHandler_CreateInstance(REFIID riid, void** ppv);
-    static string ChooseFile(IShellItem** loadedProject);
+    static std::string ChooseFile(IShellItem** loadedProject);
     static char* ReadFromFile(IShellItem** loadedProject);
     static HRESULT SaveFileAs(PWSTR fileData, IShellItem** loadedProject);
     static HRESULT SaveChanges(PWSTR fileData, IShellItem** loadedProject);
-    static PWSTR StrToPWSTR(string fileData);
-    static string ChooseFolder(IShellItem** chosenPath);
+    static PWSTR StrToPWSTR(std::string fileData);
+    static std::string ChooseFolder(IShellItem** chosenPath);
 
     CDialogEventHandler() : _cRef(1) { };
 private:

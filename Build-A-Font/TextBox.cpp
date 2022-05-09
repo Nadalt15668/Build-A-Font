@@ -26,7 +26,7 @@ int CalculateLengthOfTextBox(float textBoxWidth, int textSize, Font*& font)
 	}
 	testingText.setString(widestCharacter);
 	int totalOfAvailableChars = textBoxWidth / testingText.getLocalBounds().width;
-	string testingString = "";
+	std::string testingString = "";
 	for (int i = 0; i < totalOfAvailableChars; i++)
 		testingString.push_back(widestCharacter);
 	testingText.setString(testingString);
@@ -39,7 +39,7 @@ int CalculateLengthOfTextBox(float textBoxWidth, int textSize, Font*& font)
 	return totalOfAvailableChars - 1;
 }
 
-TextBox::TextBox(RenderWindow& window, Vector2f pos, Vector2f size, string hintText, int textSize, string fontPath) :
+TextBox::TextBox(RenderWindow& window, Vector2f pos, Vector2f size, std::string hintText, int textSize, std::string fontPath) :
 	UIElement(pos, new RectangleShape(size), Color::White)
 {
 	SetShapeOutline(2, Color::Black);
@@ -70,7 +70,7 @@ bool CheckBorders(RenderWindow& window, Vector2f mousePos, Vector2f textBoxSize,
 	return false;
 };
 
-void ManageKeyboardInput(Event& event, string& filledText, Clock*& lastInputClock)
+void ManageKeyboardInput(Event& event, std::string& filledText, Clock*& lastInputClock)
 {
 	// Checks if a key was entered and if its a unicode character
 	if (event.type == Event::TextEntered && event.text.unicode < 127)

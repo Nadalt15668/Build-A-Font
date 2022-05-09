@@ -115,7 +115,7 @@
       <Filter>UI Elements\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExportingDialog.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Dialogs\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,7 +180,7 @@
       <Filter>UI Elements\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ExportingDialog.h">
-      <Filter>Header Files</Filter>
+      <Filter>Dialogs\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

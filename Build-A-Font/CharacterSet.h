@@ -9,35 +9,35 @@
 
 using namespace pybind11;
 using namespace sf;
-using namespace std;
+
 
 class CharacterSet
 {
 public:
 	CharacterSet(RenderWindow& window, module_& module, IShellItem** loadedProject);
 	void CreateMaps();
-	void CaptureCharacter(string characterName, vector<RectangleShape> mainLines);
+	void CaptureCharacter(std::string characterName, std::vector<RectangleShape> mainLines);
 	void ReadProjectFile();
 	void UpdateCharacters();
 	void Update(Event& event, DrawingBoard& board);
 	void Draw(RenderWindow& window);
-	map<string, vector<RectangleShape>*>* GetCharactersDataPtr()
+	std::map<std::string, std::vector<RectangleShape>*>* GetCharactersDataPtr()
 	{
 		return &charactersData;
 	}
-	vector<string>* GetMapsKeys()
+	std::vector<std::string>* GetMapsKeys()
 	{
 		return &mapsKeys;
 	}
 private:
 	module_ pythonModule;
 	int currentPage;
-	vector<string> mapsKeys;
-	vector<Character*> characters;
-	std::map<string, vector<RectangleShape>*> charactersData;
-	std::map<string, string> templates;
+	std::vector<std::string> mapsKeys;
+	std::vector<Character*> characters;
+	std::map<std::string, std::vector<RectangleShape>*> charactersData;
+	std::map<std::string, std::string> templates;
 	IShellItem** loadedProject;
-	vector<RectangleShape>* currentLines;
+	std::vector<RectangleShape>* currentLines;
 	Button<int&>* btnNextPage;
 	Button<int&>* btnPreviousPage;
 };

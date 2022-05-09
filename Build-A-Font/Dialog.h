@@ -4,7 +4,7 @@
 #include "Button.h"
 
 using namespace sf;
-using namespace std;
+
 
 #define BAR_THICKNESS 20
 #define DEFAULT_BAR_COLOR Color(60, 60, 60)
@@ -12,7 +12,7 @@ using namespace std;
 class Dialog
 {
 public:
-    Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor);
+    Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor);
     virtual void Draw() = 0;
     virtual void Move(Vector2f offset) = 0;
     virtual bool Update(Event& event) = 0; // Returns false if the dialog is closed

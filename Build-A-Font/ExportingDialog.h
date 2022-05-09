@@ -11,7 +11,7 @@ class ExportingDialog :
 {
 public:
     ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule,
-        Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor = DEFAULT_DIALOG_COLOR);
+        Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor = DEFAULT_DIALOG_COLOR);
     void Draw();
     void Move(Vector2f offset);
     bool Update(Event& event);
@@ -19,12 +19,12 @@ public:
 private:
     pybind11::module_ pythonModule;
     IShellItem* chosenItemPath = nullptr;
-    string chosenItemStr = "";
+    std::string chosenItemStr = "";
     TextBox* txtbxCopyright;
     TextBox* txtbxFamilyname;
     TextBox* txtbxVersion;
     sf::Text* txtChosenItem;
-    Button<IShellItem**, string&, sf::Text**>* btnChooseDest;
+    Button<IShellItem**, std::string&, sf::Text**>* btnChooseDest;
     Button<>* btnFinalExport;
 };
 

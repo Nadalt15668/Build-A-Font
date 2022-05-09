@@ -1,7 +1,7 @@
 import os
-TEMPLATES_CHR_DIR = r"C:\Users\inbal\Desktop\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Characters"#"C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Characters"
-TEMPLATES_NUM_DIR = r"C:\Users\inbal\Desktop\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Numbers"#C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Numbers"
-TEMPLATES_SMBL_DIR = r"C:\Users\inbal\Desktop\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Symbols"#"C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Symbols"
+TEMPLATES_CHR_DIR = r"C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Characters"
+TEMPLATES_NUM_DIR = r"C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Numbers"
+TEMPLATES_SMBL_DIR = r"C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Symbols"
 
 def retrieve_templates():
     filenames = os.listdir(TEMPLATES_CHR_DIR)

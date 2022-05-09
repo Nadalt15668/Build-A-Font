@@ -17,12 +17,12 @@ void CaptureNumbers(AIBoard& drawingBoard, CharacterSet& characterSet)
     drawingBoard.CaptNum(characterSet.GetCharactersDataPtr());
     characterSet.UpdateCharacters();
 }
-void AIToStartPage(map<string, Screen*>& screens, Screen*& currentScreen)
+void AIToStartPage(std::map<std::string, Screen*>& screens, Screen*& currentScreen)
 {
     currentScreen = screens[STARTING_PAGE];
 }
 void LaunchAIMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybind11::module_& pythonModule, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
-    Screen*& parentScreen, Vector2f size, string dialogTitle)
+    Screen*& parentScreen, Vector2f size, std::string dialogTitle)
 {
     *menuDialog = new MenuDialog(window, exportDialog, pythonModule, characterSet, loadedProject, parentScreen, size, dialogTitle);
     (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
@@ -34,7 +34,7 @@ void UndoNum(AIBoard& drawingBoard, CharacterSet& characterSet)
     characterSet.UpdateCharacters();
 }
 
-AIPage::AIPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
+AIPage::AIPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, std::map<std::string, Screen*>& screens, Screen*& currentScreen)
 {
     this->loadedProject = loadedProject;
     this->window = &window;
@@ -63,9 +63,9 @@ AIPage::AIPage(RenderWindow& window, IShellItem** loadedProject, module_& python
     btnUndoNumbers = new Button<AIBoard&, CharacterSet&>(window,
         Vector2f(PROGRAM_DIM.x / 2 + btnClearBoard->GetShapeSize().x + 5 + DEFAULT_BUTTON_DIM.x, CLEAR_POS.y), &UndoNum,
         new RectangleShape(Vector2f(30, 30)), Color::Red);
-    btnToStartPage = new Button<map<string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &AIToStartPage, new RectangleShape(Vector2f(50, 50)), DEFAULT_GRAY_BGROUND);
+    btnToStartPage = new Button<std::map<std::string, Screen*>&, Screen*&>(window, TOP_LEFT_BTN_POS, &AIToStartPage, new RectangleShape(Vector2f(50, 50)), DEFAULT_GRAY_BGROUND);
     btnLaunchMenu = new Button< MenuDialog**, ExportingDialog**, pybind11::module_&, RenderWindow&, CharacterSet**, IShellItem**, Screen*&,
-        Vector2f, string>(window, Vector2f(PROGRAM_DIM.x / 17 * 16, PROGRAM_DIM.y / 15), &LaunchAIMenu, new RectangleShape(Vector2f(50, 50)));
+        Vector2f, std::string>(window, Vector2f(PROGRAM_DIM.x / 17 * 16, PROGRAM_DIM.y / 15), &LaunchAIMenu, new RectangleShape(Vector2f(50, 50)));
     btnLaunchMenu->SetShapeTex(MENU);
     btnToStartPage->SetShapeTex(BACK_ARROW);
     btnClearBoard->SetShapeTex(TRASH_CAN);

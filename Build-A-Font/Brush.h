@@ -9,7 +9,7 @@
 #include "Constants.h"
 
 using namespace sf;
-using namespace std;
+
 
 class Brush
 {

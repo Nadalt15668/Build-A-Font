@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-using namespace std;
+
 
 #define PIXEL_QUANTITY 28
 #define NumOfHiddenLayers 3
@@ -29,17 +29,17 @@ class NeuralNetwork
 {
 public:
 	NeuralNetwork();
-	NeuralNetwork(string fileName);
+	NeuralNetwork(std::string fileName);
 	int Calc(double* input);
-	void SaveToFile(string fileName);
-	void Backprop(vector<double*> input, vector<int> label, double jumpSize);
-	void Learn(vector<double*>& input, vector<int>& label, double jumpSize);
-	void Test(vector<double*>& input, vector<int>& label);
+	void SaveToFile(std::string fileName);
+	void Backprop(std::vector<double*> input, std::vector<int> label, double jumpSize);
+	void Learn(std::vector<double*>& input, std::vector<int>& label, double jumpSize);
+	void Test(std::vector<double*>& input, std::vector<int>& label);
 	void InsertInput(const char* dataName, const char* labelName, int mode);
 
 private:
-	vector<double> layers[NumOfHiddenLayers + 2];
-	vector<double> bias[NumOfHiddenLayers + 1];
+	std::vector<double> layers[NumOfHiddenLayers + 2];
+	std::vector<double> bias[NumOfHiddenLayers + 1];
 	double inputW[NumOfNodesInHidden][NumOfNodesInInput];
 	double outputW[NumOfNodesInOutput][NumOfNodesInHidden];
 	HiddenW hiddenWs[NumOfHiddenLayers - 1];

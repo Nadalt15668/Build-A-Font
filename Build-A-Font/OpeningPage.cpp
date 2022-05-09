@@ -3,7 +3,7 @@
 #define TITLE "FontCreatorNN"
 
 template<class Buffer>
-Buffer* LoadFromFile(string filename)
+Buffer* LoadFromFile(std::string filename)
 {
 	Buffer* buffer = new Buffer();
 	if (!buffer->loadFromFile(filename))
@@ -21,7 +21,7 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 	object.setPosition(pos);
 }
 
-void StartProgram(StartProgramDialog*& dialog,IShellItem*& loadedProject, RenderWindow*& window, module_*& pythonModule, map<string, Screen*>*& screens,
+void StartProgram(StartProgramDialog*& dialog,IShellItem*& loadedProject, RenderWindow*& window, module_*& pythonModule, std::map<std::string, Screen*>*& screens,
 	Screen**& parentScreen)
 {
 	//ButtonParameters parameters = {window, pythonModule, screens, currentScreen };
@@ -41,7 +41,7 @@ void QuitProgram()
 }
 
 
-OpeningPage::OpeningPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, map<string, Screen*>& screens, Screen*& currentScreen)
+OpeningPage::OpeningPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, std::map<std::string, Screen*>& screens, Screen*& currentScreen)
 {
 	this->loadedProject = *loadedProject;
 	// Attributes for screen buttons
@@ -61,7 +61,7 @@ OpeningPage::OpeningPage(RenderWindow& window, IShellItem** loadedProject, modul
 	this->title.setOutlineThickness(5);
 	SetCommonAttributes(this->title, TITLE_POS);
 	// Initiating navigation buttons
-	btnStartProgram = new Button<StartProgramDialog*&, IShellItem*&,RenderWindow*&, module_*&, map<string, Screen*>*&, Screen**&>(window,
+	btnStartProgram = new Button<StartProgramDialog*&, IShellItem*&,RenderWindow*&, module_*&, std::map<std::string, Screen*>*&, Screen**&>(window,
 		Vector2f(PROGRAM_DIM.x / 2, (PROGRAM_DIM.y / 1.5)), &StartProgram, new RectangleShape(Vector2f(140, 60)));
 	btnStartProgram->AddText("Start", 35);
 

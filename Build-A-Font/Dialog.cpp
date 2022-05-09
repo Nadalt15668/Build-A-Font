@@ -6,7 +6,7 @@ void closeDialog(bool& isOpen, bool& isInteractable)
 	isInteractable = true;
 }
 
-bool LoadDialogTitle(string dialogString, sf::Text*& dialogTitle)
+bool LoadDialogTitle(std::string dialogString, sf::Text*& dialogTitle)
 {
 	Font* font = new Font;
 	font->loadFromFile(DEFAULT_FONTPATH);
@@ -82,7 +82,7 @@ Dialog::~Dialog()
 	delete btnCloseDialog;
 }
 
-Dialog::Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, string dialogTitle, Color bgroundColor)
+Dialog::Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor)
 {
 	this->parentScreen = parentScreen;
 	this->dialogPos = Vector2f(Vector2f(PROGRAM_DIM.x / 2, PROGRAM_DIM.y / 2));

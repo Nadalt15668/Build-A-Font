@@ -1,6 +1,6 @@
 #include "DrawingBoard.h"
 
-bool DrawingBoard::SetTemplate(string filename)
+bool DrawingBoard::SetTemplate(std::string filename)
 {
 	Texture* templateTex = new Texture();
 	if (!templateTex->loadFromFile(filename))
@@ -64,12 +64,12 @@ void DrawingBoard::RemoveBackground()
 	this->shape->setTexture(nullptr);
 }
 
-void DrawingBoard::SetCurrentCharacter(string characterName, string templateFilename, vector<RectangleShape>& mainLines)
+void DrawingBoard::SetCurrentCharacter(std::string characterName, std::string templateFilename, std::vector<RectangleShape>& mainLines)
 {
 	// Sets the template as a background
-	string drawingTemplate = templateFilename;
+	std::string drawingTemplate = templateFilename;
 	SetTemplate(drawingTemplate);
-	string replacedDir = "CharacterTemplates";
+	std::string replacedDir = "CharacterTemplates";
 	drawingTemplate.replace(drawingTemplate.find_first_of("/") + 1, replacedDir.length(), "DrawingTemplates");
 	SetTemplate(drawingTemplate);
 	this->characterName = characterName;
@@ -90,7 +90,7 @@ DrawingBoard::DrawingBoard(RenderWindow& window, Vector2f center,
 	drawingView.setSize(size.x + 2, size.y + 2);
 	drawingView.setViewport(FloatRect(vpLocationRatio.x, vpLocationRatio.y,
 		vpSizeRatio.x, vpSizeRatio.y));
-	SetCurrentCharacter("", BLANK_TEMPLATE, *(new vector<RectangleShape>));
+	SetCurrentCharacter("", BLANK_TEMPLATE, *(new std::vector<RectangleShape>));
 }
 
 void DrawingBoard::Draw(RenderWindow& window)
