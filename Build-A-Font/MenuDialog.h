@@ -18,7 +18,7 @@ private:
     pybind11::module_ pythonModule;
     Button<IShellItem**, CharacterSet**>* btnSaveChanges;
     Button<IShellItem**, CharacterSet**>* btnSaveAs;
-    Button<ExportingDialog**, RenderWindow&, pybind11::module_&, Screen*&>* btnExportFont;
+    Button<ExportingDialog**, RenderWindow&, pybind11::module_&, CharacterSet**, Screen*&>* btnExportFont;
     Button<>* btnQuitProgram;
     IShellItem** loadedProject;
     CharacterSet** characterSet;

@@ -5,12 +5,13 @@
 #include "FileDialog.h"
 #include "TextBox.h"
 #include "Button.h"
+#include "CharacterSet.h"
 
 class ExportingDialog :
     public Dialog
 {
 public:
-    ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule,
+    ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule, CharacterSet** characterSet,
         Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor = DEFAULT_DIALOG_COLOR);
     void Draw();
     void Move(Vector2f offset);
@@ -24,7 +25,8 @@ private:
     TextBox* txtbxFamilyname;
     TextBox* txtbxVersion;
     sf::Text* txtChosenItem;
+    CharacterSet* characterSet;
     Button<IShellItem**, std::string&, sf::Text**>* btnChooseDest;
-    Button<>* btnFinalExport;
+    Button<CharacterSet**>* btnFinalExport;
 };
 

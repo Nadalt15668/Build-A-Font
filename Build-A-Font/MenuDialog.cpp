@@ -46,9 +46,10 @@ void btnFuncSaveAs(IShellItem** loadedProject, CharacterSet** characterSet)
 	CDialogEventHandler::SaveFileAs(fileDataW, loadedProject);
 }
 
-void btnFuncExportFont(ExportingDialog** exportDialog, RenderWindow& window, pybind11::module_& pythonMoudle, Screen*& parentScreen)
+void btnFuncExportFont(ExportingDialog** exportDialog, RenderWindow& window, pybind11::module_& pythonMoudle, CharacterSet** characterSet,
+	Screen*& parentScreen)
 {
-	*exportDialog = new ExportingDialog(window, pythonMoudle, parentScreen, Vector2f(400, 400), "Export Font");
+	*exportDialog = new ExportingDialog(window, pythonMoudle, characterSet, parentScreen, Vector2f(400, 400), "Export Font");
 	(*exportDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
@@ -70,12 +71,13 @@ void InitializeBtnSaveAs(RenderWindow& window, Button<IShellItem**, CharacterSet
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnSaveAs)->AddText("Save As", 30);
 }
-void InitializeBtnExportFont(RenderWindow& window, Button<ExportingDialog**, RenderWindow&, pybind11::module_&, Screen*&>** btnExportFont,
+void InitializeBtnExportFont(RenderWindow& window, Button<ExportingDialog**, RenderWindow&, pybind11::module_&, CharacterSet**, Screen*&>** btnExportFont,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(170, 50));
 	Vector2f position(dialogBground.width / 2 + startingOffset.x, startingOffset.y + size.y / 2 + 170);
-	*btnExportFont = new Button<ExportingDialog**, RenderWindow&, pybind11::module_&, Screen*&>(window, position, &btnFuncExportFont,
+	*btnExportFont = new Button<ExportingDialog**, RenderWindow&, pybind11::module_&, CharacterSet**,
+		Screen*&>(window, position, &btnFuncExportFont,
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnExportFont)->AddText("Export Font", 30);
 }
@@ -146,7 +148,7 @@ bool MenuDialog::Update(Event& event)
 			return false;
 		// Checks if all drawings for characters exist
 		if (this->isExportAvailable &&
-			btnExportFont->Update(event, exportDialog, *this->window, this->pythonModule, this->parentScreen))
+			btnExportFont->Update(event, exportDialog, *this->window, this->pythonModule, this->characterSet, this->parentScreen))
 			return false;
 		CheckForDragging(event);
 		btnSaveChanges->Update(event, loadedProject, characterSet);

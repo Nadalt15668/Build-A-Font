@@ -32,8 +32,10 @@ void ChooseDest(IShellItem** chosenDest, std::string& chosenItemStr, sf::Text** 
 	}
 }
 
-void FinalExport()
+void FinalExport(CharacterSet** characterSet)
 {
+	std::filesystem::create_directory("./Temps"); 
+	
 }
 
 void InitializeTxtboxCopyright(RenderWindow& window, TextBox** txtboxCopyright, std::string hintText, int textSize,
@@ -82,16 +84,16 @@ void InitializeTextChosenPath(RenderWindow& window, sf::Text** txtChosenPath,
 	(*txtChosenPath)->setPosition(pos);
 }
 
-void InitializeBtnFinalExport(RenderWindow& window, Button <>** btnFinalExport,
+void InitializeBtnFinalExport(RenderWindow& window, Button <CharacterSet**>** btnFinalExport,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(DEFAULT_BUTTON_DIM.x *  0.6, DEFAULT_BUTTON_DIM.y *0.4);
 	Vector2f pos(dialogBground.width / 2 + startingOffset.x, TEXTBOX_BETWEEN_SPACE * 4 + startingOffset.y + 70);
-	(*btnFinalExport) = new Button<>(window, pos, &FinalExport, new RectangleShape(size));
+	(*btnFinalExport) = new Button<CharacterSet**>(window, pos, &FinalExport, new RectangleShape(size));
 	(*btnFinalExport)->AddText("Export", 30);
 }
 
-ExportingDialog::ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor) :
+ExportingDialog::ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule, CharacterSet** characterSet, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
 	this->isDraggable = false;
@@ -146,7 +148,7 @@ bool ExportingDialog::Update(Event& event)
 			this->txtbxFamilyname->IsFilled() &&
 			this->txtbxVersion->IsFilled() &&
 			this->chosenItemStr != "") // Only if all fields are filled
-				this->btnFinalExport->Update(event);
+				this->btnFinalExport->Update(event, &this->characterSet);
 	}
 	return true;
 }

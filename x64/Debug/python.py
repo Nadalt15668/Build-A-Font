@@ -1,7 +1,7 @@
 import os
-TEMPLATES_CHR_DIR = r"C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Characters"
-TEMPLATES_NUM_DIR = r"C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Numbers"
-TEMPLATES_SMBL_DIR = r"C:\Users\nadav\Desktop\SFML\Build-A-Font\Build-A-Font\Templates\CharacterTemplates\Symbols"
+TEMPLATES_CHR_DIR = r".\Templates\CharacterTemplates\Characters"
+TEMPLATES_NUM_DIR = r".\Templates\CharacterTemplates\Numbers"
+TEMPLATES_SMBL_DIR = r".\Templates\CharacterTemplates\Symbols"
 
 def retrieve_templates():
     filenames = os.listdir(TEMPLATES_CHR_DIR)
