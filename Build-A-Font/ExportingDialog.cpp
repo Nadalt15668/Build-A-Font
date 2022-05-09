@@ -1,10 +1,34 @@
 #include "ExportingDialog.h"
-
+#include <string>
+#include <regex>
 #define TEXTBOX_BETWEEN_SPACE (DEFAULT_TEXTBOX_DIM.y + 20)
 
-void ChooseDest(IShellItem** chosenDest)
-{
+bool CheckPath(string& str) {
+	for (auto c : str) {
+		if (static_cast<unsigned char>(c) > 127 || static_cast<unsigned char>(c) == 63) {
+			return false;
+		}
+	}
+	return true;
+}
 
+void ChooseDest(IShellItem** chosenDest, string& chosenItemStr, sf::Text** txtChosenItem)
+{
+	chosenItemStr = CDialogEventHandler::ChooseFolder(chosenDest);
+	if (CheckPath(chosenItemStr))
+	{
+		chosenItemStr = std::regex_replace(chosenItemStr, std::regex("\\\\"), "/"); // replace '\\' -> '/'
+		(*txtChosenItem)->setString("OK");
+		(*txtChosenItem)->setFillColor(Color::Green);
+		(*txtChosenItem)->setOrigin((*txtChosenItem)->getLocalBounds().width / 2, (*txtChosenItem)->getLocalBounds().height / 2);
+	}
+	else
+	{
+		chosenItemStr = "";
+		(*txtChosenItem)->setString("ERROR");
+		(*txtChosenItem)->setFillColor(Color::Red);
+		(*txtChosenItem)->setOrigin((*txtChosenItem)->getLocalBounds().width / 2, (*txtChosenItem)->getLocalBounds().height / 2);
+	}
 }
 
 void FinalExport()
@@ -36,12 +60,12 @@ void InitializeTxtboxVersion(RenderWindow& window, TextBox** txtboxVerssion, str
 	(*txtboxVerssion) = new TextBox(window, pos, size, hintText, textSize);
 }
 
-void InitializeBtnChooseDest(RenderWindow& window, Button <IShellItem**> ** btnChooseDest,
+void InitializeBtnChooseDest(RenderWindow& window, Button <IShellItem**, string&, sf::Text**> ** btnChooseDest,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(Vector2f(100, 30));
 	Vector2f pos(dialogBground.width / 2 + startingOffset.x - size.x / 2 - 10, TEXTBOX_BETWEEN_SPACE * 3 + startingOffset.y + size.y + 30);
-	(*btnChooseDest) = new Button<IShellItem**>(window, pos, &ChooseDest, new RectangleShape(size));
+	(*btnChooseDest) = new Button<IShellItem**, string&, sf::Text**>(window, pos, &ChooseDest, new RectangleShape(size));
 	(*btnChooseDest)->AddText("Choose...", 25);
 }
 
@@ -117,8 +141,12 @@ bool ExportingDialog::Update(Event& event)
 		this->txtbxCopyright->Update(event);
 		this->txtbxFamilyname->Update(event);
 		this->txtbxVersion->Update(event);
-		this->btnChooseDest->Update(event, &this->chosenItemPath);
-		this->btnFinalExport->Update(event);
+		this->btnChooseDest->Update(event, &this->chosenItemPath, this->chosenItemStr, &this->txtChosenItem);
+		if (this->txtbxCopyright->IsFilled() &&
+			this->txtbxFamilyname->IsFilled() &&
+			this->txtbxVersion->IsFilled() &&
+			this->chosenItemStr != "") // Only if all fields are filled
+				this->btnFinalExport->Update(event);
 	}
 	return true;
 }

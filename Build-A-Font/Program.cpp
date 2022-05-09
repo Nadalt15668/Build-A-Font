@@ -2,7 +2,7 @@
 
 Program ::Program()
 {
-    currentWindow = new RenderWindow(sf::VideoMode(PROGRAM_DIM.x, PROGRAM_DIM.y), "Build-A-Font");
+    currentWindow = new RenderWindow(sf::VideoMode(PROGRAM_DIM.x, PROGRAM_DIM.y), "FontCreatorNN");
     Image* logo = new Image();
     if (!logo->loadFromFile(PROJECT_LOGO))
     {

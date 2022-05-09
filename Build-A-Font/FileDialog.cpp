@@ -424,20 +424,20 @@ string CDialogEventHandler::ChooseFolder(IShellItem** chosenPathItem)
         if (SUCCEEDED(pfd->GetOptions(&dwOptions)))
         {
             pfd->SetOptions(dwOptions | FOS_PICKFOLDERS);
-            if (SUCCEEDED(pfd->SetDefaultFolder(*chosenPathItem)))
+        }
+        if (SUCCEEDED(pfd->SetDefaultFolder(*chosenPathItem)))
+        {
+            if (SUCCEEDED(pfd->Show(NULL)))
             {
-                if (SUCCEEDED(pfd->Show(NULL)))
+                if (SUCCEEDED(pfd->GetResult(chosenPathItem)))
                 {
-                    if (SUCCEEDED(pfd->GetResult(chosenPathItem)))
+                    LPWSTR chosenPath;
+                    if (SUCCEEDED((*chosenPathItem)->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &chosenPath)))
                     {
-                        LPWSTR chosenPath;
-                        if (SUCCEEDED((*chosenPathItem)->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &chosenPath)))
-                        {
-                            wcstombs(path, chosenPath, MAX_PATH);
-                        }
-                        // If there are releasing problems
-                        //(*chosenPathItem)->Release();
+                        wcstombs(path, chosenPath, MAX_PATH);
                     }
+                    // If there are releasing problems
+                    //(*chosenPathItem)->Release();
                 }
             }
         }

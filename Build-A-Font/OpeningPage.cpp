@@ -1,6 +1,6 @@
 #include "OpeningPage.h"
 
-#define TITLE "Build-A-Font"
+#define TITLE "FontCreatorNN"
 
 template<class Buffer>
 Buffer* LoadFromFile(string filename)

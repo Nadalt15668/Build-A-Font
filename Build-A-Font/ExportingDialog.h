@@ -19,12 +19,12 @@ public:
 private:
     pybind11::module_ pythonModule;
     IShellItem* chosenItemPath = nullptr;
-    string chosenItemStr;
+    string chosenItemStr = "";
     TextBox* txtbxCopyright;
     TextBox* txtbxFamilyname;
     TextBox* txtbxVersion;
     sf::Text* txtChosenItem;
-    Button<IShellItem**>* btnChooseDest;
+    Button<IShellItem**, string&, sf::Text**>* btnChooseDest;
     Button<>* btnFinalExport;
 };
 

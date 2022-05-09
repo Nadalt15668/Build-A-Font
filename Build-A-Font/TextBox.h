@@ -21,6 +21,7 @@ public:
     void Update(Event& event);
     void MoveTextBox(Vector2f offset) { this->Move(offset); this->btnTextBox->Move(offset); };
     string GetText() { return this->totalText; };
+    bool IsFilled() { return (this->totalText != "") ? true : false; };
     ~TextBox();
 private:
     RenderWindow* window;
