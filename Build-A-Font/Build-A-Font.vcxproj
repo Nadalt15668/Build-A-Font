@@ -180,6 +180,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterSet.h" />
     <ClInclude Include="ExportingDialog.h" />
+    <ClInclude Include="FilesWriter.h" />
     <ClInclude Include="UserPage.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Dialog.h" />
@@ -197,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\x64\Debug\python.py" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

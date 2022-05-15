@@ -33,12 +33,10 @@ bld/
 [Ll]ogs/
 
 # exclude everything
-Build-A-Font/CharacterDrawings/Drawings/*
-Build-A-Font/CharacterDrawings/Binaries/*
+Build-A-Font/Temps/*
 
 # exception to the rule
-!Build-A-Font/CharacterDrawings/Drawings/.gitkeep
-!Build-A-Font/CharacterDrawings/Binaries/.gitkeep
+!Build-A-Font/Temps/.gitkeep
 
 
 # Visual Studio 2015/2017 cache/options directory

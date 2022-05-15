@@ -3,6 +3,7 @@
 #include <pybind11/embed.h>
 #include "Dialog.h"
 #include "FileDialog.h"
+#include "FilesWriter.h"
 #include "TextBox.h"
 #include "Button.h"
 #include "CharacterSet.h"
@@ -16,6 +17,7 @@ public:
     void Draw();
     void Move(Vector2f offset);
     bool Update(Event& event);
+    void SetCharacterSet(CharacterSet** characterSet) { this->characterSet = *characterSet; };
     ~ExportingDialog();
 private:
     pybind11::module_ pythonModule;

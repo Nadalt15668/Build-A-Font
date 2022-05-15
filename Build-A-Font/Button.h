@@ -33,7 +33,10 @@ public:
     };
     bool Update(Event& event, const Args&... args)
     {
-        bool inBorders = CheckBorders();
+        Vector2i pixelPos = Mouse::getPosition(*this->window);
+        // Current position of mouse in our window
+        Vector2f worldPos = this->window->mapPixelToCoords(pixelPos);
+        bool inBorders = CheckBorders(worldPos);
         if (event.type == Event::MouseButtonReleased && this->clickedLastFrame)
         {
             this->clickedLastFrame = false;
@@ -86,11 +89,8 @@ public:
     };
 private:
     // Private Functions
-    bool CheckBorders()
+    bool CheckBorders(Vector2f worldPos)
     {
-        Vector2i pixelPos = Mouse::getPosition(*this->window);
-        // Current position of mouse in our window
-        Vector2f worldPos = this->window->mapPixelToCoords(pixelPos);
         Vector2f buttonSize(button.getLocalBounds().width,
             button.getLocalBounds().height);
         if (worldPos.x > this->pos.x - buttonSize.x / 2 && worldPos.x < this->pos.x + buttonSize.x / 2 &&

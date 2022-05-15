@@ -182,10 +182,14 @@
     <ClInclude Include="ExportingDialog.h">
       <Filter>Dialogs\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FilesWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\x64\Debug\python.py">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

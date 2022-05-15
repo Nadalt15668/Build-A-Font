@@ -98,6 +98,7 @@ void UserPage::Update(Event& event)
     }
     if (exportDialog != nullptr)
     {
+        exportDialog->SetCharacterSet(&this->characterSet);
         isInteractable = false;
         if (!exportDialog->Update(event))
         {
