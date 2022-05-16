@@ -198,7 +198,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\x64\Debug\python.py" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

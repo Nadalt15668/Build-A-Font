@@ -45,12 +45,12 @@ public:
 	};
 	static void WriteJSON(std::string copyright, std::string familyname, std::string version, std::string path)
 	{
-	#define ASCENT 96
-	#define DESCENT 32
-	#define EM 256
-	#define ENCODING "UnicodeFull"
-	#define LANG "English (US)"
-	#define STYLE "Regular"
+#define ASCENT 96
+#define DESCENT 32
+#define EM 256
+#define ENCODING "UnicodeFull"
+#define LANG "English (US)"
+#define STYLE "Regular"
 		std::ofstream jsonfile;
 		jsonfile.open(TEMPORARY_DIR + "/" + "fontattr.json");
 		jsonfile << "{\n\n";
@@ -115,13 +115,14 @@ private:
 			{'=',	std::make_pair("equals",			false)},
 			{'!',	std::make_pair("exclamation_mark",	false)},
 			{'/',	std::make_pair("forward_slash",		false)},
-			{')',	std::make_pair("left_parnthesis",	false)},
+			{')',	std::make_pair("right_parenthesis",	false)},
 			{'-',	std::make_pair("minus",				false)},
 			{'%',	std::make_pair("percent",			false)},
 			{'+',	std::make_pair("plus",				false)},
 			{'?',	std::make_pair("question_mark",		false)},
-			{'(',	std::make_pair("right_parenthesis",	false)},
+			{'(',	std::make_pair("left_parenthesis",	false)},
 			{';',	std::make_pair("semicolon",			false)},
+			{'.',	std::make_pair("dot",				false)},
 			{' ',	std::make_pair("space",				true)}
 		};
 		for (auto& character : characters)

@@ -35,22 +35,18 @@
 #define DEFAULT_FONTPATH "Fonts/Teko-Bold.ttf"
 #define PROJECT_LOGO "Assets/project_logo.png"
 #define TRASH_CAN "Assets/trash_can.png"
+#define CONV_SCRIPT "conv_script.bat"
+#define POTRACE_LOC "C:\\potrace-1.16.win64\\potrace.exe"
 #define MENU "Assets/menu.png"
 #define UNDO "Assets/undo.png"
 #define BACK_ARROW "Assets/back_arrow.png"
-#define CONV_SCRIPT "conv_script.bat"
-#define POTRACE_LOC "C:\\potrace-1.16.win64\\potrace.exe"
-#define MNIST_TRAIN_DATA "Dataset/train_data.idx3-ubyte"
-#define MNIST_TRAIN_LABEL "Dataset/train_labels.idx1-ubyte"
-#define MNIST_TEST_DATA "Dataset/test_data.idx3-ubyte"
-#define MNIST_TEST_LABEL "Dataset/test_labels.idx1-ubyte"
 // ----- Directories -----
 #define BINARIES "CharacterDrawings/Binaries/"
 #define DRAWINGS "CharacterDrawings/Drawings/"
 #define TEMPLATES_CHARACTERS "Templates/CharacterTemplates/"
-#define TEMPLATES_DRAWING_BOARD
 #define TEMPORARY_DIR (std::string)"./Temps"
 #define TEMPORARY_DIR_BAT (std::string)".\\Temps"
+#define TEMPLATES_DRAWING_BOARD 
 // ----- Printed Messages -----
 #define FILE_SAVED_TO "File successfully saved to "
 #define ERROR_WHILE_OPENING "An error has accured while opening the file"
@@ -68,16 +64,5 @@
 // ----- Pages Names -----
 #define CHARS_DRAWING_PAGE "DrawingPage"
 #define STARTING_PAGE "StartPage"
-// ----- Neural Network -----
-#define DRAWING_SIZE 28
-#define HIDDEN_LAYERS 3
-#define NODES_IN_HIDDEN 20
-#define NODES_IN_INPUT DRAWING_SIZE * DRAWING_SIZE
-#define NODES_IN_OUTPUT 10
-#define SET_SIZE 10
-#define EPOCHS 5
-#define LEARNING_RATE 2
-#define SAVE_FILE "nndata.dat"
-#define UPLOAD_FILE "nndata.dat"
 // ----- Other -----
 #define FILE_DELIM "\n"

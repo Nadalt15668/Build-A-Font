@@ -34,6 +34,7 @@ void ChooseDest(IShellItem** chosenDest, std::string& chosenItemStr, sf::Text** 
 
 void FinalExport(CharacterSet** characterSet)
 {
+	std::filesystem::create_directory("./Temps"); 
 	std::filesystem::create_directory(TEMPORARY_DIR);
 	for (auto key : *(*characterSet)->GetMapsKeys())
 		FilesWriter::WriteCharacterSVG(key, &(*characterSet)->GetCharactersDataPtr()->at(key));
@@ -101,7 +102,6 @@ void InitializeBtnFinalExport(RenderWindow& window, Button <CharacterSet**>** bt
 ExportingDialog::ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule, CharacterSet** characterSet, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
-	FilesWriter::CreateSpacePNG();
 	this->isDraggable = false;
 	this->pythonModule = pythonModule;
 	Vector2f startingOffset = CalculateStartingOffset();
@@ -154,8 +154,7 @@ bool ExportingDialog::Update(Event& event)
 			this->txtbxFamilyname->IsFilled() &&
 			this->txtbxVersion->IsFilled() &&
 			this->chosenItemStr != "") // Only if all fields are filled
-			if (this->btnFinalExport->Update(event, &this->characterSet))
-				return false;
+				this->btnFinalExport->Update(event, &this->characterSet);
 	}
 	return true;
 }

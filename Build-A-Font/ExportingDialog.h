@@ -3,10 +3,10 @@
 #include <pybind11/embed.h>
 #include "Dialog.h"
 #include "FileDialog.h"
-#include "FilesWriter.h"
 #include "TextBox.h"
 #include "Button.h"
 #include "CharacterSet.h"
+#include "FilesWriter.h"
 
 class ExportingDialog :
     public Dialog

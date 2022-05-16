@@ -5,7 +5,25 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "Constants.h"
+
+
+#define PIXEL_QUANTITY 28
+#define NumOfHiddenLayers 3
+#define NumOfNodesInHidden 20
+#define NumOfNodesInInput PIXEL_QUANTITY * PIXEL_QUANTITY
+// Nodes for each pixel in the input picture (28X28)
+#define NumOfNodesInOutput 10
+// Nodes for each possible digit
+#define SubSetSize 10
+#define TimeToGoOverTrain 3
+#define JUMP_SIZE 3
+#define SAVE_FILE "datasave.dat"
+#define UPLOAD_FILE "datasave.dat"
+#define TRAIN_DATA "Dataset/train_data.idx3-ubyte"
+#define TRAIN_LABEL "Dataset/train_labels.idx1-ubyte"
+#define TEST_DATA "Dataset/test_data.idx3-ubyte"
+#define TEST_LABEL "Dataset/test_labels.idx1-ubyte"
+typedef double HiddenW[NumOfNodesInHidden][NumOfNodesInHidden];
 
 class NeuralNetwork
 {
@@ -20,9 +38,9 @@ public:
 	void InsertInput(const char* dataName, const char* labelName, int mode);
 
 private:
-	std::vector<double> layers[HIDDEN_LAYERS + 2];
-	std::vector<double> bias[HIDDEN_LAYERS + 1];
-	double inputW[NODES_IN_HIDDEN][NODES_IN_INPUT];
-	double outputW[NODES_IN_OUTPUT][NODES_IN_HIDDEN];
-	double hiddenWs[NODES_IN_HIDDEN][NODES_IN_HIDDEN][HIDDEN_LAYERS - 1];
+	std::vector<double> layers[NumOfHiddenLayers + 2];
+	std::vector<double> bias[NumOfHiddenLayers + 1];
+	double inputW[NumOfNodesInHidden][NumOfNodesInInput];
+	double outputW[NumOfNodesInOutput][NumOfNodesInHidden];
+	HiddenW hiddenWs[NumOfHiddenLayers - 1];
 };
