@@ -36,10 +36,18 @@
 #define PROJECT_LOGO "Assets/project_logo.png"
 #define TRASH_CAN "Assets/trash_can.png"
 #define CONV_SCRIPT "conv_script.bat"
+#define SVGS2TTF "svgs2ttf.bat"
 #define POTRACE_LOC "C:\\potrace-1.16.win64\\potrace.exe"
 #define MENU "Assets/menu.png"
 #define UNDO "Assets/undo.png"
 #define BACK_ARROW "Assets/back_arrow.png"
+// Neural Network:
+#define SAVE_FILE "datasave.dat"
+#define UPLOAD_FILE "datasave.dat"
+#define TRAIN_DATA "Dataset/train_data.idx3-ubyte"
+#define TRAIN_LABEL "Dataset/train_labels.idx1-ubyte"
+#define TEST_DATA "Dataset/test_data.idx3-ubyte"
+#define TEST_LABEL "Dataset/test_labels.idx1-ubyte"
 // ----- Directories -----
 #define BINARIES "CharacterDrawings/Binaries/"
 #define DRAWINGS "CharacterDrawings/Drawings/"
@@ -64,5 +72,16 @@
 // ----- Pages Names -----
 #define CHARS_DRAWING_PAGE "DrawingPage"
 #define STARTING_PAGE "StartPage"
+// ----- Neural Network -----
+#define DRAWING_SIZE 28
+#define HIDDEN_LAYERS 3
+#define NODES_IN_HIDDEN 20
+#define NODES_IN_INPUT DRAWING_SIZE * DRAWING_SIZE
+// Nodes for each pixel in the input picture (28X28)
+#define NODES_IN_OUTPUT 10
+// Nodes for each possible digit
+#define SUBSET_SIZE 10
+#define NUM_OF_EPOCHS 3
+#define LEARNING_RATE 3
 // ----- Other -----
 #define FILE_DELIM "\n"

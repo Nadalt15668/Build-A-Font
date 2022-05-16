@@ -7,13 +7,14 @@ AIBoard::AIBoard(RenderWindow& window,
 	Vector2f vpLocationRatio) :
 	DrawingBoard(window, center, size, vpSizeRatio, vpLocationRatio)
 {
-	if (UPLOAD_FILE == "0")
+	if (UPLOAD_FILE == "0") {
 		network = new NeuralNetwork();
-	else
+		network->RunNN(TRAIN_DATA, TRAIN_LABEL, true);
+	}
+	else {
 		network = new NeuralNetwork(UPLOAD_FILE);
-	if (UPLOAD_FILE == "0")
-		network->InsertInput(TRAIN_DATA, TRAIN_LABEL, 1);
-	network->InsertInput(TEST_DATA, TEST_LABEL, 0);
+		network->RunNN(TEST_DATA, TEST_LABEL, false);
+	}
 }
 
 cv::Mat sfImg2cvImg(const sf::Image& img) {
@@ -55,11 +56,11 @@ void AIBoard::CaptNum(std::map<std::string, std::vector<RectangleShape>*>* chara
 	cv::Mat cvImage = sfImg2cvImg(sfImage);
 	cv::Mat cvImageResized;
 	// Resizes the image to the required size for the NN
-	cv::resize(cvImage, cvImageResized, cv::Size(PIXEL_QUANTITY, PIXEL_QUANTITY), cv::INTER_LINEAR);
+	cv::resize(cvImage, cvImageResized, cv::Size(DRAWING_SIZE, DRAWING_SIZE), cv::INTER_LINEAR);
 	cv::imshow("image", cvImage);
 	cv::imshow("image1", cvImageResized);
 	// Creates an array of doubles from the image with each value between 0 (black) to 1 (white)
-	double* input = new double[PIXEL_QUANTITY * PIXEL_QUANTITY];
+	double* input = new double[DRAWING_SIZE * DRAWING_SIZE];
 	for (int r = 0; r < cvImageResized.rows; r++)
 	{
 		for (int c = 0; c < cvImageResized.cols; c++)
@@ -68,7 +69,7 @@ void AIBoard::CaptNum(std::map<std::string, std::vector<RectangleShape>*>* chara
 		}
 	}
 	// Retrieves the result from the NN and saves the drawing accordingly
-	std::string result = std::to_string(network->Calc(input));
+	std::string result = std::to_string(network->CheckDigit(input));
 	// Saves the data of the number the NN 'thought' the number is - for undoing purposes
 	this->lastNumDrawing = *((*charactersData)[result]);
 	// If its the first character drawn, save it as the last character

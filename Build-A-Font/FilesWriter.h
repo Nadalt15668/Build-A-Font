@@ -82,7 +82,7 @@ public:
 		jsonfile << "\t\],";
 		// -----OTHER-----
 		jsonfile << "\t\"input\": \".\",\n";
-		jsonfile << "\t\"output\": [\"" << path << familyname << ".ttf" << "\"],\n";
+		jsonfile << "\t\"output\": [\"" << path << "/" << familyname << ".ttf" << "\"],\n";
 		jsonfile << "\"# vim: set et sw=2 ts=2 sts=2:\": false\n";
 		jsonfile << "}";
 		jsonfile.close();

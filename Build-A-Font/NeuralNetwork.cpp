@@ -1,36 +1,22 @@
 #include "NeuralNetwork.h"
+#define FLIP_ENDIANS(number) ((number >> 24) | ((number << 8) & 0x00ff0000) | ((number >> 8) & 0x0000ff00) | (number << 24))
+#define SIGMOID(x) (1 / (1 + exp(-x)))
+#define SIGMOID_DERIVATIVE(x) (x * (1 - x))
 
-void OpenFile(FILE*& file, const char* fileName)
-{
-	file = fopen(fileName, "rb");
-	if (!(file))
-	{
-		std::cout << "can't open file" << std::endl;
-		return;
-	}
+double RandomDouble() {
+	std::uniform_real_distribution<double> unif(-1, 1);
+	return unif(random_engine);
 }
 
-double GetRand() {
-	return (rand() % 2001 - 1000.0) / 1000.0;
-}
-
-void RandMat(int n, int m, double* matrix) {
+void BuildMatrix(int n, int m, double* matrix, bool buildMode) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
-			matrix[i * m + j] = GetRand();
-		}
-	}
-}
-
-void SetMat(int n, int m, double* matrix, int val = 0) {
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			matrix[i * m + j] = val;
+			matrix[i * m + j] = (buildMode) ? RandomDouble() : 0;
 		}
 	}
 }
 // changes a weight matrix's gradient we found
-void SubByG(int n, int m, double* matrix, double* matrixG, double jumpSize, int setLen)
+void SubtractGradient(int n, int m, double* matrix, double* matrixG, double jumpSize, int setLen)
 {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
@@ -39,57 +25,42 @@ void SubByG(int n, int m, double* matrix, double* matrixG, double jumpSize, int 
 	}
 }
 
-double func(double x) {
-	return (1 / (1 + exp(-x)));
-}
-
-double funcD(double sigX)
-{
-	return sigX * (1 - sigX);
-}
-
 NeuralNetwork::NeuralNetwork()
 {
-	layers[0].resize(NumOfNodesInInput);
-	layers[NumOfHiddenLayers + 1].resize(NumOfNodesInOutput);
-	bias[NumOfHiddenLayers].resize(NumOfNodesInOutput);
-	for (int i = 1; i <= NumOfHiddenLayers; i++)
+	layers[0].resize(NODES_IN_INPUT);
+	layers[HIDDEN_LAYERS + 1].resize(NODES_IN_OUTPUT);
+	bias[HIDDEN_LAYERS].resize(NODES_IN_OUTPUT);
+	for (int i = 1; i <= HIDDEN_LAYERS; i++)
 	{
-		layers[i].resize(NumOfNodesInHidden);
-		bias[i - 1].resize(NumOfNodesInHidden);
+		layers[i].resize(NODES_IN_HIDDEN);
+		bias[i - 1].resize(NODES_IN_HIDDEN);
 	}
-	RandMat(NumOfNodesInHidden, NumOfNodesInInput, *inputW);
-	RandMat(NumOfNodesInOutput, NumOfNodesInHidden, *outputW);
-	for (int i = 0; i < NumOfHiddenLayers - 1; i++) {
-		RandMat(NumOfNodesInHidden, NumOfNodesInHidden, *(hiddenWs[i]));
+	BuildMatrix(NODES_IN_HIDDEN, NODES_IN_INPUT, *inputW, true);
+	BuildMatrix(NODES_IN_OUTPUT, NODES_IN_HIDDEN, *outputW, true);
+	for (int i = 0; i < HIDDEN_LAYERS - 1; i++) {
+		BuildMatrix(NODES_IN_HIDDEN, NODES_IN_HIDDEN, *(hiddenWs[i]), true);
 	}
-	for (int i = 0; i <= NumOfHiddenLayers; i++) {
-		for (auto& b : bias[i]) {
-			b = GetRand();
-		}
-	}
-
+	for (int i = 0; i <= HIDDEN_LAYERS; i++)
+		for (auto& b : bias[i])
+			b = RandomDouble();
 }
 
 NeuralNetwork::NeuralNetwork(std::string fileName)
 {
-	layers[0].resize(NumOfNodesInInput);
-	layers[NumOfHiddenLayers + 1].resize(NumOfNodesInOutput);
-	bias[NumOfHiddenLayers].resize(NumOfNodesInOutput);
-	for (int i = 1; i <= NumOfHiddenLayers; i++)
+	layers[0].resize(NODES_IN_INPUT);
+	layers[HIDDEN_LAYERS + 1].resize(NODES_IN_OUTPUT);
+	bias[HIDDEN_LAYERS].resize(NODES_IN_OUTPUT);
+	for (int i = 1; i <= HIDDEN_LAYERS; i++)
 	{
-		layers[i].resize(NumOfNodesInHidden);
-		bias[i - 1].resize(NumOfNodesInHidden);
+		layers[i].resize(NODES_IN_HIDDEN);
+		bias[i - 1].resize(NODES_IN_HIDDEN);
 	}
-
 	std::ifstream file(fileName, std::ofstream::binary);
-	if (!file) {
-		std::cout << "cant open file" << std::endl;
+	if (!file)
 		return;
-	}
 
 	// mod bias
-	for (int i = 0; i <= NumOfHiddenLayers; i++) {
+	for (int i = 0; i <= HIDDEN_LAYERS; i++) {
 		int len = bias[i].size();
 		for (int j = 0; j < len; j++) {
 			file.read((char*)&(bias[i][j]), sizeof(double));
@@ -97,23 +68,23 @@ NeuralNetwork::NeuralNetwork(std::string fileName)
 	}
 
 	// mod input to first hidden
-	for (int i = 0; i < NumOfNodesInHidden; i++) {
-		for (int j = 0; j < NumOfNodesInInput; j++) {
+	for (int i = 0; i < NODES_IN_HIDDEN; i++) {
+		for (int j = 0; j < NODES_IN_INPUT; j++) {
 			file.read((char*)&(inputW[i][j]), sizeof(double));
 		}
 	}
 
 	// mod last hidden to output
-	for (int i = 0; i < NumOfNodesInOutput; i++) {
-		for (int j = 0; j < NumOfNodesInHidden; j++) {
+	for (int i = 0; i < NODES_IN_OUTPUT; i++) {
+		for (int j = 0; j < NODES_IN_HIDDEN; j++) {
 			file.read((char*)&(outputW[i][j]), sizeof(double));
 		}
 	}
 
 	// mod from hidden to hidden
-	for (int k = 0; k < NumOfHiddenLayers - 1; k++) {
-		for (int i = 0; i < NumOfNodesInHidden; i++) {
-			for (int j = 0; j < NumOfNodesInHidden; j++) {
+	for (int k = 0; k < HIDDEN_LAYERS - 1; k++) {
+		for (int i = 0; i < NODES_IN_HIDDEN; i++) {
+			for (int j = 0; j < NODES_IN_HIDDEN; j++) {
 				file.read((char*)&(hiddenWs[k][i][j]), sizeof(double));
 			}
 		}
@@ -121,61 +92,60 @@ NeuralNetwork::NeuralNetwork(std::string fileName)
 	file.close();
 }
 
-int NeuralNetwork::Calc(double* input)
+int NeuralNetwork::CheckDigit(double* drawing)
 {
 	// from input to first hidden
-	for (int i = 0; i < NumOfNodesInInput; i++) {
-		layers[0][i] = input[i];
+	for (int i = 0; i < NODES_IN_INPUT; i++) {
+		layers[0][i] = drawing[i];
 	}
 
-	for (int i = 0; i < NumOfNodesInHidden; i++) {
+	for (int i = 0; i < NODES_IN_HIDDEN; i++) {
 		layers[1][i] = bias[0][i];
-		for (int j = 0; j < NumOfNodesInInput; j++) {
+		for (int j = 0; j < NODES_IN_INPUT; j++) {
 			layers[1][i] += layers[0][j] * inputW[i][j];
 		}
-		layers[1][i] = func(layers[1][i]);
+		layers[1][i] = SIGMOID(layers[1][i]);
 	}
 
 	// from every to hidden 
-	for (int k = 0; k < NumOfHiddenLayers - 1; k++) {
-		for (int i = 0; i < NumOfNodesInHidden; i++) {
+	for (int k = 0; k < HIDDEN_LAYERS - 1; k++) {
+		for (int i = 0; i < NODES_IN_HIDDEN; i++) {
 			layers[k + 2][i] = bias[k + 1][i];
-			for (int j = 0; j < NumOfNodesInHidden; j++) {
+			for (int j = 0; j < NODES_IN_HIDDEN; j++) {
 				layers[k + 2][i] += layers[k + 1][j] * hiddenWs[k][i][j];
 			}
-			layers[k + 2][i] = func(layers[k + 2][i]);
+			layers[k + 2][i] = SIGMOID(layers[k + 2][i]);
 		}
 	}
 
 	// from last hidden to output
-	for (int i = 0; i < NumOfNodesInOutput; i++) {
-		layers[NumOfHiddenLayers + 1][i] = bias[NumOfHiddenLayers][i];
-		for (int j = 0; j < NumOfNodesInHidden; j++) {
-			layers[NumOfHiddenLayers + 1][i] += layers[NumOfHiddenLayers][j] * outputW[i][j];
+	for (int i = 0; i < NODES_IN_OUTPUT; i++) {
+		layers[HIDDEN_LAYERS + 1][i] = bias[HIDDEN_LAYERS][i];
+		for (int j = 0; j < NODES_IN_HIDDEN; j++) {
+			layers[HIDDEN_LAYERS + 1][i] += layers[HIDDEN_LAYERS][j] * outputW[i][j];
 		}
-		layers[NumOfHiddenLayers + 1][i] = func(layers[NumOfHiddenLayers + 1][i]);
+		layers[HIDDEN_LAYERS + 1][i] = SIGMOID(layers[HIDDEN_LAYERS + 1][i]);
 	}
 
 	//find the max output
 	int maxn = 0;
-	for (int i = 0; i < NumOfNodesInOutput; i++)
+	for (int i = 0; i < NODES_IN_OUTPUT; i++)
 	{
-		if (layers[NumOfHiddenLayers + 1][i] > layers[NumOfHiddenLayers + 1][maxn])
+		if (layers[HIDDEN_LAYERS + 1][i] > layers[HIDDEN_LAYERS + 1][maxn])
 			maxn = i;
 	}
 	return maxn;
 }
 
-void NeuralNetwork::SaveToFile(std::string fileName)
+void NeuralNetwork::WriteNN(std::string fileName)
 {
 	std::ofstream file(fileName, std::ofstream::binary);
 	if (!file) {
-		std::cout << "cant open file" << std::endl;
 		return;
 	}
 
 	// mod bias
-	for (int i = 0; i <= NumOfHiddenLayers; i++) {
+	for (int i = 0; i <= HIDDEN_LAYERS; i++) {
 		int len = bias[i].size();
 		for (int j = 0; j < len; j++) {
 			file.write((const char*)&(bias[i][j]), sizeof(double));
@@ -183,23 +153,23 @@ void NeuralNetwork::SaveToFile(std::string fileName)
 	}
 
 	// mod input to first hidden
-	for (int i = 0; i < NumOfNodesInHidden; i++) {
-		for (int j = 0; j < NumOfNodesInInput; j++) {
+	for (int i = 0; i < NODES_IN_HIDDEN; i++) {
+		for (int j = 0; j < NODES_IN_INPUT; j++) {
 			file.write((const char*)&(inputW[i][j]), sizeof(double));
 		}
 	}
 
 	// mod last hidden to output
-	for (int i = 0; i < NumOfNodesInOutput; i++) {
-		for (int j = 0; j < NumOfNodesInHidden; j++) {
+	for (int i = 0; i < NODES_IN_OUTPUT; i++) {
+		for (int j = 0; j < NODES_IN_HIDDEN; j++) {
 			file.write((const char*)&(outputW[i][j]), sizeof(double));
 		}
 	}
 
 	// mod from hidden to hidden
-	for (int k = 0; k < NumOfHiddenLayers - 1; k++) {
-		for (int i = 0; i < NumOfNodesInHidden; i++) {
-			for (int j = 0; j < NumOfNodesInHidden; j++) {
+	for (int k = 0; k < HIDDEN_LAYERS - 1; k++) {
+		for (int i = 0; i < NODES_IN_HIDDEN; i++) {
+			for (int j = 0; j < NODES_IN_HIDDEN; j++) {
 				file.write((const char*)&(hiddenWs[k][i][j]), sizeof(double));
 			}
 		}
@@ -209,33 +179,33 @@ void NeuralNetwork::SaveToFile(std::string fileName)
 
 
 
-void NeuralNetwork::Backprop(std::vector<double*> input, std::vector<int> label, double jumpSize)
+void NeuralNetwork::Backpropagate(double learningRate)
 {
-	double inputWG[NumOfNodesInHidden][NumOfNodesInInput];
-	double outputWG[NumOfNodesInOutput][NumOfNodesInHidden];
-	HiddenW hiddenWsG[NumOfHiddenLayers - 1];
-	std::vector<double> biasG[NumOfHiddenLayers + 1];
-	std::vector<double> error[NumOfHiddenLayers + 2];
-	int SetLen = input.size();
+	double inputWG[NODES_IN_HIDDEN][NODES_IN_INPUT];
+	double outputWG[NODES_IN_OUTPUT][NODES_IN_HIDDEN];
+	HiddenW hiddenWsG[HIDDEN_LAYERS - 1];
+	std::vector<double> biasG[HIDDEN_LAYERS + 1];
+	std::vector<double> error[HIDDEN_LAYERS + 2];
+	int SetLen = drawings.size();
 
-	error[0].resize(NumOfNodesInInput);
-	error[NumOfHiddenLayers + 1].resize(NumOfNodesInOutput);
-	biasG[NumOfHiddenLayers].resize(NumOfNodesInOutput);
+	error[0].resize(NODES_IN_INPUT);
+	error[HIDDEN_LAYERS + 1].resize(NODES_IN_OUTPUT);
+	biasG[HIDDEN_LAYERS].resize(NODES_IN_OUTPUT);
 
 	// set the size of error and biasG vectors
-	for (int i = 1; i <= NumOfHiddenLayers; i++)
+	for (int i = 1; i <= HIDDEN_LAYERS; i++)
 	{
-		error[i].resize(NumOfNodesInHidden);
-		biasG[i - 1].resize(NumOfNodesInHidden);
+		error[i].resize(NODES_IN_HIDDEN);
+		biasG[i - 1].resize(NODES_IN_HIDDEN);
 	}
 
 	// set all the gradient arrs to 0
-	SetMat(NumOfNodesInHidden, NumOfNodesInInput, *inputWG);
-	SetMat(NumOfNodesInOutput, NumOfNodesInHidden, *outputWG);
-	for (int i = 0; i < NumOfHiddenLayers - 1; i++) {
-		SetMat(NumOfNodesInHidden, NumOfNodesInHidden, *(hiddenWsG[i]));
+	BuildMatrix(NODES_IN_HIDDEN, NODES_IN_INPUT, *inputWG, false);
+	BuildMatrix(NODES_IN_OUTPUT, NODES_IN_HIDDEN, *outputWG, false);
+	for (int i = 0; i < HIDDEN_LAYERS - 1; i++) {
+		BuildMatrix(NODES_IN_HIDDEN, NODES_IN_HIDDEN, *(hiddenWsG[i]), false);
 	}
-	for (int i = 0; i <= NumOfHiddenLayers; i++) {
+	for (int i = 0; i <= HIDDEN_LAYERS; i++) {
 		for (auto& b : biasG[i]) {
 			b = 0;
 		}
@@ -243,36 +213,34 @@ void NeuralNetwork::Backprop(std::vector<double*> input, std::vector<int> label,
 
 	// reset the error
 	for (int t = 0; t < SetLen; t++) {
-		std::cout << label[t] << "l" << std::endl;
-		std::cout << Calc(input[t]) << "c" << std::endl;
-		for (int p = 0; p < NumOfHiddenLayers + 2; p++) {
+		for (int p = 0; p < HIDDEN_LAYERS + 2; p++) {
 			for (auto& e : error[p]) {
 				e = 0;
 			}
 		}
-		for (int j = 0; j < NumOfNodesInOutput; j++) {
+		for (int j = 0; j < NODES_IN_OUTPUT; j++) {
 			// error(L,j) = Dsig(Z(L,j)) * (a(L,j) - y(j))
-			error[NumOfHiddenLayers + 1][j] = funcD(layers[NumOfHiddenLayers + 1][j]) *
-				(layers[NumOfHiddenLayers + 1][j] - (label[t] == j));
-			for (int k = 0; k < NumOfNodesInHidden; k++) {
+			error[HIDDEN_LAYERS + 1][j] = SIGMOID_DERIVATIVE(layers[HIDDEN_LAYERS + 1][j]) *
+				(layers[HIDDEN_LAYERS + 1][j] - (labels[t] == j));
+			for (int k = 0; k < NODES_IN_HIDDEN; k++) {
 				// error(l, k) = sumForEveryJ(w(l+1,j,k) * error(j, l+1) * Dsig(z(l, k)))
-				error[NumOfHiddenLayers][k] += outputW[j][k] * error[NumOfHiddenLayers + 1][j]
-					* funcD(layers[NumOfHiddenLayers][k]);
+				error[HIDDEN_LAYERS][k] += outputW[j][k] * error[HIDDEN_LAYERS + 1][j]
+					* SIGMOID_DERIVATIVE(layers[HIDDEN_LAYERS][k]);
 				// dc/dw(l,j,k) = a(l-1, k) * error(l, j)
-				outputWG[j][k] += layers[NumOfHiddenLayers][k] * error[NumOfHiddenLayers + 1][j];
+				outputWG[j][k] += layers[HIDDEN_LAYERS][k] * error[HIDDEN_LAYERS + 1][j];
 			}
 			// dc/db(l, j) = error(l,j)
-			biasG[NumOfHiddenLayers][j] += error[NumOfHiddenLayers + 1][j];
+			biasG[HIDDEN_LAYERS][j] += error[HIDDEN_LAYERS + 1][j];
 		}
 
 		// calc back for all hiddens
-		for (int ly = NumOfHiddenLayers - 2; ly >= 0; ly--) {
+		for (int ly = HIDDEN_LAYERS - 2; ly >= 0; ly--) {
 			int l = ly + 2;
-			for (int j = 0; j < NumOfNodesInHidden; j++) {
-				for (int k = 0; k < NumOfNodesInHidden; k++) {
+			for (int j = 0; j < NODES_IN_HIDDEN; j++) {
+				for (int k = 0; k < NODES_IN_HIDDEN; k++) {
 					// error(l, k) = sumForAllJ(W(l+1, j, k)*error(l+1, j)*Dsig(z(l, k)))
 					error[l - 1][k] += hiddenWs[ly][j][k] * error[l][j]
-						* funcD(layers[l - 1][k]);
+						* SIGMOID_DERIVATIVE(layers[l - 1][k]);
 					// dc/dw(l,j,k) = a(l-1, k) * error(l, j)
 					hiddenWsG[ly][j][k] += layers[l - 1][k] * error[l][j];
 				}
@@ -282,8 +250,8 @@ void NeuralNetwork::Backprop(std::vector<double*> input, std::vector<int> label,
 		}
 
 		// calc for input
-		for (int j = 0; j < NumOfNodesInHidden; j++) {
-			for (int k = 0; k < NumOfNodesInInput; k++) {
+		for (int j = 0; j < NODES_IN_HIDDEN; j++) {
+			for (int k = 0; k < NODES_IN_INPUT; k++) {
 				// dc/dw(l,j,k) = a(l-1, k) * error(l, j)
 				inputWG[j][k] += layers[0][k] * error[1][j];
 			}
@@ -293,16 +261,16 @@ void NeuralNetwork::Backprop(std::vector<double*> input, std::vector<int> label,
 	}
 
 	// change all the w matrixs with the gradients we found
-	SubByG(NumOfNodesInHidden, NumOfNodesInInput, *inputW, *inputWG, jumpSize, SetLen);
-	SubByG(NumOfNodesInOutput, NumOfNodesInHidden, *outputW, *outputWG, jumpSize, SetLen);
-	for (int i = 0; i < NumOfHiddenLayers - 1; i++) {
-		SubByG(NumOfNodesInHidden, NumOfNodesInHidden, *(hiddenWs[i]), *(hiddenWsG[i]), jumpSize, SetLen);
+	SubtractGradient(NODES_IN_HIDDEN, NODES_IN_INPUT, *inputW, *inputWG, learningRate, SetLen);
+	SubtractGradient(NODES_IN_OUTPUT, NODES_IN_HIDDEN, *outputW, *outputWG, learningRate, SetLen);
+	for (int i = 0; i < HIDDEN_LAYERS - 1; i++) {
+		SubtractGradient(NODES_IN_HIDDEN, NODES_IN_HIDDEN, *(hiddenWs[i]), *(hiddenWsG[i]), learningRate, SetLen);
 	}
 	// change the bias with the gradient we found
-	for (int i = 0; i <= NumOfHiddenLayers; i++) {
+	for (int i = 0; i <= HIDDEN_LAYERS; i++) {
 		int bLen = bias[i].size();
 		for (int j = 0; j < bLen; j++) {
-			bias[i][j] -= (jumpSize / (double)SetLen) * biasG[i][j];
+			bias[i][j] -= (learningRate / (double)SetLen) * biasG[i][j];
 		}
 	}
 }
@@ -318,91 +286,81 @@ void randomize(std::vector<double*>& input, std::vector<int>& label)
 	}
 }
 
-void NeuralNetwork::Learn(std::vector<double*>& input, std::vector<int>& label, double jumpSize)
+void NeuralNetwork::TeachNN(double learningRate)
 {
-	int totalSize = input.size();
+	int totalSize = drawings.size();
 	std::vector<double*> trainSet;
 	std::vector<int> labelSet;
-	for (int t = 0; t < TimeToGoOverTrain; t++)
+	for (int t = 0; t < NUM_OF_EPOCHS; t++)
 	{
-		randomize(input, label);
-		for (int i = 0; i < totalSize / SubSetSize; i++)
+		randomize(drawings, labels);
+		for (int i = 0; i < totalSize / SUBSET_SIZE; i++)
 		{
-			for (int j = 0; j < SubSetSize; j++)
+			for (int j = 0; j < SUBSET_SIZE; j++)
 			{
-				trainSet.push_back(input[SubSetSize * i + j]);
-				labelSet.push_back(label[SubSetSize * i + j]);
+				trainSet.push_back(drawings[SUBSET_SIZE * i + j]);
+				labelSet.push_back(labels[SUBSET_SIZE * i + j]);
 			}
-			Backprop(trainSet, labelSet, jumpSize);
+			Backpropagate(learningRate);
 			trainSet.clear();
 			labelSet.clear();
 		}
 	}
 }
 
-void NeuralNetwork::Test(std::vector<double*>& input, std::vector<int>& label)
+double NeuralNetwork::CheckNN()
 {
-	int len = input.size();
-	int cor = 0;
-	for (int i = 0; i < len; i++)
-	{
-		if (Calc(input[i]) == label[i])
-			cor++;
-	}
-	std::cout << (double)cor / len << std::endl;
+	int datasetSize = drawings.size();
+	int correctAnswers = 0;
+	for (int i = 0; i < datasetSize; i++)
+		correctAnswers += (CheckDigit(drawings[i]) == labels[i]) ? 1 : 0;
+	return (double)correctAnswers / datasetSize;
 }
 
-void NeuralNetwork::InsertInput(const char* dataName, const char* labelName, int mode)
+void NeuralNetwork::ReadMNIST(std::string drawingsFilename, std::string labelsFilename)
 {
-	unsigned int fileLen = 0;
-	std::vector<double*> inputV;
-	std::vector<int> labelV;
 	// Opens images set file
-	FILE* fdata = NULL;
-	OpenFile(fdata, dataName);
-	// Opens labels set file
-	FILE* flabel = NULL;
-	OpenFile(flabel, labelName);
+	FILE* drawingsFile = fopen(drawingsFilename.c_str(), "rb");
+	FILE* labelsFile = fopen(labelsFilename.c_str(), "rb");
+	if (!drawingsFile || !labelsFile)
+		exit(0);
 	// Reads number of images in file
-	std::fseek(fdata, 4, SEEK_SET);
-	std::fread(&fileLen, 4, 1, fdata);
-	fileLen = (fileLen >> 24) |
-		((fileLen << 8) & 0x00ff0000) |
-		((fileLen >> 8) & 0x0000ff00) |
-		(fileLen << 24);
-	std::cout << fileLen << std::endl;
+	std::fseek(drawingsFile, 4, SEEK_SET);
+	std::fread(&this->datasetSize, 4, 1, drawingsFile);
+	datasetSize = FLIP_ENDIANS(datasetSize);
 	// Skips to information in both files
-	std::fseek(fdata, 16, SEEK_SET);
-	std::fseek(flabel, 8, SEEK_SET);
+	std::fseek(drawingsFile, 16, SEEK_SET);
+	std::fseek(labelsFile, 8, SEEK_SET);
 	// Reads files information
-	for (int i = 0; i < fileLen; i++)
+	for (int i = 0; i < datasetSize; i++)
 	{
 		// An image matrix
-		double* temp = new double[28 * 28];
+		double* currentDrawing = new double[28 * 28];
 		for (int j = 0; j < 28 * 28; j++)
 		{
 			// Reads 28X28 bytes for each image
-			bool n; // A byte for a pixel 
-			fread(&n, 1, 1, fdata);
-			temp[j] = (double)n / 255;
+			bool currentPixel; // A byte for a pixel 
+			fread(&currentPixel, 1, 1, drawingsFile);
+			currentDrawing[j] = (double)currentPixel / 255;
 		}
-		inputV.push_back(temp);
-		bool n;
-		fread(&n, 1, 1, flabel);
-		labelV.push_back((int)n);
+		drawings.push_back(currentDrawing);
+		bool currentLabel;
+		fread(&currentLabel, 1, 1, labelsFile);
+		labels.push_back((int)currentLabel);
 	}
-	fclose(fdata);
-	fclose(flabel);
+	fclose(drawingsFile);
+	fclose(labelsFile);
+}
 
-	if (mode)
+void NeuralNetwork::RunNN(std::string drawingsFilename, std::string labelsFilename, bool networkMode)
+{
+	ReadMNIST(drawingsFilename, labelsFilename);
+	if (networkMode)
 	{
-		Learn(inputV, labelV, JUMP_SIZE);
+		TeachNN(LEARNING_RATE);
 		if (SAVE_FILE != "0")
-			SaveToFile(SAVE_FILE);
+			WriteNN(SAVE_FILE);
 	}
 	else
-		Test(inputV, labelV);
-
-	for (int i = 0; i < fileLen; i++)
-		delete inputV[i];
+		CheckNN();
 }

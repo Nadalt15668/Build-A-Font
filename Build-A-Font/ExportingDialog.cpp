@@ -32,7 +32,7 @@ void ChooseDest(IShellItem** chosenDest, std::string& chosenItemStr, sf::Text** 
 	}
 }
 
-void FinalExport(CharacterSet** characterSet)
+void FinalExport(CharacterSet** characterSet, std::string copyright, std::string familyname, std::string version, std::string path)
 {
 	std::filesystem::create_directory("./Temps"); 
 	std::filesystem::create_directory(TEMPORARY_DIR);
@@ -41,7 +41,9 @@ void FinalExport(CharacterSet** characterSet)
 	FilesWriter::CreateSpacePNG();
 	FilesWriter::WriteConversionBAT(*(*characterSet)->GetMapsKeys()); // Written once
 	std::system(((std::string)".\\" + (std::string)CONV_SCRIPT).c_str());
-	FilesWriter::WriteJSON("mine", "Example", "1.00", ".");
+	FilesWriter::WriteJSON(copyright, familyname, version, path);
+	std::system(((std::string)".\\" + (std::string)SVGS2TTF).c_str());
+	std::filesystem::remove_all(TEMPORARY_DIR);
 }
 
 void InitializeTxtboxCopyright(RenderWindow& window, TextBox** txtboxCopyright, std::string hintText, int textSize,
@@ -90,12 +92,12 @@ void InitializeTextChosenPath(RenderWindow& window, sf::Text** txtChosenPath,
 	(*txtChosenPath)->setPosition(pos);
 }
 
-void InitializeBtnFinalExport(RenderWindow& window, Button <CharacterSet**>** btnFinalExport,
+void InitializeBtnFinalExport(RenderWindow& window, Button <CharacterSet**, std::string, std::string, std::string, std::string>** btnFinalExport,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
 	Vector2f size(DEFAULT_BUTTON_DIM.x *  0.6, DEFAULT_BUTTON_DIM.y *0.4);
 	Vector2f pos(dialogBground.width / 2 + startingOffset.x, TEXTBOX_BETWEEN_SPACE * 4 + startingOffset.y + 70);
-	(*btnFinalExport) = new Button<CharacterSet**>(window, pos, &FinalExport, new RectangleShape(size));
+	(*btnFinalExport) = new Button<CharacterSet**, std::string, std::string, std::string, std::string>(window, pos, &FinalExport, new RectangleShape(size));
 	(*btnFinalExport)->AddText("Export", 30);
 }
 
@@ -154,7 +156,8 @@ bool ExportingDialog::Update(Event& event)
 			this->txtbxFamilyname->IsFilled() &&
 			this->txtbxVersion->IsFilled() &&
 			this->chosenItemStr != "") // Only if all fields are filled
-				this->btnFinalExport->Update(event, &this->characterSet);
+				this->btnFinalExport->Update(event, &this->characterSet, this->txtbxCopyright->GetText(), 
+					this->txtbxFamilyname->GetText(), this->txtbxVersion->GetText(), this->chosenItemStr);
 	}
 	return true;
 }

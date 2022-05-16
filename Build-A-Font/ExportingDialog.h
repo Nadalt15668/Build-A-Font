@@ -29,6 +29,6 @@ private:
     sf::Text* txtChosenItem;
     CharacterSet* characterSet;
     Button<IShellItem**, std::string&, sf::Text**>* btnChooseDest;
-    Button<CharacterSet**>* btnFinalExport;
+    Button<CharacterSet**, std::string, std::string, std::string, std::string>* btnFinalExport;
 };
 
