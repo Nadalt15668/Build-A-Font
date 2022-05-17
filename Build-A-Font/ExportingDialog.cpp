@@ -2,6 +2,8 @@
 #include <string>
 #include <regex>
 #include <filesystem>
+#include <atlstr.h>
+#include <shellapi.h>
 #define TEXTBOX_BETWEEN_SPACE (DEFAULT_TEXTBOX_DIM.y + 20)
 
 bool CheckPath(std::string& str) {
@@ -39,10 +41,34 @@ void FinalExport(CharacterSet** characterSet, std::string copyright, std::string
 	for (auto key : *(*characterSet)->GetMapsKeys())
 		FilesWriter::WriteCharacterSVG(key, &(*characterSet)->GetCharactersDataPtr()->at(key));
 	FilesWriter::CreateSpacePNG();
-	FilesWriter::WriteConversionBAT(*(*characterSet)->GetMapsKeys()); // Written once
-	std::system(((std::string)".\\" + (std::string)CONV_SCRIPT).c_str());
+	//FilesWriter::WriteConversionBAT(*(*characterSet)->GetMapsKeys()); // Written once
+	// Structure of information for the execution of the shell
+	SHELLEXECUTEINFOW shellInfo;
+	// Converting the filename from std::string to std::LPCWSTR
+	std::string file = (std::string)".\\" + (std::string)CONV_SCRIPT;
+	std::wstring wfile(file.begin(), file.end());
+	// Setting the execution information
+	shellInfo.lpVerb = L"open";
+	shellInfo.fMask = SEE_MASK_FLAG_DDEWAIT | SEE_MASK_NO_CONSOLE | SEE_MASK_NOCLOSEPROCESS;
+	shellInfo.hwnd = NULL;
+	shellInfo.lpFile = wfile.c_str();
+	shellInfo.lpParameters = NULL;
+	shellInfo.lpDirectory = NULL;
+	shellInfo.nShow = SW_SHOWMINIMIZED;
+	shellInfo.cbSize = sizeof(shellInfo);
+	// Converting png to svg
+	ShellExecuteEx(&shellInfo);
+	WaitForSingleObject(shellInfo.hProcess, INFINITE);
+	CloseHandle(shellInfo.hProcess);
 	FilesWriter::WriteJSON(copyright, familyname, version, path);
-	std::system(((std::string)".\\" + (std::string)SVGS2TTF).c_str());
+	// Converting the filename from std::string to std::LPCWSTR
+	file = (std::string)".\\" + (std::string)SVGS2TTF;
+	wfile = std::wstring(file.begin(), file.end());
+	shellInfo.lpFile = wfile.c_str();
+	// Making a font file
+	ShellExecuteEx(&shellInfo);
+	WaitForSingleObject(shellInfo.hProcess, INFINITE);
+	CloseHandle(shellInfo.hProcess);
 	std::filesystem::remove_all(TEMPORARY_DIR);
 }
 

@@ -104,7 +104,7 @@ private:
 	{
 		jsonfile << "\t\"glyphs\": {\n";
 		std::string characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		std::string symbolsKeys = "&'\"@:,=!/)-%+?(; ";
+		std::string symbolsKeys = "&'\"@:,=!/)-%+?(;. ";
 		std::map<char, std::pair<std::string, bool>> symbols = {
 			{'&',	std::make_pair("ampersand",			false)},
 			{'\'',	std::make_pair("apostrophe",		false)},
