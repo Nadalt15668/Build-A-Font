@@ -5,6 +5,7 @@
 #include "StartProgramDialog.h"
 #include "Constants.h"
 #include "UserPage.h"
+#include "Animation.h"
 
 using namespace sf;
 

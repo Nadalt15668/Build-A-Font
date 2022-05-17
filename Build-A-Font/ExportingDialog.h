@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "CharacterSet.h"
 #include "FilesWriter.h"
+#include "Animation.h"
 
 class ExportingDialog :
     public Dialog
@@ -20,6 +21,8 @@ public:
     void SetCharacterSet(CharacterSet** characterSet) { this->characterSet = *characterSet; };
     ~ExportingDialog();
 private:
+    Animation* loadingAnim;
+    bool isLoading = true;
     pybind11::module_ pythonModule;
     IShellItem* chosenItemPath = nullptr;
     std::string chosenItemStr = "";

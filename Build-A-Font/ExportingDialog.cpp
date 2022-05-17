@@ -130,6 +130,7 @@ void InitializeBtnFinalExport(RenderWindow& window, Button <CharacterSet**, std:
 ExportingDialog::ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule, CharacterSet** characterSet, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {
+	this->loadingAnim = new Animation(LOADING_ANIM_DIM, LOADING, Vector2u(6, 1), 0.05, Vector2f(PROGRAM_DIM.x / 2, PROGRAM_DIM.y / 2));
 	this->isDraggable = false;
 	this->pythonModule = pythonModule;
 	Vector2f startingOffset = CalculateStartingOffset();
@@ -153,7 +154,10 @@ void ExportingDialog::Draw()
 		this->btnFinalExport->Draw(*this->window);
 		this->btnChooseDest->Draw(*this->window);
 		this->window->draw(*this->txtChosenItem);
+		if (isLoading)
+			this->loadingAnim->Draw(*this->window);
 	}
+
 }
 
 void ExportingDialog::Move(Vector2f offset)
@@ -165,11 +169,12 @@ void ExportingDialog::Move(Vector2f offset)
 	this->btnChooseDest->Move(offset);
 	this->btnFinalExport->Move(offset);
 	this->txtChosenItem->move(offset);
+	this->loadingAnim->Move(offset);
 }
 
 bool ExportingDialog::Update(Event& event)
 {
-	if (isOpen)
+	if (isOpen && !isLoading)
 	{
 		if (btnCloseDialog->Update(event, isOpen, parentScreen->GetInteractability()))
 			return false;
@@ -182,9 +187,11 @@ bool ExportingDialog::Update(Event& event)
 			this->txtbxFamilyname->IsFilled() &&
 			this->txtbxVersion->IsFilled() &&
 			this->chosenItemStr != "") // Only if all fields are filled
-				this->btnFinalExport->Update(event, &this->characterSet, this->txtbxCopyright->GetText(), 
-					this->txtbxFamilyname->GetText(), this->txtbxVersion->GetText(), this->chosenItemStr);
+			this->btnFinalExport->Update(event, &this->characterSet, this->txtbxCopyright->GetText(),
+				this->txtbxFamilyname->GetText(), this->txtbxVersion->GetText(), this->chosenItemStr);
 	}
+	else if (isOpen && isLoading)
+		this->loadingAnim->Update(0);
 	return true;
 }
 

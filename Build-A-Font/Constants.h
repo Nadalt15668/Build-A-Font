@@ -6,6 +6,7 @@
 #define PAGE_BTN_DIM Vector2f(50, 50)
 #define DEFAULT_BUTTON_DIM Vector2f(180, 90)
 #define DEFAULT_TEXTBOX_DIM Vector2f(180, 40)
+#define LOADING_ANIM_DIM Vector2f(200, 200)
 // ----- Positions -----
 #define DRAWING_POS Vector2f(PROGRAM_DIM.x /2, PROGRAM_DIM.y / 3)
 // If changing quantity, also change udner - Character Set - CHARACTERS_IN_ROW
@@ -41,6 +42,7 @@
 #define MENU "Assets/menu.png"
 #define UNDO "Assets/undo.png"
 #define BACK_ARROW "Assets/back_arrow.png"
+#define LOADING "Assets/loading_spritesheet.png"
 // Neural Network:
 #define SAVE_FILE "datasave.dat"
 #define UPLOAD_FILE "datasave.dat"

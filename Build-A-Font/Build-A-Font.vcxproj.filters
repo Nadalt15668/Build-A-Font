@@ -117,6 +117,9 @@
     <ClCompile Include="ExportingDialog.cpp">
       <Filter>Dialogs\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brush.h">
@@ -183,6 +186,9 @@
       <Filter>Dialogs\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FilesWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
