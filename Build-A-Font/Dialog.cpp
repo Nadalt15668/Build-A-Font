@@ -1,12 +1,14 @@
 #include "Dialog.h"
 
+// Button functions
 void closeDialog(bool& isOpen, bool& isInteractable)
 {
 	isOpen = false;
 	isInteractable = true;
 }
 
-bool LoadDialogTitle(std::string dialogString, sf::Text*& dialogTitle)
+// Element initialization function
+bool InitializeDialogTitle(std::string dialogString, sf::Text*& dialogTitle)
 {
 	Font* font = new Font;
 	font->loadFromFile(DEFAULT_FONTPATH);
@@ -32,6 +34,7 @@ void Dialog::OpenDialog(bool& isInteractable)
 	isInteractable = false;
 }
 
+// Calculates the offset of the dialog from (0,0) 
 Vector2f Dialog::CalculateStartingOffset()
 {
 	Vector2f startingOffset(this->dialogPos.x - this->dialogBground->getLocalBounds().width / 2,
@@ -74,6 +77,7 @@ void Dialog::CheckForDragging(Event& event)
 	}
 }
 
+// Destructor
 Dialog::~Dialog()
 {
 	delete dialogBar;
@@ -82,6 +86,7 @@ Dialog::~Dialog()
 	delete btnCloseDialog;
 }
 
+// Constructor
 Dialog::Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor)
 {
 	this->parentScreen = parentScreen;
@@ -114,7 +119,7 @@ Dialog::Dialog(RenderWindow& window, Screen*& parentScreen, Vector2f size, std::
 	btnCloseDialog->AddText("X", 15, DEFAULT_FONTPATH, Color::White);
 	btnCloseDialog->SetShapeOutline(0, Color::Transparent);
 	// Setting the dialog title
-	LoadDialogTitle(dialogTitle, this->dialogTitle);
+	InitializeDialogTitle(dialogTitle, this->dialogTitle);
 	this->dialogTitle->setPosition(Vector2f(this->dialogPos.x,
 		this->dialogPos.y - this->dialogBground->getLocalBounds().height / 2 ));
 }

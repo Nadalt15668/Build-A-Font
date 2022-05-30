@@ -16,7 +16,6 @@ class CharacterSet
 public:
 	CharacterSet(RenderWindow& window, module_& module, IShellItem** loadedProject);
 	void CreateMaps();
-	void CaptureCharacter(std::string characterName, std::vector<RectangleShape> mainLines);
 	void ReadProjectFile();
 	void UpdateCharacters();
 	void Update(Event& event, DrawingBoard& board);

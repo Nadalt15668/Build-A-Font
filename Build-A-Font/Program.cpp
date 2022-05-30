@@ -1,5 +1,6 @@
 #include "Program.h"
 
+// Constructor
 Program ::Program()
 {
     currentWindow = new RenderWindow(sf::VideoMode(PROGRAM_DIM.x, PROGRAM_DIM.y), "FontCreatorNN");

@@ -1,9 +1,12 @@
 #include "AIPage.h"
 
+// Button function
 void ClearAIBoard(DrawingBoard& drawingBoard)
 {
     drawingBoard.Clear();
 }
+
+// Button function
 void CaptureCharacters(DrawingBoard& drawingBoard, CharacterSet& characterSet)
 {
     if (!drawingBoard.CheckIfEmpty())
@@ -12,15 +15,21 @@ void CaptureCharacters(DrawingBoard& drawingBoard, CharacterSet& characterSet)
         characterSet.UpdateCharacters();
     }
 }
+
+// Button function
 void CaptureNumbers(AIBoard& drawingBoard, CharacterSet& characterSet)
 {
     drawingBoard.CaptNum(characterSet.GetCharactersDataPtr());
     characterSet.UpdateCharacters();
 }
+
+// Button function
 void AIToStartPage(std::map<std::string, Screen*>& screens, Screen*& currentScreen)
 {
     currentScreen = screens[STARTING_PAGE];
 }
+
+// Button function
 void LaunchAIMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybind11::module_& pythonModule, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
     Screen*& parentScreen, Vector2f size, std::string dialogTitle)
 {
@@ -28,12 +37,14 @@ void LaunchAIMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybin
     (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
+// Button function
 void UndoNum(AIBoard& drawingBoard, CharacterSet& characterSet)
 {
     drawingBoard.UndoNum(characterSet.GetCharactersDataPtr());
     characterSet.UpdateCharacters();
 }
 
+// Constructor
 AIPage::AIPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, std::map<std::string, Screen*>& screens, Screen*& currentScreen)
 {
     this->loadedProject = loadedProject;
@@ -85,15 +96,15 @@ void AIPage::Draw()
     this->btnUndoNumbers->Draw(*this->window);
     this->characterSet->Draw(*this->window);
     this->btnLaunchMenu->Draw(*this->window);
-    if (menuDialog != nullptr)
+    if (menuDialog != nullptr) // if there is a menuDialog, draw it
         menuDialog->Draw();
-    if (exportDialog != nullptr)
+    if (exportDialog != nullptr) // if there is an exportingDialog, draw it
         exportDialog->Draw();
 }
 
 void AIPage::Update(Event& event)
 {
-    if (isInteractable)
+    if (isInteractable) // If the page is interactale, update all its elements
     {
         drawingBoard->Update(event);
         btnUndoNumbers->Update(event, *this->drawingBoard, *this->characterSet);
@@ -104,11 +115,11 @@ void AIPage::Update(Event& event)
         btnToStartPage->Update(event, *this->screens, *this->currentScreen);
         this->btnLaunchMenu->Update(event, &menuDialog, &exportDialog, pythonModule, *window, &characterSet, loadedProject,
             *currentScreen, Vector2f(270, 350), "Menu");
-        if (Keyboard::isKeyPressed(Keyboard::Escape))
+        if (Keyboard::isKeyPressed(Keyboard::Escape)) // Opens the menu
             LaunchAIMenu(&menuDialog, &exportDialog, pythonModule, *window, &characterSet, loadedProject,
                 *currentScreen, Vector2f(270, 350), "Menu");
     }
-    if (menuDialog != nullptr)
+    if (menuDialog != nullptr) // else if there is a menuDialog, update it
     {
         if (!menuDialog->Update(event))
         {
@@ -117,7 +128,7 @@ void AIPage::Update(Event& event)
             isInteractable = true;
         }
     }
-    if (exportDialog != nullptr)
+    if (exportDialog != nullptr) // else if there is an exportDialog, update it
     {
         exportDialog->SetCharacterSet(&this->characterSet);
         isInteractable = false;

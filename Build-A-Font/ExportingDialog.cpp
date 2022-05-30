@@ -6,6 +6,7 @@
 #include <shellapi.h>
 #define TEXTBOX_BETWEEN_SPACE (DEFAULT_TEXTBOX_DIM.y + 20)
 
+// Checks if a given path contains only ASCII characters
 bool CheckPath(std::string& str) {
 	for (auto c : str) {
 		if (static_cast<unsigned char>(c) > 127 || static_cast<unsigned char>(c) == 63) {
@@ -15,17 +16,18 @@ bool CheckPath(std::string& str) {
 	return true;
 }
 
+// Button function
 void ChooseDest(IShellItem** chosenDest, std::string& chosenItemStr, sf::Text** txtChosenItem)
 {
 	chosenItemStr = CDialogEventHandler::ChooseFolder(chosenDest);
-	if (CheckPath(chosenItemStr))
+	if (CheckPath(chosenItemStr)) // If the chosen destanation is valid
 	{
 		chosenItemStr = std::regex_replace(chosenItemStr, std::regex("\\\\"), "/"); // replace '\\' -> '/'
 		(*txtChosenItem)->setString("OK");
 		(*txtChosenItem)->setFillColor(Color::Green);
 		(*txtChosenItem)->setOrigin((*txtChosenItem)->getLocalBounds().width / 2, (*txtChosenItem)->getLocalBounds().height / 2);
 	}
-	else
+	else // If the chosen destanation is invalid
 	{
 		chosenItemStr = "";
 		(*txtChosenItem)->setString("ERROR");
@@ -34,11 +36,12 @@ void ChooseDest(IShellItem** chosenDest, std::string& chosenItemStr, sf::Text** 
 	}
 }
 
+// Button function
 void FinalExport(CharacterSet** characterSet, std::string copyright, std::string familyname, std::string version, std::string path)
 {
 	std::filesystem::create_directory("./Temps"); 
 	std::filesystem::create_directory(TEMPORARY_DIR);
-	for (auto key : *(*characterSet)->GetMapsKeys())
+	for (auto& key : *(*characterSet)->GetMapsKeys())
 		FilesWriter::WriteCharacterSVG(key, &(*characterSet)->GetCharactersDataPtr()->at(key));
 	FilesWriter::CreateSpacePNG();
 	//FilesWriter::WriteConversionBAT(*(*characterSet)->GetMapsKeys()); // Written once
@@ -72,6 +75,7 @@ void FinalExport(CharacterSet** characterSet, std::string copyright, std::string
 	std::filesystem::remove_all(TEMPORARY_DIR);
 }
 
+// Element initialization function
 void InitializeTxtboxCopyright(RenderWindow& window, TextBox** txtboxCopyright, std::string hintText, int textSize,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -80,6 +84,7 @@ void InitializeTxtboxCopyright(RenderWindow& window, TextBox** txtboxCopyright, 
 	(*txtboxCopyright) = new TextBox(window, pos, size, hintText, textSize);
 }
 
+// Element initialization function
 void InitializeTxtboxFamilyname(RenderWindow& window, TextBox** txtboxFamilyname, std::string hintText, int textSize,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -88,6 +93,7 @@ void InitializeTxtboxFamilyname(RenderWindow& window, TextBox** txtboxFamilyname
 	(*txtboxFamilyname) = new TextBox(window, pos, size, hintText, textSize);
 }
 
+// Element initialization function
 void InitializeTxtboxVersion(RenderWindow& window, TextBox** txtboxVerssion, std::string hintText, int textSize,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -96,6 +102,7 @@ void InitializeTxtboxVersion(RenderWindow& window, TextBox** txtboxVerssion, std
 	(*txtboxVerssion) = new TextBox(window, pos, size, hintText, textSize);
 }
 
+// Element initialization function
 void InitializeBtnChooseDest(RenderWindow& window, Button <IShellItem**, std::string&, sf::Text**> ** btnChooseDest,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -105,6 +112,7 @@ void InitializeBtnChooseDest(RenderWindow& window, Button <IShellItem**, std::st
 	(*btnChooseDest)->AddText("Choose...", 25);
 }
 
+// Element initialization function
 void InitializeTextChosenPath(RenderWindow& window, sf::Text** txtChosenPath,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -118,6 +126,7 @@ void InitializeTextChosenPath(RenderWindow& window, sf::Text** txtChosenPath,
 	(*txtChosenPath)->setPosition(pos);
 }
 
+// Element initialization function
 void InitializeBtnFinalExport(RenderWindow& window, Button <CharacterSet**, std::string, std::string, std::string, std::string>** btnFinalExport,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -127,6 +136,7 @@ void InitializeBtnFinalExport(RenderWindow& window, Button <CharacterSet**, std:
 	(*btnFinalExport)->AddText("Export", 30);
 }
 
+// Constructor
 ExportingDialog::ExportingDialog(RenderWindow& window, pybind11::module_& pythonModule, CharacterSet** characterSet, Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
 {

@@ -1,11 +1,14 @@
 #include "CharacterSet.h"
 
+// Button function
 void NextPage(int& currentPage)
 {
     currentPage++;
     if (currentPage == 5)
         currentPage = 0;
 }
+
+// Button function
 void LastPage(int& currentPage)
 {
     currentPage--;
@@ -13,6 +16,7 @@ void LastPage(int& currentPage)
         currentPage = 4;
 }
 
+// Constructor
 CharacterSet::CharacterSet(RenderWindow& window, module_& module, IShellItem** loadedProject)
 {
     this->loadedProject = loadedProject;
@@ -38,13 +42,14 @@ CharacterSet::CharacterSet(RenderWindow& window, module_& module, IShellItem** l
     ReadProjectFile();
 }
 
+// Creates templates and the character's data maps used in characterSet object
 void CharacterSet::CreateMaps()
 {
     int index = 0;
     auto FilenamesRetriever = pythonModule.attr("retrieve_templates");
     pybind11::list templatesPylist = FilenamesRetriever();
     std::string filename;
-    for (index; index < CHARACTERS_IN_SET; index++) // Adds characters
+    for (index; index < CHARACTERS_IN_SET; index++) // Adds characters to the map
     {
         filename = cast<std::string>(templatesPylist[index]);
         filename.replace(filename.find_last_of('.'), 4, "");
@@ -52,7 +57,7 @@ void CharacterSet::CreateMaps()
             (std::string)"Characters/" + filename + (std::string)".png");
         charactersData.insert_or_assign(filename,  new std::vector<RectangleShape>);
     }
-    for (index; index < CHARACTERS_IN_SET + NUMBERS_IN_SET; index++) // Adds numbers
+    for (index; index < CHARACTERS_IN_SET + NUMBERS_IN_SET; index++) // Adds numbers to the map
     {
         filename = cast<std::string>(templatesPylist[index]);
         filename.replace(filename.find_last_of('.'), 4, "");
@@ -60,7 +65,7 @@ void CharacterSet::CreateMaps()
             (std::string)"Numbers/" + filename + (std::string)".png");
         charactersData.insert_or_assign(filename, new std::vector<RectangleShape>);
     }
-    for (index; index < TOTALS_IN_SET; index++) // Adds symbols
+    for (index; index < TOTALS_IN_SET; index++) // Adds symbols to the map
     {
         filename = cast<std::string>(templatesPylist[index]);
         filename.replace(filename.find_last_of('.'), 4, "");
@@ -70,13 +75,7 @@ void CharacterSet::CreateMaps()
     }
 }
 
-void CharacterSet::CaptureCharacter(std::string characterName, std::vector<RectangleShape> mainLines)
-{
-    this->charactersData[characterName]->clear();
-    for (auto line : mainLines)
-        this->charactersData[characterName]->push_back(line);
-}
-
+// Reads character's data from loaded project file
 void CharacterSet::ReadProjectFile()
 {
 #define NUM_OF_FIELDS 5
@@ -84,6 +83,7 @@ void CharacterSet::ReadProjectFile()
     fileData = CDialogEventHandler::ReadFromFile(this->loadedProject);
     if (fileData != nullptr)
     {
+        // Splits all lines in file into a vector using std::strtok
         char* token;
         std::vector<std::string> splittedFile;
         token = strtok(fileData, FILE_DELIM);
@@ -116,7 +116,8 @@ void CharacterSet::ReadProjectFile()
     UpdateCharacters();
 }
 
-
+// Runs through all characters on screen and updates them
+// (Characters changed when turning pages or capturing a character)
 void CharacterSet::UpdateCharacters()
 {
 #define LOCATION_IN_MAP mapsKeys[CHARACTERS_IN_PAGE*currentPage+i*CHARACTERS_IN_ROW+j]

@@ -17,6 +17,8 @@ public:
 		// Writes the drawing to an svg file in the temporary folder
 		CreateCharPNG(characterName, charData);
 	};
+
+	// Creates an empty png for space
 	static bool CreateSpacePNG()
 	{
 		RenderTexture tex;
@@ -25,6 +27,7 @@ public:
 		tex.display();
 		return tex.getTexture().copyToImage().saveToFile(TEMPORARY_DIR + "/" + "space.png");
 	}
+
 	static void WriteConversionBAT(std::vector<std::string> charsNames)
 	{
 		std::ofstream batfile;

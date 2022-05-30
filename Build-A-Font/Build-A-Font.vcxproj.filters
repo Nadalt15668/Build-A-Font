@@ -205,5 +205,6 @@
     <None Include="svgs2ttf.bat">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

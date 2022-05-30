@@ -1,5 +1,6 @@
 #include "DrawingBoard.h"
 
+// Sets rendered template from a givem file
 bool DrawingBoard::SetTemplate(std::string filename)
 {
 	Texture* templateTex = new Texture();
@@ -21,6 +22,7 @@ bool CheckBorders(Vector2f worldPos, FloatRect area, Vector2f pos)
 	return true;
 }
 
+// Creates a line according to mouse position and adds it to main lines vector
 void DrawingBoard::CreateLine()
 {
 	float length = brush.CalculateLength() + 4;
@@ -59,11 +61,6 @@ void DrawingBoard::Update(Event& event)
 	}
 }
 
-void DrawingBoard::RemoveBackground()
-{
-	this->shape->setTexture(nullptr);
-}
-
 void DrawingBoard::SetCurrentCharacter(std::string characterName, std::string templateFilename, std::vector<RectangleShape>& mainLines)
 {
 	// Sets the template as a background
@@ -77,6 +74,7 @@ void DrawingBoard::SetCurrentCharacter(std::string characterName, std::string te
 	this->mainLines = mainLines;
 }
 
+// Constructor
 DrawingBoard::DrawingBoard(RenderWindow& window, Vector2f center,
 	Vector2f size, Vector2f vpSizeRatio, Vector2f vpLocationRatio) :
 	UIElement(center, new RectangleShape(Vector2f(199,216)), Color::White)

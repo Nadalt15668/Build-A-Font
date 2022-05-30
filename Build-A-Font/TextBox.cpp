@@ -1,22 +1,28 @@
 #include "TextBox.h"
 
+// Button function
 void ActivateTextBox(bool& isWritable)
 {
 	isWritable = true;
 }
 
+// Returns the maximum possible text length inside a textbox
 int CalculateLengthOfTextBox(float textBoxWidth, int textSize, Font*& font)
 {
+	// Creating a sf::Text object to check the size of
 	sf::Text testingText;
+	// Setting the attributes to match the textbox's text object
 	testingText.setCharacterSize(textSize);
 	testingText.setFont(*font);
 	testingText.setString("_");
+	// Checking the widest character in the given font
 	float widestCharWidth = testingText.getLocalBounds().width;
-	char widestCharacter = '_';
+	char widestCharacter = '_'; // Starting with underscore
 	char* currentCharacter = (char*)malloc(sizeof(char) * 2);
+	// Running through all characters, if current character is wider - make it the new widest character
 	for (int i = 21; i < 127; i++)
 	{
-		_itoa(i, currentCharacter, 10);
+		_itoa(i, currentCharacter, 10); // Converts current index to a character
 		testingText.setString(*currentCharacter);
 		if (testingText.getLocalBounds().width > widestCharWidth)
 		{
@@ -24,21 +30,27 @@ int CalculateLengthOfTextBox(float textBoxWidth, int textSize, Font*& font)
 			widestCharacter = *currentCharacter;
 		}
 	}
-	testingText.setString(widestCharacter);
-	int totalOfAvailableChars = textBoxWidth / testingText.getLocalBounds().width;
+	testingText.setString(widestCharacter); // Sets the text to the widest character found
+	// Checking how many of the characters can fit in the textbox
+	int totalOfAvailableChars = textBoxWidth / testingText.getLocalBounds().width; 
+	// Fills the string with the estimated amount
 	std::string testingString = "";
 	for (int i = 0; i < totalOfAvailableChars; i++)
 		testingString.push_back(widestCharacter);
 	testingText.setString(testingString);
+	// Actually checks if the estimated amount fits, if not - decrement
 	while (testingText.getLocalBounds().width > textBoxWidth)
 	{
 		totalOfAvailableChars--;
 		testingString.pop_back();
 		testingText.setString(testingString);
 	}
+	// Returns the final result minus one (making sure it won't
+	// "spill out" in some cases that could happen)
 	return totalOfAvailableChars - 1;
 }
 
+// Constructor
 TextBox::TextBox(RenderWindow& window, Vector2f pos, Vector2f size, std::string hintText, int textSize, std::string fontPath) :
 	UIElement(pos, new RectangleShape(size), Color::White)
 {
@@ -70,6 +82,8 @@ bool CheckBorders(RenderWindow& window, Vector2f mousePos, Vector2f textBoxSize,
 	return false;
 };
 
+// Checks if the input from the keyboard is actually a character 
+// and if there is enough time between last input
 void ManageKeyboardInput(Event& event, std::string& filledText, Clock*& lastInputClock)
 {
 	// Checks if a key was entered and if its a unicode character
@@ -133,6 +147,7 @@ void TextBox::Update(Event& event)
 	}
 }
 
+// Destructor
 TextBox::~TextBox()
 {
 	delete font;

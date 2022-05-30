@@ -200,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\x64\Debug\python.py" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="conv_script.bat" />
     <None Include="svgs2ttf.bat" />
     <None Include="svgs2ttf.py" />

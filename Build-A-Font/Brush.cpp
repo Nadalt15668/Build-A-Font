@@ -8,30 +8,21 @@ Brush::Brush()
     curPos.y = NULL;
 }
 
-//-----------------------------------------------------------------
-//                      Calculate Length
-//                      ----------------
-// 
 // Calculates the length between the previous position of the mouse
 // and its current position.
-//-----------------------------------------------------------------
 float Brush::CalculateLength()
 {
     return sqrt((prevPos.x - curPos.x) * (prevPos.x - curPos.x) +
         (prevPos.y - curPos.y) * (prevPos.y - curPos.y));
 }
 
-//-----------------------------------------------------------------
-//                        Calculate Angle
-//                        ----------------
-// 
+
 // Calculates the angle between the previous position of the mouse
 // and its current position.
 // Doing so by calculating the inverse tangent of the adjacent and
 // opposite sides of a triangle created with the two points.
 // Then checks the direction of the drawn line in order to rotate
 // the drawn rectangle correctly. 
-//-----------------------------------------------------------------
 float Brush::CalculateAngle()
 {
     float adjacentSide = curPos.x - prevPos.x;

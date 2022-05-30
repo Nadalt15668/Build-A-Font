@@ -98,6 +98,7 @@ private:
             return true;
         return false;
     };
+    // Returnes a darkened version of a given color
     Color DarkenedColors(Color color)
     {
         int newR = color.r - GRAY_SUB,

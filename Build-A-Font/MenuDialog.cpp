@@ -1,10 +1,12 @@
 #include "MenuDialog.h"
 
+// Reads the characterSet into a full string
 std::string ReadCharacterSet(CharacterSet** characterSet)
 {
 	std::string fileData = "";
 	std::vector<std::string>* mapsKeys = (*characterSet)->GetMapsKeys();
 	std::map<std::string, std::vector<RectangleShape>*>* charactersData = (*characterSet)->GetCharactersDataPtr();
+	// Runs through the map using the map's keys
 	for (int i = 0; i < (*mapsKeys).size(); i++)
 	{
 		std::vector<RectangleShape>* curCharData = (*charactersData)[(*mapsKeys)[i]];
@@ -25,11 +27,13 @@ std::string ReadCharacterSet(CharacterSet** characterSet)
 	return fileData;
 }
 
+// Button function
 void btnFuncQuitProgram()
 {
 	exit(0);
 }
 
+// Button function
 void btnFuncSaveChanges(IShellItem** loadedProject, CharacterSet** characterSet)
 {
 	std::string fileData = ReadCharacterSet(characterSet);
@@ -37,6 +41,7 @@ void btnFuncSaveChanges(IShellItem** loadedProject, CharacterSet** characterSet)
 	CDialogEventHandler::SaveChanges(fileDataW, loadedProject);
 }
 
+// Button function
 void btnFuncSaveAs(IShellItem** loadedProject, CharacterSet** characterSet)
 {
 	std::string fileData = ReadCharacterSet(characterSet);
@@ -46,6 +51,7 @@ void btnFuncSaveAs(IShellItem** loadedProject, CharacterSet** characterSet)
 	CDialogEventHandler::SaveFileAs(fileDataW, loadedProject);
 }
 
+// Button function
 void btnFuncExportFont(ExportingDialog** exportDialog, RenderWindow& window, pybind11::module_& pythonMoudle, CharacterSet** characterSet,
 	Screen*& parentScreen)
 {
@@ -53,6 +59,7 @@ void btnFuncExportFont(ExportingDialog** exportDialog, RenderWindow& window, pyb
 	(*exportDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
+// Element initialization function
 void InitializeBtnSaveChanges(RenderWindow& window, Button<IShellItem**, CharacterSet**>** btnSaveChanges,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -62,6 +69,8 @@ void InitializeBtnSaveChanges(RenderWindow& window, Button<IShellItem**, Charact
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnSaveChanges)->AddText("Save Changes", 30);
 }
+
+// Element initialization function
 void InitializeBtnSaveAs(RenderWindow& window, Button<IShellItem**, CharacterSet**>** btnSaveAs,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -71,6 +80,8 @@ void InitializeBtnSaveAs(RenderWindow& window, Button<IShellItem**, CharacterSet
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnSaveAs)->AddText("Save As", 30);
 }
+
+// Element initialization function
 void InitializeBtnExportFont(RenderWindow& window, Button<ExportingDialog**, RenderWindow&, pybind11::module_&, CharacterSet**, Screen*&>** btnExportFont,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -81,6 +92,8 @@ void InitializeBtnExportFont(RenderWindow& window, Button<ExportingDialog**, Ren
 		new RectangleShape(size), Color(200, 200, 200));
 	(*btnExportFont)->AddText("Export Font", 30);
 }
+
+// Element initialization function
 void InitializeBtnQuitProgram(RenderWindow& window, Button<>** btnQuitProgram,
 	FloatRect dialogBground, Vector2f startingOffset)
 {
@@ -91,6 +104,7 @@ void InitializeBtnQuitProgram(RenderWindow& window, Button<>** btnQuitProgram,
 	(*btnQuitProgram)->AddText("Quit Program", 30);
 }
 
+// Checks if all characters are drawn
 bool IsFull(CharacterSet** characterSet)
 {
 	std::map<std::string, std::vector<RectangleShape>*>* charactersMap = (*characterSet)->GetCharactersDataPtr();
@@ -102,6 +116,7 @@ bool IsFull(CharacterSet** characterSet)
 	return true;
 }
 
+// Constructor
 MenuDialog::MenuDialog(RenderWindow& window, ExportingDialog** exportDialog, pybind11::module_& pythonModule, CharacterSet** characterSet, IShellItem** loadedProject,
 	Screen*& parentScreen, Vector2f size, std::string dialogTitle, Color bgroundColor) :
 	Dialog(window, parentScreen, size, dialogTitle, bgroundColor)
@@ -158,6 +173,7 @@ bool MenuDialog::Update(Event& event)
 	return true;
 }
 
+// Destructor
 MenuDialog::~MenuDialog()
 {
 	delete btnSaveChanges;

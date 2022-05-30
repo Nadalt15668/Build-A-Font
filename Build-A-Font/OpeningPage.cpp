@@ -2,15 +2,13 @@
 
 #define TITLE "FontCreatorNN"
 
-template<class Buffer>
-Buffer* LoadFromFile(std::string filename)
+template<class T>
+T* LoadFromFile(std::string filename)
 {
-	Buffer* buffer = new Buffer();
+	T* buffer = new T();
 	if (!buffer->loadFromFile(filename))
-	{
 		// Handle error
 		return nullptr;
-	}
 	return buffer;
 }
 
@@ -21,6 +19,7 @@ void SetCommonAttributes(Object& object, Vector2f pos)
 	object.setPosition(pos);
 }
 
+// Button function
 void StartProgram(StartProgramDialog*& dialog,IShellItem*& loadedProject, RenderWindow*& window, module_*& pythonModule, std::map<std::string, Screen*>*& screens,
 	Screen**& parentScreen)
 {
@@ -35,12 +34,13 @@ void StartProgram(StartProgramDialog*& dialog,IShellItem*& loadedProject, Render
 	dialog->OpenDialog((*parentScreen)->GetInteractability());
 }
 
+// Button function
 void QuitProgram()
 {
 	exit(0);
 }
 
-
+// Constructor
 OpeningPage::OpeningPage(RenderWindow& window, IShellItem** loadedProject, module_& pythonModule, std::map<std::string, Screen*>& screens, Screen*& currentScreen)
 {
 	this->loadedProject = *loadedProject;
@@ -76,23 +76,23 @@ void OpeningPage::Draw()
 	this->window->draw(this->title);
 	btnStartProgram->Draw(*this->window);
 	btnQuitProgram->Draw(*this->window);
-	if (dialogTest != nullptr)
-		dialogTest->Draw();
+	if (startDialog != nullptr) // If there is a startDialog, draw it
+		startDialog->Draw();
 }
 
 void OpeningPage::Update(Event& event)
 {
-	if (isInteractable == true)
+	if (isInteractable == true) // If the page is interactale, update all its elements
 	{
-		btnStartProgram->Update(event, this->dialogTest, this->loadedProject, this->window, this->pythonModule, this->screens, this->currentScreen);
+		btnStartProgram->Update(event, this->startDialog, this->loadedProject, this->window, this->pythonModule, this->screens, this->currentScreen);
 		btnQuitProgram->Update(event);
 	}
-	if (dialogTest != nullptr)
+	if (startDialog != nullptr)// else if there is a startDialog, update it
 	{
-		if (!dialogTest->Update(event))
+		if (!startDialog->Update(event))
 		{
-			delete dialogTest;
-			dialogTest = nullptr;
+			delete startDialog;
+			startDialog = nullptr;
 			isInteractable = true;
 		}
 	}

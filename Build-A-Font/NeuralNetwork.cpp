@@ -8,6 +8,10 @@ double RandomDouble() {
 	return unif(random_engine);
 }
 
+// Builds a matrix
+// When build mode is:
+// true -> build from random values
+// false -> buid with 0's
 void BuildMatrix(int n, int m, double* matrix, bool buildMode) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
@@ -15,18 +19,31 @@ void BuildMatrix(int n, int m, double* matrix, bool buildMode) {
 		}
 	}
 }
-// changes a weight matrix's gradient we found
-void SubtractGradient(int n, int m, double* matrix, double* matrixG, double jumpSize, int setLen)
+
+// Changes the gradient 
+void SubtractGradient(int n, int m, double* mat, double* gradMat, double learningRate, int subSetSize)
 {
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			matrix[i * m + j] -= (jumpSize / (double)setLen) * matrixG[i * m + j];
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			int matIndex = i * m + j;
+			double newWeight = (learningRate / (double)subSetSize) * gradMat[i * m + j];
+			mat[matIndex] -= newWeight;
 		}
 	}
 }
 
 NeuralNetwork::NeuralNetwork()
 {
+	for (int i = 0; i < HIDDEN_LAYERS - 1; i++) {
+		BuildMatrix(NODES_IN_HIDDEN, NODES_IN_HIDDEN, *(hiddenWs[i]), true);
+	}
+	BuildMatrix(NODES_IN_HIDDEN, NODES_IN_INPUT, *inputW, true);
+	BuildMatrix(NODES_IN_OUTPUT, NODES_IN_HIDDEN, *outputW, true);
+	for (int i = 0; i <= HIDDEN_LAYERS; i++)
+		for (auto& b : bias[i])
+			b = RandomDouble();
 	layers[0].resize(NODES_IN_INPUT);
 	layers[HIDDEN_LAYERS + 1].resize(NODES_IN_OUTPUT);
 	bias[HIDDEN_LAYERS].resize(NODES_IN_OUTPUT);
@@ -35,14 +52,7 @@ NeuralNetwork::NeuralNetwork()
 		layers[i].resize(NODES_IN_HIDDEN);
 		bias[i - 1].resize(NODES_IN_HIDDEN);
 	}
-	BuildMatrix(NODES_IN_HIDDEN, NODES_IN_INPUT, *inputW, true);
-	BuildMatrix(NODES_IN_OUTPUT, NODES_IN_HIDDEN, *outputW, true);
-	for (int i = 0; i < HIDDEN_LAYERS - 1; i++) {
-		BuildMatrix(NODES_IN_HIDDEN, NODES_IN_HIDDEN, *(hiddenWs[i]), true);
-	}
-	for (int i = 0; i <= HIDDEN_LAYERS; i++)
-		for (auto& b : bias[i])
-			b = RandomDouble();
+
 }
 
 NeuralNetwork::NeuralNetwork(std::string fileName)
@@ -56,10 +66,6 @@ NeuralNetwork::NeuralNetwork(std::string fileName)
 		bias[i - 1].resize(NODES_IN_HIDDEN);
 	}
 	std::ifstream file(fileName, std::ofstream::binary);
-	if (!file)
-		return;
-
-	// mod bias
 	for (int i = 0; i <= HIDDEN_LAYERS; i++) {
 		int len = bias[i].size();
 		for (int j = 0; j < len; j++) {

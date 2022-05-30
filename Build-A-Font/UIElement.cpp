@@ -1,5 +1,6 @@
 #include "UIElement.h"
 
+// Constructor
 UIElement::UIElement(Vector2f pos, sf::Shape* shape, Color shapeColor)
 {
 	InitElementTypes();
@@ -12,6 +13,7 @@ UIElement::UIElement(Vector2f pos, sf::Shape* shape, Color shapeColor)
 	this->elementTypes.insert_or_assign(ElementType::Shape, true);
 }
 
+// Constructor
 UIElement::UIElement(Vector2f pos, std::string text, int textSize, std::string fontPath)
 {
 	InitElementTypes();
@@ -30,6 +32,7 @@ UIElement::UIElement(Vector2f pos, std::string text, int textSize, std::string f
 	this->elementTypes.insert_or_assign(ElementType::Text, true);
 }
 
+// Constructor
 UIElement::UIElement(Vector2f pos, std::string filename)
 {
 	InitElementTypes();

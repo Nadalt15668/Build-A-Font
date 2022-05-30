@@ -18,7 +18,6 @@ public:
     virtual void Capture(std::map<std::string, std::vector<RectangleShape>*>* charactersData) = 0;
     void CreateLine();
     void Update(Event& event);
-    void RemoveBackground();
     void SetCurrentCharacter(std::string characterName, std::string templateFilename, std::vector<RectangleShape>& mainLines);
     void Draw();
     void Clear();

@@ -1,9 +1,12 @@
 #include "UserPage.h"
 
+// Button function
 void ClearBoard(DrawingBoard& drawingBoard)
 {
     drawingBoard.Clear();
 }
+
+// Button function
 void CaptureBoard(DrawingBoard& drawingBoard, CharacterSet& characterSet)
 {
     if (!drawingBoard.CheckIfEmpty())
@@ -12,10 +15,14 @@ void CaptureBoard(DrawingBoard& drawingBoard, CharacterSet& characterSet)
         characterSet.UpdateCharacters();
     }
 }
+
+// Button function
 void ToStartPage(std::map<std::string, Screen*>& screens, Screen*& currentScreen)
 {
     currentScreen = screens[STARTING_PAGE];
 }
+
+// Button function
 void LaunchMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybind11::module_& pythonModule, RenderWindow& window, CharacterSet** characterSet, IShellItem** loadedProject,
     Screen*& parentScreen, Vector2f size, std::string dialogTitle)
 {
@@ -23,7 +30,7 @@ void LaunchMenu(MenuDialog** menuDialog, ExportingDialog** exportDialog, pybind1
     (*menuDialog)->OpenDialog(parentScreen->GetInteractability());
 }
 
-
+// Constructor
 UserPage::UserPage(RenderWindow& window, IShellItem** loadedProject,
     module_& pythonModule, std::map<std::string, Screen*>& screens, Screen*& currentScreen)
     : Screen()
@@ -74,7 +81,7 @@ void UserPage::Draw()
 
 void UserPage::Update(Event& event)
 {
-    if (isInteractable)
+    if (isInteractable) // If the page is interactale, update all its elements
     {
         drawingBoard->Update(event);
         btnCaptureBoard->Update(event, *this->drawingBoard, *this->characterSet);
@@ -87,7 +94,7 @@ void UserPage::Update(Event& event)
             LaunchMenu(&menuDialog, &exportDialog, pythonModule, *window, &characterSet, loadedProject,
                 *currentScreen, Vector2f(270, 350), "Menu");
     }
-    if (menuDialog != nullptr)
+    if (menuDialog != nullptr) // else if there is a menuDialog, update it
     {
         if (!menuDialog->Update(event))
         {
@@ -96,7 +103,7 @@ void UserPage::Update(Event& event)
             isInteractable = true;
         }
     }
-    if (exportDialog != nullptr)
+    if (exportDialog != nullptr) // else if there is a exportDialog, update it
     {
         exportDialog->SetCharacterSet(&this->characterSet);
         isInteractable = false;

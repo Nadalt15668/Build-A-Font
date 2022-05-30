@@ -1,11 +1,13 @@
 #include "Character.h"
 
+// Loads current to character to board
 void LoadCharacter(DrawingBoard& board, std::string characterName, std::string templateFilename, std::vector<RectangleShape>& mainLines)
 {
 	board.Clear();
 	board.SetCurrentCharacter(characterName, templateFilename, mainLines);
 }
 
+// Constructor
 Character::Character(RenderWindow& window, Vector2f pos, sf::Shape* characterRect) :
 	UIElement(pos, characterRect, Color::White)
 {
@@ -16,6 +18,7 @@ Character::Character(RenderWindow& window, Vector2f pos, sf::Shape* characterRec
 	this->characterRect.setPosition(pos);
 }
 
+// Set character's fields with data from the character set
 void Character::SetCharacterData(std::string characterName, std::string templateFilename, std::vector<RectangleShape>& mainLines)
 {
 	RenderTexture drawingRenderTex;
@@ -38,6 +41,7 @@ void Character::SetCharacterData(std::string characterName, std::string template
 
 void Character::Update(Event& event, DrawingBoard& board)
 {
+	// Updates the button responsible for interaction
 	btnCharacter->Update(event, board, this->characterName, this->templateFilename, *mainLines);
 }
 

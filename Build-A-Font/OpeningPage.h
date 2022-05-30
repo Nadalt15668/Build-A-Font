@@ -25,7 +25,7 @@ private:
     Screen** currentScreen;
     Button<StartProgramDialog*&, IShellItem*&, RenderWindow*&, module_*&, std::map<std::string, Screen*>*&, Screen**&>* btnStartProgram;
     Button<>* btnQuitProgram;
-    StartProgramDialog* dialogTest = nullptr;
+    StartProgramDialog* startDialog = nullptr;
     IShellItem* loadedProject;
 };
 

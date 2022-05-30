@@ -1,5 +1,6 @@
 #include "AIBoard.h"
 
+// Constructor
 AIBoard::AIBoard(RenderWindow& window,
 	Vector2f center,
 	Vector2f size,
@@ -17,6 +18,7 @@ AIBoard::AIBoard(RenderWindow& window,
 	}
 }
 
+// Converts an SFML image type to an openCV image type
 cv::Mat sfImg2cvImg(const sf::Image& img) {
 	//get size from image
 	cv::Size size(img.getSize().x, img.getSize().y);
@@ -28,6 +30,7 @@ cv::Mat sfImg2cvImg(const sf::Image& img) {
 	return mat.clone();
 }
 
+// Captures current drawn character
 void AIBoard::Capture(std::map<std::string, std::vector<RectangleShape>*>* charactersData)
 {
 	(*charactersData)[this->characterName]->clear();
@@ -35,6 +38,7 @@ void AIBoard::Capture(std::map<std::string, std::vector<RectangleShape>*>* chara
 		(*charactersData)[this->characterName]->push_back(line);
 }
 
+// Captures the current drawn character and classifies it using the neural network
 void AIBoard::CaptNum(std::map<std::string, std::vector<RectangleShape>*>* charactersData)
 {
 	// Build a RenderTexture to convert to an opencv::Image
@@ -81,6 +85,7 @@ void AIBoard::CaptNum(std::map<std::string, std::vector<RectangleShape>*>* chara
 		(*charactersData)[result]->push_back(line);
 }
 
+// Undos the change
 void AIBoard::UndoNum(std::map<std::string, std::vector<RectangleShape>*>* charactersData)
 {
 	if (this->lastNumName != "")

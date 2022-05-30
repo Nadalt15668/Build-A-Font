@@ -22,7 +22,7 @@ public:
     ~ExportingDialog();
 private:
     Animation* loadingAnim;
-    bool isLoading = true;
+    bool isLoading = false;
     pybind11::module_ pythonModule;
     IShellItem* chosenItemPath = nullptr;
     std::string chosenItemStr = "";
