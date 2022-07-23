@@ -21,3 +21,6 @@ As you can see a generated font will include:
 <img src="https://user-images.githubusercontent.com/69503198/180600408-1dab80bb-26c6-42db-a505-1276b185d617.png" width=50%><img/>
 
 <img src="https://user-images.githubusercontent.com/69503198/180600409-b6e796a8-5d64-4ada-8162-4f5d244d336f.png" width=50%><img/>
+
+https://user-images.githubusercontent.com/69503198/180600642-eddd47dd-0b5c-4f62-9536-457a6424428d.mp4
+
